@@ -18,7 +18,6 @@ interface OnboardFlowProps {
   pageStyle?: ViewStyle;
   titleStyle?: ViewStyle;
   subtitleStyle?: ViewStyle;
-  id?: string;
   onBack?: () => void;
   onNext?: () => void;
   onDone?: () => void;
@@ -27,6 +26,7 @@ interface OnboardFlowProps {
   backgroundImage?: string;
   paginationSelectedColor?: string;
   paginationColor?: string;
+  textAlign?: 'left' | 'center' | 'right';
   ContinueButtonComponent?: FC<FrigadeContinueButtonProps>;
   PageComponent?: FC<FrigadePageProps>;
   PaginationComponent?: FC<FrigadePaginationProps>;
@@ -39,7 +39,6 @@ type OnboardFlowPropsFC = FC<OnboardFlowProps> & {
 export const OnboardFlow: OnboardFlowPropsFC = ({
                                                   style,
                                                   pageStyle,
-                                                  id,
                                                   onBack,
                                                   onNext,
                                                   onDone,
@@ -51,6 +50,7 @@ export const OnboardFlow: OnboardFlowPropsFC = ({
                                                   ContinueButtonComponent = ContinueButton,
                                                   PageComponent = Page,
                                                   PaginationComponent = Pagination,
+                                                  textAlign = 'center',
                                                   ...props
                                                 }) => {
   const [currentPage, setCurrentPage] = useState(0);
@@ -99,7 +99,7 @@ export const OnboardFlow: OnboardFlowPropsFC = ({
           <View style={styles.content}>
             <SwiperFlatList onChangeIndex={handleIndexChange} ref={swiperRef} index={currentPage}>
               {pages?.map((page, index) => (
-                <PageComponent goToPreviousPage={goToPreviousPage} style={pageStyle} key={index} totalPages={pages.length} goToNextPage={goToNextPage}
+                <PageComponent textAlign={textAlign} goToPreviousPage={goToPreviousPage} style={pageStyle} key={index} totalPages={pages.length} goToNextPage={goToNextPage}
                                   currentPage={currentPage} data={page} />
               ))}
             </SwiperFlatList>

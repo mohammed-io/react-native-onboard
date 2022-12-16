@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
   dot: {
     width: 8,
     height: 8,
-    borderRadius: 16,
+    borderRadius: 32,
     marginHorizontal: 4,
   },
 });

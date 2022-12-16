@@ -18,6 +18,7 @@ export interface FrigadePageProps {
   data: PageData;
   goToNextPage: () => void;
   goToPreviousPage: () => void;
+  textAlign?: 'left' | 'center' | 'right';
 }
 
 export interface PageData {
@@ -38,6 +39,7 @@ export const Page: FC<FrigadePageProps> = ({
                                              totalPages,
                                              goToNextPage,
                                              goToPreviousPage,
+                                             textAlign = TEXT_ALIGN_DEFAULT,
                                              ...props
                                            }) => {
 
@@ -69,8 +71,8 @@ export const Page: FC<FrigadePageProps> = ({
       <DisplayComponent />
       <View style={styles.bottomContainer}>
         <View style={styles.bottomContainerText}>
-          <Text style={[styles.title, titleStyle]}>{data?.title}</Text>
-          <Text style={[styles.subtitle, subtitleStyle]}>{data?.subtitle}</Text>
+          <Text style={[styles.title, {textAlign: textAlign}, titleStyle]}>{data?.title}</Text>
+          <Text style={[styles.subtitle, {textAlign: textAlign}, subtitleStyle]}>{data?.subtitle}</Text>
         </View>
       </View>
     </View>
@@ -92,7 +94,6 @@ const styles = StyleSheet.create({
     color: COLOR_TEXT_DEFAULT,
     lineHeight: 42,
     marginBottom: VERTICAL_PADDING_DEFAULT / 2,
-    textAlign: TEXT_ALIGN_DEFAULT,
     width: '100%',
   },
   subtitle: {
