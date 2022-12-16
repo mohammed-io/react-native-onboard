@@ -1,7 +1,7 @@
 {
   "name": "react-native-onboard",
   "version": "0.0.0-development",
-  "description": "Onboarding screens for React Native",
+  "description": "Delightful and fully customizable onboarding swiper for React Native.",
   "main": "src/index.ts",
   "scripts": {
     "start": "npx react-native start --reset-cache",
@@ -101,7 +101,7 @@
     "@semantic-release/github"
   ],
   "author": "Frigade Inc.",
-  "license": "SEE LICENSE IN LICENSE",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/FrigadeHQ/react-native-onboard/issues"
   },

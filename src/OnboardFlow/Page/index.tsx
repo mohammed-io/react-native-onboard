@@ -25,10 +25,9 @@ export interface PageData {
   title?: string;
   subtitle?: string;
   imageUri?: string;
-  DisplayComponent?: ReactElement;
+  imageComponent?: ReactElement;
   metadata?: any;
 }
-
 
 export const Page: FC<FrigadePageProps> = ({
                                              style,
@@ -54,9 +53,9 @@ export const Page: FC<FrigadePageProps> = ({
     }
   }, [data.imageUri]);
 
-  function DisplayComponent(): ReactElement {
-    if (data.DisplayComponent) {
-      return data.DisplayComponent;
+  function ImageComponent() {
+    if (data.imageComponent) {
+      return data.imageComponent;
     }
     return null;
   }
@@ -67,7 +66,7 @@ export const Page: FC<FrigadePageProps> = ({
         source={{ uri: data.imageUri }}
         resizeMode='contain' style={[styles.image, { maxHeight: 400, height: imageHeight }]}
       />}
-      <DisplayComponent />
+      <ImageComponent />
       <View style={styles.bottomContainer}>
         <View style={styles.bottomContainerText}>
           <Text style={[styles.title, {textAlign: textAlign}, titleStyle]}>{data?.title}</Text>
