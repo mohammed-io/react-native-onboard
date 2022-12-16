@@ -6,6 +6,8 @@
 
 Delightful and fully customizable onboarding swiper for React Native.
 
+![onboard gif](./examples/react-native-onboard-demo.gif)
+
 ## Features
 
 - 🎨 Fully customizable components and config
