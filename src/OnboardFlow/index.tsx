@@ -16,12 +16,15 @@ import { ContinueButton, FrigadeContinueButtonProps } from './DefaultContinueBut
 interface OnboardFlowProps {
   style?: ViewStyle;
   pageStyle?: ViewStyle;
+  titleStyle?: ViewStyle;
+  subtitleStyle?: ViewStyle;
   id?: string;
   onBack?: () => void;
   onNext?: () => void;
   onDone?: () => void;
   pages?: PageData[];
   dismissible?: boolean;
+  modal?: boolean;
   backgroundImage?: string;
   paginationSelectedColor?: string;
   paginationColor?: string;

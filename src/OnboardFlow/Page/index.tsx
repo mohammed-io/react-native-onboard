@@ -1,5 +1,5 @@
 import { Dimensions, Image, StyleSheet, Text, View, ViewStyle } from 'react-native';
-import { FC, useEffect, useState } from 'react';
+import { FC, ReactElement, useEffect, useState } from 'react';
 import {
   COLOR_MUTED_TEXT_DEFAULT,
   COLOR_TEXT_DEFAULT,
@@ -11,6 +11,8 @@ import {
 export interface FrigadePageProps {
   id?: string;
   style?: ViewStyle;
+  titleStyle?: ViewStyle;
+  subtitleStyle?: ViewStyle;
   currentPage: number;
   totalPages: number;
   data: PageData;
@@ -21,44 +23,60 @@ export interface FrigadePageProps {
 export interface PageData {
   title?: string;
   subtitle?: string;
-  imageUrl?: string;
+  imageUri?: string;
+  DisplayComponent?: ReactElement;
   metadata?: any;
 }
 
 
 export const Page: FC<FrigadePageProps> = ({
-                                      style,
-                                      data,
-                                      currentPage,
-                                      totalPages,
-                                      goToNextPage,
-                                      goToPreviousPage,
-                                      ...props
-                                    }) => {
+                                             style,
+                                             titleStyle,
+                                             subtitleStyle,
+                                             data,
+                                             currentPage,
+                                             totalPages,
+                                             goToNextPage,
+                                             goToPreviousPage,
+                                             ...props
+                                           }) => {
 
-  const width = style?.width ?? Dimensions.get('window').width;
-  const height = style?.height ?? Dimensions.get('window').height;
+  const width = style?.width ?? Dimensions.get('window').width; //FIXME: this is not the best way to get the width
 
   const [imageHeight, setImageHeight] = useState(0);
 
   useEffect(() => {
-    if (data.imageUrl) {
-      Image.getSize(data.imageUrl, (width, height) => {
+    if (data.imageUri) {
+      Image.getSize(data.imageUri, (width, height) => {
         setImageHeight(height);
       });
     }
-  }, [data.imageUrl]);
+  }, [data.imageUri]);
+
+  function DisplayComponent(): ReactElement {
+    if (data.DisplayComponent) {
+      return data.DisplayComponent;
+    }
+    if (data.imageUri) {
+      return (
+        <Image
+          source={{ uri: data.imageUri }}
+          resizeMode='contain' style={[styles.image, { maxHeight: 500, height: imageHeight / 2.5 }]}
+        />
+      );
+    }
+    return null;
+  }
 
   return (
     <View style={[styles.container, style, { width: width }]}>
-      {data?.imageUrl && <Image resizeMode="contain" style={[styles.image, {maxHeight: 500, height: imageHeight/2.5}]} source={{ uri: data?.imageUrl }} />}
+      <DisplayComponent />.
       <View style={styles.bottomContainer}>
         <View style={styles.bottomContainerText}>
-          <Text style={styles.title}>{data?.title}</Text>
-          <Text style={styles.subtitle}>{data?.subtitle}</Text>
+          <Text style={[styles.title, titleStyle]}>{data?.title}</Text>
+          <Text style={[styles.subtitle, subtitleStyle]}>{data?.subtitle}</Text>
         </View>
       </View>
-
     </View>
   );
 };
@@ -77,9 +95,9 @@ const styles = StyleSheet.create({
     fontWeight: '800',
     color: COLOR_TEXT_DEFAULT,
     lineHeight: 42,
-    marginBottom: VERTICAL_PADDING_DEFAULT/2,
+    marginBottom: VERTICAL_PADDING_DEFAULT / 2,
     textAlign: TEXT_ALIGN_DEFAULT,
-    width: '100%'
+    width: '100%',
   },
   subtitle: {
     fontSize: 18,
