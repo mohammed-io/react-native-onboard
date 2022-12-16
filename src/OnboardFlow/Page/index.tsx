@@ -9,7 +9,6 @@ import {
 } from '../../constants';
 
 export interface FrigadePageProps {
-  id?: string;
   style?: ViewStyle;
   titleStyle?: ViewStyle;
   subtitleStyle?: ViewStyle;
@@ -19,6 +18,7 @@ export interface FrigadePageProps {
   goToNextPage: () => void;
   goToPreviousPage: () => void;
   textAlign?: 'left' | 'center' | 'right';
+  width: number;
 }
 
 export interface PageData {
@@ -40,10 +40,9 @@ export const Page: FC<FrigadePageProps> = ({
                                              goToNextPage,
                                              goToPreviousPage,
                                              textAlign = TEXT_ALIGN_DEFAULT,
+                                             width,
                                              ...props
                                            }) => {
-
-  const width = style?.width ?? Dimensions.get('window').width; //FIXME: this is not the best way to get the width
 
   const [imageHeight, setImageHeight] = useState(0);
 

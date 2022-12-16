@@ -1,4 +1,4 @@
-import { ImageBackground, Modal, SafeAreaView, StyleSheet, View, ViewStyle } from 'react-native';
+import { Dimensions, ImageBackground, Modal, SafeAreaView, StyleSheet, View, ViewStyle } from 'react-native';
 import { FC, useRef, useState } from 'react';
 import { FrigadePageProps, Page, PageData } from './Page';
 import { SwiperFlatList } from './Swiper';
@@ -43,7 +43,7 @@ export const OnboardFlow: OnboardFlowPropsFC = ({
                                                   onNext,
                                                   onDone,
                                                   pages,
-                                                  fullscreenModal,
+                                                  fullscreenModal = true,
                                                   backgroundImage,
                                                   paginationSelectedColor = COLOR_PAGINATION_SELECTED_DEFAULT,
                                                   paginationColor = COLOR_PAGINATION_DEFAULT,
@@ -56,7 +56,11 @@ export const OnboardFlow: OnboardFlowPropsFC = ({
   const [currentPage, setCurrentPage] = useState(0);
   const [modalVisible, setModalVisible] = useState(true);
   const swiperRef = useRef<SwiperFlatListRefProps>();
-  const isLastPage = currentPage == pages.length - 1;
+  const [width, setWidth] = useState<number>(Dimensions.get('window').width ?? 0);
+
+  const onLayout = (event)=> {
+    setWidth(event.nativeEvent.layout.width);
+  }
 
   function handleIndexChange(item: { index: number; prevIndex: number }) {
     if (item.index != currentPage) {
@@ -92,28 +96,34 @@ export const OnboardFlow: OnboardFlowPropsFC = ({
     swiperRef.current?.scrollToIndex({ index: nextIndex });
   }
 
+  const components = <ImageBackground source={{ uri: backgroundImage }} resizeMode='cover' style={styles.backgroundImage}>
+    <SafeAreaView style={[styles.container, style]} onLayout={onLayout}>
+      <View style={styles.content}>
+        <SwiperFlatList onChangeIndex={handleIndexChange} ref={swiperRef} index={currentPage}>
+          {pages?.map((page, index) => (
+            <PageComponent width={width} textAlign={textAlign} goToPreviousPage={goToPreviousPage} style={pageStyle} key={index} totalPages={pages.length} goToNextPage={goToNextPage}
+                           currentPage={currentPage} data={page} />
+          ))}
+        </SwiperFlatList>
+      </View>
+      <View style={styles.footer}>
+        <PaginationComponent
+          paginationColor={paginationColor}
+          paginationSelectedColor={paginationSelectedColor}
+          currentPage={currentPage}
+          totalPages={pages?.length} />
+        <ContinueButtonComponent currentPage={currentPage} totalPages={pages?.length ?? 0} goToNextPage={goToNextPage} />
+      </View>
+    </SafeAreaView>
+  </ImageBackground>;
+
+  if (!fullscreenModal) {
+    return components;
+  }
+
   return (
     <Modal visible={modalVisible}>
-      <ImageBackground source={{ uri: backgroundImage }} resizeMode='cover' style={styles.backgroundImage}>
-        <SafeAreaView style={[styles.container, style]}>
-          <View style={styles.content}>
-            <SwiperFlatList onChangeIndex={handleIndexChange} ref={swiperRef} index={currentPage}>
-              {pages?.map((page, index) => (
-                <PageComponent textAlign={textAlign} goToPreviousPage={goToPreviousPage} style={pageStyle} key={index} totalPages={pages.length} goToNextPage={goToNextPage}
-                                  currentPage={currentPage} data={page} />
-              ))}
-            </SwiperFlatList>
-          </View>
-          <View style={styles.footer}>
-            <PaginationComponent
-              paginationColor={paginationColor}
-              paginationSelectedColor={paginationSelectedColor}
-              currentPage={currentPage}
-              totalPages={pages?.length} />
-            <ContinueButtonComponent currentPage={currentPage} totalPages={pages?.length ?? 0} goToNextPage={goToNextPage} />
-          </View>
-        </SafeAreaView>
-      </ImageBackground>
+      {components}
     </Modal>);
 };
 
@@ -130,7 +140,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '500',
     textAlign: 'center',
-    paddingVertical: 16,
+    paddingVertical: VERTICAL_PADDING_DEFAULT,
   },
   container: {
     flex: 1,
