@@ -64,7 +64,7 @@ export const Page: FC<FrigadePageProps> = ({
     <View style={[styles.container, style, { width: width }]}>
       {data.imageUri && <Image
         source={{ uri: data.imageUri }}
-        resizeMode='contain' style={[styles.image, { maxHeight: 500, height: imageHeight / 2.5 }]}
+        resizeMode='contain' style={[styles.image, { maxHeight: 400, height: imageHeight }]}
       />}
       <DisplayComponent />
       <View style={styles.bottomContainer}>
@@ -104,6 +104,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   image: {
+    marginTop: VERTICAL_PADDING_DEFAULT,
     width: '100%',
   },
   bottomContainer: {

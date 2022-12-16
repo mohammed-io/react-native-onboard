@@ -23,8 +23,7 @@ interface OnboardFlowProps {
   onNext?: () => void;
   onDone?: () => void;
   pages?: PageData[];
-  dismissible?: boolean;
-  modal?: boolean;
+  fullscreenModal?: boolean;
   backgroundImage?: string;
   paginationSelectedColor?: string;
   paginationColor?: string;
@@ -45,6 +44,7 @@ export const OnboardFlow: OnboardFlowPropsFC = ({
                                                   onNext,
                                                   onDone,
                                                   pages,
+                                                  fullscreenModal,
                                                   backgroundImage,
                                                   paginationSelectedColor = COLOR_PAGINATION_SELECTED_DEFAULT,
                                                   paginationColor = COLOR_PAGINATION_DEFAULT,
