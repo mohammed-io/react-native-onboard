@@ -57,20 +57,16 @@ export const Page: FC<FrigadePageProps> = ({
     if (data.DisplayComponent) {
       return data.DisplayComponent;
     }
-    if (data.imageUri) {
-      return (
-        <Image
-          source={{ uri: data.imageUri }}
-          resizeMode='contain' style={[styles.image, { maxHeight: 500, height: imageHeight / 2.5 }]}
-        />
-      );
-    }
     return null;
   }
 
   return (
     <View style={[styles.container, style, { width: width }]}>
-      <DisplayComponent />.
+      {data.imageUri && <Image
+        source={{ uri: data.imageUri }}
+        resizeMode='contain' style={[styles.image, { maxHeight: 500, height: imageHeight / 2.5 }]}
+      />}
+      <DisplayComponent />
       <View style={styles.bottomContainer}>
         <View style={styles.bottomContainerText}>
           <Text style={[styles.title, titleStyle]}>{data?.title}</Text>
