@@ -28,7 +28,8 @@
     "Instructions"
   ],
   "peerDependencies": {
-    "react": "*"
+    "react": "*",
+    "react-native": "*"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
