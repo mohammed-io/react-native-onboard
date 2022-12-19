@@ -8,7 +8,7 @@ import {
   VERTICAL_PADDING_DEFAULT,
 } from '../../constants';
 
-export interface FrigadePageProps {
+export interface PageProps {
   style?: ViewStyle;
   titleStyle?: ViewStyle;
   subtitleStyle?: ViewStyle;
@@ -29,7 +29,7 @@ export interface PageData {
   metadata?: any;
 }
 
-export const Page: FC<FrigadePageProps> = ({
+export const Page: FC<PageProps> = ({
                                              style,
                                              titleStyle,
                                              subtitleStyle,

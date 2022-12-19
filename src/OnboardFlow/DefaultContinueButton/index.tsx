@@ -2,7 +2,7 @@ import { StyleSheet, Text, TouchableHighlight, ViewStyle } from 'react-native';
 import { FC } from 'react';
 import { CONTINUE_BUTTON_TEXT_DEFAULT, FINISH_BUTTON_TEXT_DEFAULT, VERTICAL_PADDING_DEFAULT } from '../../constants';
 
-export interface FrigadeContinueButtonProps {
+export interface ContinueButtonProps {
   currentPage: number;
   goToNextPage: () => void;
   style?: ViewStyle;
@@ -10,7 +10,7 @@ export interface FrigadeContinueButtonProps {
 }
 
 
-export const ContinueButton: FC<FrigadeContinueButtonProps> = ({
+export const ContinueButton: FC<ContinueButtonProps> = ({
                                                                  currentPage,
                                                                  goToNextPage,
                                                                  style,

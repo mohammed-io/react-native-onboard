@@ -1,6 +1,6 @@
 import { Dimensions, ImageBackground, Modal, SafeAreaView, StyleSheet, View, ViewStyle } from 'react-native';
 import { FC, useRef, useState } from 'react';
-import { FrigadePageProps, Page, PageData } from './Page';
+import { PageProps, Page, PageData } from './Page';
 import { SwiperFlatList } from './Swiper';
 import { SwiperFlatListRefProps } from './Swiper/SwiperProps';
 import {
@@ -9,8 +9,8 @@ import {
   HORIZONTAL_PADDING_DEFAULT,
   VERTICAL_PADDING_DEFAULT,
 } from '../constants';
-import { FrigadePaginationProps, Pagination } from './Pagination';
-import { ContinueButton, FrigadeContinueButtonProps } from './DefaultContinueButton';
+import { PaginationProps, Pagination } from './Pagination';
+import { ContinueButton, ContinueButtonProps } from './DefaultContinueButton';
 
 
 interface OnboardFlowProps {
@@ -27,13 +27,13 @@ interface OnboardFlowProps {
   paginationSelectedColor?: string;
   paginationColor?: string;
   textAlign?: 'left' | 'center' | 'right';
-  ContinueButtonComponent?: FC<FrigadeContinueButtonProps>;
-  PageComponent?: FC<FrigadePageProps>;
-  PaginationComponent?: FC<FrigadePaginationProps>;
+  ContinueButtonComponent?: FC<ContinueButtonProps>;
+  PageComponent?: FC<PageProps>;
+  PaginationComponent?: FC<PaginationProps>;
 }
 
 type OnboardFlowPropsFC = FC<OnboardFlowProps> & {
-  Page: FC<FrigadePageProps>;
+  Page: FC<PageProps>;
 };
 
 export const OnboardFlow: OnboardFlowPropsFC = ({

@@ -3,14 +3,14 @@ import { COLOR_PAGINATION_DEFAULT, COLOR_PAGINATION_SELECTED_DEFAULT, VERTICAL_P
 import { Dot } from './Dot';
 import { FC } from 'react';
 
-export interface FrigadePaginationProps {
+export interface PaginationProps {
   currentPage: number;
   totalPages: number;
   paginationSelectedColor?: string;
   paginationColor?: string;
 }
 
-export const Pagination: FC<FrigadePaginationProps> = ({ currentPage, totalPages, paginationSelectedColor, paginationColor }) => {
+export const Pagination: FC<PaginationProps> = ({ currentPage, totalPages, paginationSelectedColor, paginationColor }) => {
 
   const dots = [];
   for (let i = 0; i < totalPages; i++) {
