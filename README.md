@@ -53,7 +53,5 @@ import { OnboardFlow } from 'react-native-onboard';
 `react-native-onboard` is designed to be headless and customizable. You can use the default UI or create your own by
 implementing a series of provided interfaces.
 
-See the [example](examples/README.md) for examples and documentation on customization.
-
 ## Get in touch
 Questions? Comments? Suggestions? Feel free to [open an issue](https://github.com/FrigadeHQ/react-native-onboard/issues), [submit a PR](https://github.com/FrigadeHQ/react-native-onboard/pulls), or [contact us](https://frigade.com).
