@@ -40,7 +40,7 @@ import { OnboardFlow } from 'react-native-onboard';
   {
     title: 'Welcome to my app',
     subtitle: 'Cool description of my app',
-    imageUri: 'https://frigade.com/cdn/onboarding/1.png',
+    imageUri: 'https://illlustrations.co/static/f8a168f23ea5623d0c8987b551729183/day78-wallet.png',
   },
   {
     title: 'Page 2 header',
