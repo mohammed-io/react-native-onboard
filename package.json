@@ -2,9 +2,13 @@
   "name": "react-native-onboard",
   "version": "0.0.0-development",
   "description": "Delightful and fully customizable onboarding swiper for React Native.",
-  "main": "src/index.ts",
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
+  "files": [
+    "./lib"
+  ],
   "scripts": {
-    "start": "npx react-native start --reset-cache",
+    "build": "rm -rf ./lib && npx tsc",
     "clean": "rm -rf ./lib",
     "test": "jest --no-watchman",
     "semantic-release": "semantic-release",
@@ -32,27 +36,16 @@
     "react-native": "*"
   },
   "devDependencies": {
-    "@babel/core": "^7.12.9",
-    "@babel/preset-typescript": "^7.18.6",
-    "@types/jest": "^26.0.24",
-    "@types/react": "^18.0.26",
-    "@types/react-native": "^0.70.8",
-    "@typescript-eslint/parser": "^5.46.0",
-    "babel-preset-expo": "^9.2.0",
-    "eslint": "^8.29.0",
-    "eslint-config-airbnb": "^19.0.4",
-    "eslint-config-prettier": "^8.5.0",
-    "eslint-plugin-jsx-a11y": "^6.6.1",
-    "eslint-plugin-prettier": "^4.2.1",
-    "eslint-plugin-react": "^7.31.11",
-    "eslint-plugin-react-hooks": "^4.6.0",
-    "eslint-plugin-react-native": "^4.0.0",
-    "jest": "^26.0.24",
-    "jest-expo": "^46.0.0",
+    "@babel/core": "^7.15.8",
+    "@types/jest": "^28.1.0",
+    "@types/react-native": "^0.67.3",
+    "eslint-config-backpacker-react-ts": "^0.3.0",
+    "jest": "^28.1.0",
+    "lint-staged": "^13.0.0",
+    "metro-react-native-babel-preset": "^0.71.0",
+    "prettier": "^2.4.1",
     "semantic-release": "^19.0.3",
-    "ts-node": "^10.9.1",
-    "typescript": "^4.9.4",
-    "react-native": "^0.70.6"
+    "typescript": "^4.9.4"
   },
   "jest": {
     "preset": "jest-expo",

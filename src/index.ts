@@ -1,5 +1,5 @@
 export { OnboardFlow } from "./OnboardFlow";
 export { FrigadeProvider } from "./FrigadeProvider";
-export { ContinueButtonProps } from "./OnboardFlow/DefaultContinueButton";
-export { PageProps } from "./OnboardFlow/Page";
-export { PaginationProps } from "./OnboardFlow/Pagination";
+export type { ContinueButtonProps } from "./OnboardFlow/DefaultContinueButton";
+export type { PageProps } from "./OnboardFlow/Page";
+export type { PaginationProps } from "./OnboardFlow/Pagination";
