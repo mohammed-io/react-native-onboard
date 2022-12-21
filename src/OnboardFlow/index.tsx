@@ -1,3 +1,4 @@
+import React from 'react';
 import { Dimensions, ImageBackground, Modal, SafeAreaView, StyleSheet, View, ViewStyle } from 'react-native';
 import { FC, useRef, useState } from 'react';
 import { PageProps, Page, PageData } from './Page';
