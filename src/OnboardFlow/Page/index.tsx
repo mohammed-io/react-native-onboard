@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, StyleSheet, Text, View, ViewStyle } from 'react-native';
+import { Image, Platform, StyleSheet, Text, View, ViewStyle } from 'react-native';
 import { FC, ReactElement, useEffect, useState } from 'react';
 import {
   COLOR_MUTED_TEXT_DEFAULT,
@@ -65,7 +65,7 @@ export const Page: FC<PageProps> = ({
     <View style={[styles.container, style, { width: width }]}>
       {data.imageUri && <Image
         source={{ uri: data.imageUri }}
-        resizeMode='contain' style={[styles.image, { maxHeight: 400, height: imageHeight }]}
+        resizeMode='contain' style={[styles.image, { maxHeight: Platform.OS == 'web' ? 300 : 400, height: imageHeight }]}
       />}
       <ImageComponent />
       <View style={styles.bottomContainer}>
@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
   },
   bottomContainerText: {
-    position: 'absolute',
+    position: Platform.OS == 'web' ? 'relative' : 'absolute',
     bottom: 0,
     height: 200,
     width: '100%',
