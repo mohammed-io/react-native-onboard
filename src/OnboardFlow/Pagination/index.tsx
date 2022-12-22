@@ -1,3 +1,4 @@
+import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { COLOR_PAGINATION_DEFAULT, COLOR_PAGINATION_SELECTED_DEFAULT, VERTICAL_PADDING_DEFAULT } from '../../constants';
 import { Dot } from './Dot';

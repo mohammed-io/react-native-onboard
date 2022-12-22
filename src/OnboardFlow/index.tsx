@@ -11,7 +11,7 @@ import {
   VERTICAL_PADDING_DEFAULT,
 } from '../constants';
 import { PaginationProps, Pagination } from './Pagination';
-import { ContinueButton, ContinueButtonProps } from './DefaultContinueButton';
+import { ContinueButton, ContinueButtonProps } from './ContinueButton';
 
 
 interface OnboardFlowProps {

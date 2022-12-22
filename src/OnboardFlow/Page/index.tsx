@@ -1,4 +1,5 @@
-import { Dimensions, Image, StyleSheet, Text, View, ViewStyle } from 'react-native';
+import React from 'react';
+import { Image, StyleSheet, Text, View, ViewStyle } from 'react-native';
 import { FC, ReactElement, useEffect, useState } from 'react';
 import {
   COLOR_MUTED_TEXT_DEFAULT,

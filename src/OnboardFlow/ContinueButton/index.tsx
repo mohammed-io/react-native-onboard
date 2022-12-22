@@ -1,3 +1,4 @@
+import React from 'react';
 import { StyleSheet, Text, TouchableHighlight, ViewStyle } from 'react-native';
 import { FC } from 'react';
 import { CONTINUE_BUTTON_TEXT_DEFAULT, FINISH_BUTTON_TEXT_DEFAULT, VERTICAL_PADDING_DEFAULT } from '../../constants';

@@ -1,3 +1,4 @@
+import React from 'react';
 import { Animated, Easing, StyleSheet } from 'react-native';
 import { useEffect, useRef, useState } from 'react';
 
