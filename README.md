@@ -8,6 +8,8 @@ Delightful and fully customizable onboarding swiper for React Native.
 
 ![onboard gif](./examples/react-native-onboard-demo.gif)
 
+See [Live Demo](https://snack.expo.dev/@christian-frigade/react-native-onboard-simple-demo) on Expo Snack
+
 ## Features
 
 - 🎨 Fully customizable components and config
