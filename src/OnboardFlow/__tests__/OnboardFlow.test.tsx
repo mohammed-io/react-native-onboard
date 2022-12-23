@@ -1,3 +1,4 @@
+import React from 'react';
 import { OnboardFlow } from '../index';
 
 describe('Onboarding test suite', () => {
@@ -9,8 +10,8 @@ describe('Onboarding test suite', () => {
           subtitle: 'We use the latest science-backed strategies, proven to work.',
         },
         {
-          title: 'Welcome to Shimmer',
-          subtitle: 'Let’s tackle your ADHD, together.',
+          title: 'Welcome to our app',
+          subtitle: 'Let’s work together',
         },
       ]}
       />
