@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Animated, Easing, StyleSheet } from 'react-native';
-import { useEffect, useRef, useState } from 'react';
 
 export function Dot({ selected, paginationSelectedColor, paginationColor }: {
                       selected: boolean;

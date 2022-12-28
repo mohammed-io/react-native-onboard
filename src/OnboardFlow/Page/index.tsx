@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { Image, Platform, StyleSheet, Text, View, ViewStyle } from 'react-native';
-import { FC, ReactElement, useEffect, useState } from 'react';
 import {
   COLOR_MUTED_TEXT_DEFAULT,
   COLOR_TEXT_DEFAULT,
@@ -8,6 +7,7 @@ import {
   TEXT_ALIGN_DEFAULT,
   VERTICAL_PADDING_DEFAULT,
 } from '../../constants';
+import { PageData } from '../index';
 
 export interface PageProps {
   style?: ViewStyle;
@@ -15,26 +15,18 @@ export interface PageProps {
   subtitleStyle?: ViewStyle;
   currentPage: number;
   totalPages: number;
-  data: PageData;
+  pageData: PageData;
   goToNextPage: () => void;
   goToPreviousPage: () => void;
   textAlign?: 'left' | 'center' | 'right';
   width: number;
 }
 
-export interface PageData {
-  title?: string;
-  subtitle?: string;
-  imageUri?: string;
-  imageComponent?: ReactElement;
-  metadata?: any;
-}
-
 export const Page: FC<PageProps> = ({
                                              style,
                                              titleStyle,
                                              subtitleStyle,
-                                             data,
+                                             pageData,
                                              currentPage,
                                              totalPages,
                                              goToNextPage,
@@ -47,31 +39,31 @@ export const Page: FC<PageProps> = ({
   const [imageHeight, setImageHeight] = useState(0);
 
   useEffect(() => {
-    if (data.imageUri) {
-      Image.getSize(data.imageUri, (width, height) => {
+    if (pageData.imageUri) {
+      Image.getSize(pageData.imageUri, (width, height) => {
         setImageHeight(height);
       });
     }
-  }, [data.imageUri]);
+  }, [pageData.imageUri]);
 
   function ImageComponent() {
-    if (data.imageComponent) {
-      return data.imageComponent;
+    if (pageData.imageComponent) {
+      return pageData.imageComponent;
     }
     return null;
   }
 
   return (
     <View style={[styles.container, style, { width: width }]}>
-      {data.imageUri && <Image
-        source={{ uri: data.imageUri }}
+      {pageData.imageUri && <Image
+        source={{ uri: pageData.imageUri }}
         resizeMode='contain' style={[styles.image, { maxHeight: Platform.OS == 'web' ? 300 : 400, height: imageHeight }]}
       />}
       <ImageComponent />
       <View style={styles.bottomContainer}>
         <View style={styles.bottomContainerText}>
-          <Text style={[styles.title, {textAlign: textAlign}, titleStyle]}>{data?.title}</Text>
-          <Text style={[styles.subtitle, {textAlign: textAlign}, subtitleStyle]}>{data?.subtitle}</Text>
+          <Text style={[styles.title, {textAlign: textAlign}, titleStyle]}>{pageData?.title}</Text>
+          <Text style={[styles.subtitle, {textAlign: textAlign}, subtitleStyle]}>{pageData?.subtitle}</Text>
         </View>
       </View>
     </View>
@@ -115,7 +107,7 @@ const styles = StyleSheet.create({
   bottomContainerText: {
     position: Platform.OS == 'web' ? 'relative' : 'absolute',
     bottom: 0,
-    height: 200,
+    height: 270,
     width: '100%',
   },
 });

@@ -1,8 +1,7 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { COLOR_PAGINATION_DEFAULT, COLOR_PAGINATION_SELECTED_DEFAULT, VERTICAL_PADDING_DEFAULT } from '../../constants';
 import { Dot } from './Dot';
-import { FC } from 'react';
 
 export interface PaginationProps {
   currentPage: number;
@@ -11,7 +10,12 @@ export interface PaginationProps {
   paginationColor?: string;
 }
 
-export const Pagination: FC<PaginationProps> = ({ currentPage, totalPages, paginationSelectedColor, paginationColor }) => {
+export const Pagination: FC<PaginationProps> = ({
+                                                  currentPage,
+                                                  totalPages,
+                                                  paginationSelectedColor,
+                                                  paginationColor,
+                                                }) => {
 
   const dots = [];
   for (let i = 0; i < totalPages; i++) {
@@ -26,14 +30,13 @@ export const Pagination: FC<PaginationProps> = ({ currentPage, totalPages, pagin
       {dots}
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: VERTICAL_PADDING_DEFAULT,
-    marginBottom: VERTICAL_PADDING_DEFAULT/2,
+    marginBottom: VERTICAL_PADDING_DEFAULT,
   },
 });

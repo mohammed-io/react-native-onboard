@@ -1,7 +1,6 @@
-import React from 'react';
+import React, { FC, ReactElement, useRef, useState } from 'react';
 import { Dimensions, ImageBackground, Modal, SafeAreaView, StyleSheet, View, ViewStyle } from 'react-native';
-import { FC, useRef, useState } from 'react';
-import { PageProps, Page, PageData } from './Page';
+import { Page, PageProps } from './Page';
 import { SwiperFlatList } from './Swiper';
 import { SwiperFlatListRefProps } from './Swiper/SwiperProps';
 import {
@@ -10,11 +9,33 @@ import {
   HORIZONTAL_PADDING_DEFAULT,
   VERTICAL_PADDING_DEFAULT,
 } from '../constants';
-import { PaginationProps, Pagination } from './Pagination';
-import { ContinueButton, ContinueButtonProps } from './ContinueButton';
+import { Pagination, PaginationProps } from './Pagination';
+import { ContinueButton, ContinueButtonProps } from './components/ContinueButton';
+import { Footer, FooterProps } from './Footer';
+import { SecondaryButton, SecondaryButtonProps } from './components/SecondaryButton';
 
+export type PageType = string;
+
+export type OnboardPageConfigParams<Props> = {
+  pageProps: PageProps;
+  props: Props;
+};
+
+export interface PageData {
+  title?: string;
+  subtitle?: string;
+  imageUri?: string;
+  imageComponent?: ReactElement;
+  props?: any;
+  type?: PageType;
+}
+
+export type OnboardPageTypesConfig = {
+  [key: string]: (params: OnboardPageConfigParams<any>) => React.ReactNode;
+};
 
 interface OnboardFlowProps {
+  pageTypes?: OnboardPageTypesConfig;
   style?: ViewStyle;
   pageStyle?: ViewStyle;
   titleStyle?: ViewStyle;
@@ -29,39 +50,53 @@ interface OnboardFlowProps {
   paginationColor?: string;
   textAlign?: 'left' | 'center' | 'right';
   ContinueButtonComponent?: FC<ContinueButtonProps>;
-  PageComponent?: FC<PageProps>;
+  SecondaryButtonComponent?: FC<SecondaryButtonProps>;
   PaginationComponent?: FC<PaginationProps>;
+  FooterComponent?: FC<FooterProps>;
 }
 
-type OnboardFlowPropsFC = FC<OnboardFlowProps> & {
-  Page: FC<PageProps>;
-};
+export interface OnboardComponents {
+  ContinueButtonComponent: FC<ContinueButtonProps>;
+  SecondaryButtonComponent: FC<SecondaryButtonProps>;
+  PaginationComponent: FC<PaginationProps>;
+}
 
-export const OnboardFlow: OnboardFlowPropsFC = ({
-                                                  style,
-                                                  pageStyle,
-                                                  onBack,
-                                                  onNext,
-                                                  onDone,
-                                                  pages,
-                                                  fullscreenModal = true,
-                                                  backgroundImage,
-                                                  paginationSelectedColor = COLOR_PAGINATION_SELECTED_DEFAULT,
-                                                  paginationColor = COLOR_PAGINATION_DEFAULT,
-                                                  ContinueButtonComponent = ContinueButton,
-                                                  PageComponent = Page,
-                                                  PaginationComponent = Pagination,
-                                                  textAlign = 'center',
-                                                  ...props
-                                                }) => {
+export const OnboardFlow: FC<OnboardFlowProps> = ({
+                                                    style,
+                                                    pageStyle,
+                                                    titleStyle,
+                                                    subtitleStyle,
+                                                    onBack,
+                                                    onNext,
+                                                    onDone,
+                                                    pages,
+                                                    pageTypes = {},
+                                                    fullscreenModal = true,
+                                                    backgroundImage,
+                                                    paginationSelectedColor = COLOR_PAGINATION_SELECTED_DEFAULT,
+                                                    paginationColor = COLOR_PAGINATION_DEFAULT,
+                                                    ContinueButtonComponent = ContinueButton,
+                                                    PaginationComponent = Pagination,
+                                                    SecondaryButtonComponent = SecondaryButton,
+                                                    FooterComponent = Footer,
+                                                    textAlign = 'center',
+                                                    ...props
+                                                  }) => {
   const [currentPage, setCurrentPage] = useState(0);
   const [modalVisible, setModalVisible] = useState(true);
   const swiperRef = useRef<SwiperFlatListRefProps>();
   const [width, setWidth] = useState<number>(Dimensions.get('window').width ?? 0);
+  const [height, setHeight] = useState<number>(Dimensions.get('window').height ?? 0);
+  const components: OnboardComponents = {
+    ContinueButtonComponent,
+    PaginationComponent,
+    SecondaryButtonComponent,
+  };
 
-  const onLayout = (event)=> {
+  const onLayout = (event) => {
     setWidth(event.nativeEvent.layout.width);
-  }
+    setHeight(event.nativeEvent.layout.height);
+  };
 
   function handleIndexChange(item: { index: number; prevIndex: number }) {
     if (item.index != currentPage) {
@@ -97,38 +132,66 @@ export const OnboardFlow: OnboardFlowPropsFC = ({
     swiperRef.current?.scrollToIndex({ index: nextIndex });
   }
 
-  const components = <ImageBackground source={{ uri: backgroundImage }} resizeMode='cover' style={styles.backgroundImage}>
+  const content = <ImageBackground source={{ uri: backgroundImage }} resizeMode='cover'
+                                   style={styles.backgroundImage}>
     <SafeAreaView style={[styles.container, style]} onLayout={onLayout}>
       <View style={styles.content}>
         <SwiperFlatList onChangeIndex={handleIndexChange} ref={swiperRef} index={currentPage}>
-          {pages?.map((page, index) => (
-            <PageComponent width={width} textAlign={textAlign} goToPreviousPage={goToPreviousPage} style={pageStyle} key={index} totalPages={pages.length} goToNextPage={goToNextPage}
-                           currentPage={currentPage} data={page} />
+          {pages?.map((pageData, index) => (
+            pageData.type && pageTypes[pageData.type] ?
+              <View key={index}>{pageTypes[pageData.type]({
+                pageProps: {
+                  style: pageStyle,
+                  titleStyle,
+                  subtitleStyle,
+                  pageData,
+                  currentPage,
+                  totalPages: pages?.length,
+                  goToNextPage,
+                  goToPreviousPage,
+                  textAlign,
+                  width,
+                }, props: pageData.props,
+              })}</View> :
+              <View key={index}>
+                <Page
+                  style={pageStyle}
+                  titleStyle={titleStyle}
+                  subtitleStyle={subtitleStyle}
+                  pageData={pageData}
+                  currentPage={currentPage}
+                  totalPages={pages?.length}
+                  goToNextPage={goToNextPage}
+                  goToPreviousPage={goToPreviousPage}
+                  textAlign={textAlign}
+                  width={width}
+                />
+              </View>
           ))}
         </SwiperFlatList>
       </View>
-      <View style={styles.footer}>
-        <PaginationComponent
-          paginationColor={paginationColor}
-          paginationSelectedColor={paginationSelectedColor}
-          currentPage={currentPage}
-          totalPages={pages?.length} />
-        <ContinueButtonComponent currentPage={currentPage} totalPages={pages?.length ?? 0} goToNextPage={goToNextPage} />
-      </View>
+      <FooterComponent style={styles.footer} Components={components} currentPage={currentPage}
+                       totalPages={pages?.length ?? 0} goToNextPage={goToNextPage} />
     </SafeAreaView>
   </ImageBackground>;
 
   if (!fullscreenModal) {
-    return components;
+    return content;
   }
 
   return (
     <Modal visible={modalVisible}>
-      {components}
+      {content}
     </Modal>);
 };
 
 const styles = StyleSheet.create({
+  footer: {
+    flex: 1,
+    paddingHorizontal: HORIZONTAL_PADDING_DEFAULT,
+    justifyContent: 'flex-end',
+    flexDirection: 'column',
+  },
   button: {
     backgroundColor: '#000',
     width: '100%',
@@ -150,15 +213,9 @@ const styles = StyleSheet.create({
     alignItems: 'stretch',
     alignContent: 'space-between',
   },
-  footer: {
-    flex: 1,
-    paddingHorizontal: HORIZONTAL_PADDING_DEFAULT,
-    justifyContent: 'flex-end',
-    flexDirection: 'column',
-  },
   content: {
     flex: 1,
-    flexGrow: 6,
+    flexGrow: 4,
   },
   backgroundImage: {
     flex: 1,
@@ -167,7 +224,4 @@ const styles = StyleSheet.create({
     borderRadius: 32,
     marginHorizontal: 32,
   },
-
 });
-
-OnboardFlow.Page = Page;
