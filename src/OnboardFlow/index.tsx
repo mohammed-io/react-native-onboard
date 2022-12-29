@@ -1,5 +1,15 @@
 import React, { FC, ReactElement, useRef, useState } from 'react';
-import { Dimensions, ImageBackground, Modal, SafeAreaView, StyleSheet, View, ViewStyle } from 'react-native';
+import {
+  Dimensions,
+  ImageBackground,
+  Modal,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  ViewStyle,
+} from 'react-native';
 import { Page, PageProps } from './Page';
 import { SwiperFlatList } from './Swiper';
 import { SwiperFlatListRefProps } from './Swiper/SwiperProps';
@@ -9,8 +19,8 @@ import {
   HORIZONTAL_PADDING_DEFAULT,
   VERTICAL_PADDING_DEFAULT,
 } from '../constants';
-import { Pagination, PaginationProps } from './Pagination';
-import { ContinueButton, ContinueButtonProps } from './components/ContinueButton';
+import { Pagination, PaginationProps } from './Pagination/components/Dot';
+import { PrimaryButton, PrimaryButtonProps } from './components/PrimaryButton';
 import { Footer, FooterProps } from './Footer';
 import { SecondaryButton, SecondaryButtonProps } from './components/SecondaryButton';
 
@@ -45,18 +55,19 @@ interface OnboardFlowProps {
   onDone?: () => void;
   pages?: PageData[];
   fullscreenModal?: boolean;
+  showDismissButton?: boolean;
   backgroundImage?: string;
   paginationSelectedColor?: string;
   paginationColor?: string;
   textAlign?: 'left' | 'center' | 'right';
-  ContinueButtonComponent?: FC<ContinueButtonProps>;
+  PrimaryButtonComponent?: FC<PrimaryButtonProps>;
   SecondaryButtonComponent?: FC<SecondaryButtonProps>;
   PaginationComponent?: FC<PaginationProps>;
   FooterComponent?: FC<FooterProps>;
 }
 
 export interface OnboardComponents {
-  ContinueButtonComponent: FC<ContinueButtonProps>;
+  PrimaryButtonComponent: FC<PrimaryButtonProps>;
   SecondaryButtonComponent: FC<SecondaryButtonProps>;
   PaginationComponent: FC<PaginationProps>;
 }
@@ -72,10 +83,11 @@ export const OnboardFlow: FC<OnboardFlowProps> = ({
                                                     pages,
                                                     pageTypes = {},
                                                     fullscreenModal = true,
+                                                    showDismissButton = false,
                                                     backgroundImage,
                                                     paginationSelectedColor = COLOR_PAGINATION_SELECTED_DEFAULT,
                                                     paginationColor = COLOR_PAGINATION_DEFAULT,
-                                                    ContinueButtonComponent = ContinueButton,
+                                                    PrimaryButtonComponent = PrimaryButton,
                                                     PaginationComponent = Pagination,
                                                     SecondaryButtonComponent = SecondaryButton,
                                                     FooterComponent = Footer,
@@ -88,7 +100,7 @@ export const OnboardFlow: FC<OnboardFlowProps> = ({
   const [width, setWidth] = useState<number>(Dimensions.get('window').width ?? 0);
   const [height, setHeight] = useState<number>(Dimensions.get('window').height ?? 0);
   const components: OnboardComponents = {
-    ContinueButtonComponent,
+    PrimaryButtonComponent: PrimaryButtonComponent,
     PaginationComponent,
     SecondaryButtonComponent,
   };
@@ -112,10 +124,14 @@ export const OnboardFlow: FC<OnboardFlowProps> = ({
     }
   }
 
+  function handleDone() {
+    setModalVisible(false);
+    onDone && onDone();
+  }
+
   function goToNextPage() {
     if (currentPage >= pages?.length - 1) {
-      setModalVisible(false);
-      onDone && onDone();
+      handleDone();
       return;
     }
     const nextIndex = swiperRef.current?.getCurrentIndex() + 1;
@@ -132,9 +148,18 @@ export const OnboardFlow: FC<OnboardFlowProps> = ({
     swiperRef.current?.scrollToIndex({ index: nextIndex });
   }
 
+  function DismissButton() {
+    return (<View style={styles.dismissIconContainer}>
+      <TouchableOpacity onPress={handleDone}>
+        <Text style={styles.dismissIcon}>✕</Text>
+      </TouchableOpacity>
+    </View>);
+  }
+
   const content = <ImageBackground source={{ uri: backgroundImage }} resizeMode='cover'
                                    style={styles.backgroundImage}>
     <SafeAreaView style={[styles.container, style]} onLayout={onLayout}>
+      {showDismissButton && <DismissButton/>}
       <View style={styles.content}>
         <SwiperFlatList onChangeIndex={handleIndexChange} ref={swiperRef} index={currentPage}>
           {pages?.map((pageData, index) => (
@@ -224,4 +249,19 @@ const styles = StyleSheet.create({
     borderRadius: 32,
     marginHorizontal: 32,
   },
+  dismissIcon: {
+    fontSize: 22,
+    width: 30,
+    height: 30,
+    textAlign: 'center',
+    lineHeight: 30,
+    backgroundColor: 'transparent'
+  },
+  dismissIconContainer: {
+    position: 'absolute',
+    flex: 1,
+    top: VERTICAL_PADDING_DEFAULT*2,
+    right: HORIZONTAL_PADDING_DEFAULT,
+    zIndex: 5,
+  }
 });

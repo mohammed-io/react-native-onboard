@@ -30,7 +30,7 @@ export const Footer: FC<FooterProps> = ({
         paginationSelectedColor={paginationSelectedColor}
         currentPage={currentPage}
         totalPages={totalPages} />
-      <Components.ContinueButtonComponent currentPage={currentPage} totalPages={totalPages}
+      <Components.PrimaryButtonComponent currentPage={currentPage} totalPages={totalPages}
                                           goToNextPage={goToNextPage} />
     </View>
   );

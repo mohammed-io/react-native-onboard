@@ -1,9 +1,8 @@
-import React from 'react';
-import { StyleSheet, Text, TouchableHighlight, TouchableOpacity, ViewStyle } from 'react-native';
-import { FC } from 'react';
+import React, { FC } from 'react';
+import { StyleSheet, Text, TouchableOpacity, ViewStyle } from 'react-native';
 import { CONTINUE_BUTTON_TEXT_DEFAULT, FINISH_BUTTON_TEXT_DEFAULT, VERTICAL_PADDING_DEFAULT } from '../../../constants';
 
-export interface ContinueButtonProps {
+export interface PrimaryButtonProps {
   currentPage?: number;
   goToNextPage: () => void;
   style?: ViewStyle;
@@ -12,7 +11,7 @@ export interface ContinueButtonProps {
   lastPageText?: string;
 }
 
-export const ContinueButton: FC<ContinueButtonProps> = ({
+export const PrimaryButton: FC<PrimaryButtonProps> = ({
                                                           currentPage,
                                                           goToNextPage,
                                                           style,
