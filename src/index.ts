@@ -4,4 +4,7 @@ export { SecondaryButton } from "./OnboardFlow/components/SecondaryButton";
 export { FrigadeProvider } from "./FrigadeProvider";
 export type { PrimaryButtonProps } from "./OnboardFlow/components/PrimaryButton";
 export type { PageProps } from "./OnboardFlow/Page";
-export type { PaginationProps } from "./OnboardFlow/Pagination/components/Dot";
+export type { PaginationProps } from "./OnboardFlow/types";
+export { DotPagination } from "./OnboardFlow/Pagination/components/Dot";
+export { DashPagination } from "./OnboardFlow/Pagination/components/Dash";
+export { DashDotPagination } from "./OnboardFlow/Pagination/components/DashDot";

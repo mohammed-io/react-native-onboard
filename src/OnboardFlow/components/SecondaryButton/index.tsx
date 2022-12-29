@@ -1,7 +1,6 @@
-import React from 'react';
-import { StyleSheet, Text, TouchableHighlight, TouchableOpacity, ViewStyle } from 'react-native';
-import { FC } from 'react';
-import { CONTINUE_BUTTON_TEXT_DEFAULT, FINISH_BUTTON_TEXT_DEFAULT, VERTICAL_PADDING_DEFAULT } from '../../../constants';
+import React, { FC } from 'react';
+import { StyleSheet, Text, TouchableOpacity, ViewStyle } from 'react-native';
+import { VERTICAL_PADDING_DEFAULT } from '../../../constants';
 
 export interface SecondaryButtonProps {
   currentPage?: number;

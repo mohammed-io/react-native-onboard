@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
 import { StyleSheet, View, ViewStyle } from 'react-native';
-import { OnboardComponents } from '../index';
+import { OnboardComponents, PageData } from '../index';
+import { PRIMARY_BUTTON_TEXT_DEFAULT, PRIMARY_BUTTON_TEXT_LAST_PAGE_DEFAULT } from '../../constants';
 
 export interface FooterProps {
   style?: ViewStyle;
@@ -8,8 +9,8 @@ export interface FooterProps {
   paginationSelectedColor?: string;
   paginationColor?: string;
   currentPage: number;
-  totalPages: number;
   goToNextPage: () => void;
+  pages?: PageData[];
   props?: any;
 }
 
@@ -19,10 +20,19 @@ export const Footer: FC<FooterProps> = ({
                                           paginationSelectedColor,
                                           paginationColor,
                                           currentPage,
-                                          totalPages,
                                           goToNextPage,
+                                          pages,
                                           ...props
                                         }) => {
+  function getTitle() {
+    if (pages && pages[currentPage] && pages[currentPage].primaryButtonTitle) {
+      return pages[currentPage].primaryButtonTitle;
+    }
+    return pages?.length - 1 === currentPage ? PRIMARY_BUTTON_TEXT_LAST_PAGE_DEFAULT : PRIMARY_BUTTON_TEXT_DEFAULT;
+  }
+
+  const totalPages = pages?.length ?? 0;
+
   return (
     <View style={[style]} {...props}>
       <Components.PaginationComponent
@@ -30,12 +40,13 @@ export const Footer: FC<FooterProps> = ({
         paginationSelectedColor={paginationSelectedColor}
         currentPage={currentPage}
         totalPages={totalPages} />
-      <Components.PrimaryButtonComponent currentPage={currentPage} totalPages={totalPages}
-                                          goToNextPage={goToNextPage} />
+      <Components.PrimaryButtonComponent
+        text={getTitle()}
+        currentPage={currentPage} totalPages={totalPages}
+        goToNextPage={goToNextPage} />
     </View>
   );
 };
 
 
-const styles = StyleSheet.create({
-});
+const styles = StyleSheet.create({});

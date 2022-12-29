@@ -1,5 +1,5 @@
-export const CONTINUE_BUTTON_TEXT_DEFAULT = "Continue";
-export const FINISH_BUTTON_TEXT_DEFAULT = "Get started";
+export const PRIMARY_BUTTON_TEXT_DEFAULT = "Continue";
+export const PRIMARY_BUTTON_TEXT_LAST_PAGE_DEFAULT = "Get started";
 
 export const HORIZONTAL_PADDING_DEFAULT = 16;
 export const VERTICAL_PADDING_DEFAULT = 16;

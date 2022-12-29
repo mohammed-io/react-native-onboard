@@ -19,10 +19,11 @@ import {
   HORIZONTAL_PADDING_DEFAULT,
   VERTICAL_PADDING_DEFAULT,
 } from '../constants';
-import { Pagination, PaginationProps } from './Pagination/components/Dot';
+import { DotPagination } from './Pagination/components/Dot';
 import { PrimaryButton, PrimaryButtonProps } from './components/PrimaryButton';
 import { Footer, FooterProps } from './Footer';
 import { SecondaryButton, SecondaryButtonProps } from './components/SecondaryButton';
+import { PaginationProps } from './types';
 
 export type PageType = string;
 
@@ -34,6 +35,7 @@ export type OnboardPageConfigParams<Props> = {
 export interface PageData {
   title?: string;
   subtitle?: string;
+  primaryButtonTitle?: string;
   imageUri?: string;
   imageComponent?: ReactElement;
   props?: any;
@@ -59,6 +61,7 @@ interface OnboardFlowProps {
   backgroundImage?: string;
   paginationSelectedColor?: string;
   paginationColor?: string;
+  secondaryButtonText?: string;
   textAlign?: 'left' | 'center' | 'right';
   PrimaryButtonComponent?: FC<PrimaryButtonProps>;
   SecondaryButtonComponent?: FC<SecondaryButtonProps>;
@@ -88,7 +91,7 @@ export const OnboardFlow: FC<OnboardFlowProps> = ({
                                                     paginationSelectedColor = COLOR_PAGINATION_SELECTED_DEFAULT,
                                                     paginationColor = COLOR_PAGINATION_DEFAULT,
                                                     PrimaryButtonComponent = PrimaryButton,
-                                                    PaginationComponent = Pagination,
+                                                    PaginationComponent = DotPagination,
                                                     SecondaryButtonComponent = SecondaryButton,
                                                     FooterComponent = Footer,
                                                     textAlign = 'center',
@@ -100,7 +103,7 @@ export const OnboardFlow: FC<OnboardFlowProps> = ({
   const [width, setWidth] = useState<number>(Dimensions.get('window').width ?? 0);
   const [height, setHeight] = useState<number>(Dimensions.get('window').height ?? 0);
   const components: OnboardComponents = {
-    PrimaryButtonComponent: PrimaryButtonComponent,
+    PrimaryButtonComponent,
     PaginationComponent,
     SecondaryButtonComponent,
   };
@@ -195,8 +198,7 @@ export const OnboardFlow: FC<OnboardFlowProps> = ({
           ))}
         </SwiperFlatList>
       </View>
-      <FooterComponent style={styles.footer} Components={components} currentPage={currentPage}
-                       totalPages={pages?.length ?? 0} goToNextPage={goToNextPage} />
+      <FooterComponent pages={pages} style={styles.footer} Components={components} currentPage={currentPage} goToNextPage={goToNextPage} />
     </SafeAreaView>
   </ImageBackground>;
 

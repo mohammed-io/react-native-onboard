@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { StyleSheet, Text, TouchableOpacity, ViewStyle } from 'react-native';
-import { CONTINUE_BUTTON_TEXT_DEFAULT, FINISH_BUTTON_TEXT_DEFAULT, VERTICAL_PADDING_DEFAULT } from '../../../constants';
+import { PRIMARY_BUTTON_TEXT_DEFAULT, VERTICAL_PADDING_DEFAULT } from '../../../constants';
 
 export interface PrimaryButtonProps {
   currentPage?: number;
@@ -8,7 +8,6 @@ export interface PrimaryButtonProps {
   style?: ViewStyle;
   totalPages?: number;
   text?: string;
-  lastPageText?: string;
 }
 
 export const PrimaryButton: FC<PrimaryButtonProps> = ({
@@ -16,17 +15,14 @@ export const PrimaryButton: FC<PrimaryButtonProps> = ({
                                                           goToNextPage,
                                                           style,
                                                           totalPages,
-                                                          text = CONTINUE_BUTTON_TEXT_DEFAULT,
-                                                          lastPageText = FINISH_BUTTON_TEXT_DEFAULT,
+                                                          text = PRIMARY_BUTTON_TEXT_DEFAULT,
                                                           ...props
                                                         }) => {
   const isLastPage = currentPage == totalPages - 1;
 
   return (
     <TouchableOpacity activeOpacity={0.8} style={[styles.button, style]} onPress={goToNextPage}>
-      <Text
-        style={styles.buttonText}>{isLastPage ? lastPageText : text}
-      </Text>
+      <Text style={styles.buttonText}>{text}</Text>
     </TouchableOpacity>
   );
 };
