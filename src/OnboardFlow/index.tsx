@@ -19,11 +19,11 @@ import {
   HORIZONTAL_PADDING_DEFAULT,
   VERTICAL_PADDING_DEFAULT,
 } from '../constants';
-import { DotPagination } from './Pagination/components/Dot';
 import { PrimaryButton, PrimaryButtonProps } from './components/PrimaryButton';
 import { Footer, FooterProps } from './Footer';
 import { SecondaryButton, SecondaryButtonProps } from './components/SecondaryButton';
 import { PaginationProps } from './types';
+import { DotPagination } from './Pagination/components/Dot';
 
 export type PageType = string;
 
@@ -33,13 +33,13 @@ export type OnboardPageConfigParams<Props> = {
 };
 
 export interface PageData {
-  title?: string;
-  subtitle?: string;
-  primaryButtonTitle?: string;
-  imageUri?: string;
   imageComponent?: ReactElement;
-  props?: any;
+  imageUri?: string;
+  primaryButtonTitle?: string;
+  subtitle?: string;
+  title?: string;
   type?: PageType;
+  props?: any;
 }
 
 export type OnboardPageTypesConfig = {
@@ -47,26 +47,26 @@ export type OnboardPageTypesConfig = {
 };
 
 interface OnboardFlowProps {
-  pageTypes?: OnboardPageTypesConfig;
-  style?: ViewStyle;
-  pageStyle?: ViewStyle;
-  titleStyle?: ViewStyle;
-  subtitleStyle?: ViewStyle;
-  onBack?: () => void;
-  onNext?: () => void;
-  onDone?: () => void;
-  pages?: PageData[];
+  backgroundImageUri?: string;
+  dismissButtonStyle?: ViewStyle;
   fullscreenModal?: boolean;
-  showDismissButton?: boolean;
-  backgroundImage?: string;
-  paginationSelectedColor?: string;
+  onBack?: () => void;
+  onDone?: () => void;
+  onNext?: () => void;
+  pageStyle?: ViewStyle;
+  pageTypes?: OnboardPageTypesConfig;
+  pages?: PageData[];
   paginationColor?: string;
-  secondaryButtonText?: string;
+  paginationSelectedColor?: string;
+  showDismissButton?: boolean;
+  style?: ViewStyle;
+  subtitleStyle?: ViewStyle;
   textAlign?: 'left' | 'center' | 'right';
+  titleStyle?: ViewStyle;
+  FooterComponent?: FC<FooterProps>;
+  PaginationComponent?: FC<PaginationProps>;
   PrimaryButtonComponent?: FC<PrimaryButtonProps>;
   SecondaryButtonComponent?: FC<SecondaryButtonProps>;
-  PaginationComponent?: FC<PaginationProps>;
-  FooterComponent?: FC<FooterProps>;
 }
 
 export interface OnboardComponents {
@@ -76,25 +76,26 @@ export interface OnboardComponents {
 }
 
 export const OnboardFlow: FC<OnboardFlowProps> = ({
-                                                    style,
-                                                    pageStyle,
-                                                    titleStyle,
-                                                    subtitleStyle,
-                                                    onBack,
-                                                    onNext,
-                                                    onDone,
-                                                    pages,
-                                                    pageTypes = {},
+                                                    backgroundImageUri,
+                                                    dismissButtonStyle,
                                                     fullscreenModal = true,
-                                                    showDismissButton = false,
-                                                    backgroundImage,
-                                                    paginationSelectedColor = COLOR_PAGINATION_SELECTED_DEFAULT,
+                                                    onBack,
+                                                    onDone,
+                                                    onNext,
+                                                    pageStyle,
+                                                    pageTypes = {},
+                                                    pages,
                                                     paginationColor = COLOR_PAGINATION_DEFAULT,
-                                                    PrimaryButtonComponent = PrimaryButton,
-                                                    PaginationComponent = DotPagination,
-                                                    SecondaryButtonComponent = SecondaryButton,
-                                                    FooterComponent = Footer,
+                                                    paginationSelectedColor = COLOR_PAGINATION_SELECTED_DEFAULT,
+                                                    showDismissButton = false,
+                                                    style,
+                                                    subtitleStyle,
                                                     textAlign = 'center',
+                                                    titleStyle,
+                                                    FooterComponent = Footer,
+                                                    PaginationComponent = DotPagination,
+                                                    PrimaryButtonComponent = PrimaryButton,
+                                                    SecondaryButtonComponent = SecondaryButton,
                                                     ...props
                                                   }) => {
 
@@ -154,17 +155,17 @@ export const OnboardFlow: FC<OnboardFlowProps> = ({
   }
 
   function DismissButton() {
-    return (<View style={styles.dismissIconContainer}>
+    return (<View style={[styles.dismissIconContainer, dismissButtonStyle]}>
       <TouchableOpacity onPress={handleDone}>
         <Text style={styles.dismissIcon}>✕</Text>
       </TouchableOpacity>
     </View>);
   }
 
-  const content = <ImageBackground source={{ uri: backgroundImage }} resizeMode='cover'
+  const content = <ImageBackground source={{ uri: backgroundImageUri }} resizeMode='cover'
                                    style={styles.backgroundImage}>
     <SafeAreaView style={[styles.container, style]} onLayout={onLayout}>
-      {showDismissButton && <DismissButton/>}
+      {showDismissButton && <DismissButton />}
       <View style={styles.content}>
         <SwiperFlatList onChangeIndex={handleIndexChange} ref={swiperRef} index={currentPage}>
           {pages?.map((pageData, index) => (
@@ -200,7 +201,8 @@ export const OnboardFlow: FC<OnboardFlowProps> = ({
           ))}
         </SwiperFlatList>
       </View>
-      <FooterComponent pages={pages} style={styles.footer} Components={components} currentPage={currentPage} goToNextPage={goToNextPage} />
+      <FooterComponent goToPreviousPage={goToPreviousPage} pages={pages} style={styles.footer} Components={components}
+                       currentPage={currentPage} goToNextPage={goToNextPage} />
     </SafeAreaView>
   </ImageBackground>;
 
@@ -259,13 +261,13 @@ const styles = StyleSheet.create({
     height: 30,
     textAlign: 'center',
     lineHeight: 30,
-    backgroundColor: 'transparent'
+    backgroundColor: 'transparent',
   },
   dismissIconContainer: {
     position: 'absolute',
     flex: 1,
-    top: VERTICAL_PADDING_DEFAULT*2,
+    top: VERTICAL_PADDING_DEFAULT * 2,
     right: HORIZONTAL_PADDING_DEFAULT,
     zIndex: 5,
-  }
+  },
 });

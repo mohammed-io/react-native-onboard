@@ -10,6 +10,7 @@ export interface FooterProps {
   paginationColor?: string;
   currentPage: number;
   goToNextPage: () => void;
+  goToPreviousPage: () => void;
   pages?: PageData[];
   props?: any;
 }
@@ -24,7 +25,7 @@ export const Footer: FC<FooterProps> = ({
                                           pages,
                                           ...props
                                         }) => {
-  function getTitle() {
+  function getPrimaryButtonTitle() {
     if (pages && pages[currentPage] && pages[currentPage].primaryButtonTitle) {
       return pages[currentPage].primaryButtonTitle;
     }
@@ -41,7 +42,7 @@ export const Footer: FC<FooterProps> = ({
         currentPage={currentPage}
         totalPages={totalPages} />
       <Components.PrimaryButtonComponent
-        text={getTitle()}
+        text={getPrimaryButtonTitle()}
         currentPage={currentPage} totalPages={totalPages}
         goToNextPage={goToNextPage} />
     </View>
