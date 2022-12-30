@@ -4,6 +4,7 @@ import { Animated, Easing, StyleSheet } from 'react-native';
 const minWidth = 8;
 const maxWidth = 24;
 const height = 8;
+const marginHorizontal = 3;
 
 export function DashDot({ selected, paginationSelectedColor, paginationColor }: {
                       selected: boolean;
@@ -11,7 +12,7 @@ export function DashDot({ selected, paginationSelectedColor, paginationColor }: 
                       paginationColor: string;
                     },
 ) {
-  const sizeAnim = useRef(new Animated.Value(8)).current;
+  const sizeAnim = useRef(new Animated.Value(minWidth)).current;
   const [isSelected, setIsSelected] = useState(selected);
 
   useEffect(() => {
@@ -25,7 +26,7 @@ export function DashDot({ selected, paginationSelectedColor, paginationColor }: 
     } else {
       Animated.timing(sizeAnim, {
         toValue: minWidth,
-        duration: 500,
+        duration: 400,
         useNativeDriver: false,
         easing: Easing.ease,
       }).start();
@@ -47,6 +48,6 @@ const styles = StyleSheet.create({
     width: minWidth,
     height: height,
     borderRadius: 32,
-    marginHorizontal: 2,
+    marginHorizontal: marginHorizontal,
   },
 });

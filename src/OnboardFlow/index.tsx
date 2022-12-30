@@ -97,11 +97,13 @@ export const OnboardFlow: FC<OnboardFlowProps> = ({
                                                     textAlign = 'center',
                                                     ...props
                                                   }) => {
+
   const [currentPage, setCurrentPage] = useState(0);
   const [modalVisible, setModalVisible] = useState(true);
   const swiperRef = useRef<SwiperFlatListRefProps>();
   const [width, setWidth] = useState<number>(Dimensions.get('window').width ?? 0);
   const [height, setHeight] = useState<number>(Dimensions.get('window').height ?? 0);
+
   const components: OnboardComponents = {
     PrimaryButtonComponent,
     PaginationComponent,
