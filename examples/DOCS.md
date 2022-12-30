@@ -197,14 +197,14 @@ For example, to create a custom page type called `myCustomPage`, you can do the 
 ```jsx
 import { OnboardFlow, PageTypes } from 'react-native-onboard';
 
-const MyCustomPage = ({ title, subtitle, imageUri, imageComponent, primaryButtonTitle, goToNextPage }) => {
+const MyCustomPage = ({ pageProps }) => {
   return (
     <View>
-      <Text>{title}</Text>
-      <Text>{subtitle}</Text>
-      <Image source={{ uri: imageUri }} />
-      <TouchableOpacity onPress={goToNextPage}>
-        <Text>{primaryButtonTitle}</Text>
+      <Text>{pageProps.title}</Text>
+      <Text>{pageProps.subtitle}</Text>
+      <Image source={{ uri: pageProps.imageUri }} />
+      <TouchableOpacity onPress={pageProps.goToNextPage}>
+        <Text>{pageProps.primaryButtonTitle}</Text>
       </TouchableOpacity>
     </View>
   );
@@ -213,7 +213,6 @@ const MyCustomPage = ({ title, subtitle, imageUri, imageComponent, primaryButton
 const App = () => {
   return (
     <OnboardFlow
-      pages={pages}
       PageTypes={{
         ...PageTypes,
         myCustomPage: MyCustomPage,

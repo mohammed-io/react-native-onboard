@@ -7,7 +7,7 @@
 
 Delightful and fully customizable onboarding components for React Native.
 
-![onboard gif](./examples/react-native-onboard-demo.gif)
+![onboard-simple gif](./examples/react-native-onboard-demo-simple.gif)
 
 See [Live Demo](https://snack.expo.dev/@christian-frigade/react-native-onboard-simple-demo) on Expo Snack
 
@@ -55,6 +55,9 @@ import { OnboardFlow } from 'react-native-onboard';
 ## Customization
 `react-native-onboard` is designed to be headless and customizable. You can use the default UI or create your own by
 implementing a series of provided interfaces.
+
+![onboard gif](./examples/react-native-onboard-demo.gif)
+
 
 ## Get in touch
 Questions? Comments? Suggestions? Feel free to [open an issue](https://github.com/FrigadeHQ/react-native-onboard/issues), [submit a PR](https://github.com/FrigadeHQ/react-native-onboard/pulls), or [contact us](https://frigade.com).
