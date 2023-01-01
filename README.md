@@ -68,6 +68,15 @@ implementing a series of provided interfaces. See the [Official Docs](https://do
 
 ![onboard gif](static/react-native-onboard-demo.gif)
 
+## Updating your onboarding flow without app builds and releases
+While the above examples contain hard-coded strings and images for illustrative purposes, we highly recommend loading your strings and presentation
+layer logic from your API rather than as plain strings in your app.
+
+[Frigade Cloud](https://frigade.com/) offers a hosted service that allows you to update your onboarding flow without having to push a new app build to the app store while also providing a series of very useful [integrations](https://frigade.com/).
+
+Get started on [Frigade Cloud](https://frigade.com/)
+
+
 
 ## Get in touch
 Questions? Comments? Suggestions? Feel free to [open an issue](https://github.com/FrigadeHQ/react-native-onboard/issues), [submit a PR](https://github.com/FrigadeHQ/react-native-onboard/pulls), or [contact us](https://frigade.com).
