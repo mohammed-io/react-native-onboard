@@ -8,3 +8,4 @@ export type { PaginationProps } from "./OnboardFlow/types";
 export { DotPagination } from "./OnboardFlow/Pagination/components/Dot";
 export { DashPagination } from "./OnboardFlow/Pagination/components/Dash";
 export { DashDotPagination } from "./OnboardFlow/Pagination/components/DashDot";
+export { PhoneNumberEntryPage } from "./OnboardFlow/pages/PhoneNumberEntryPage"

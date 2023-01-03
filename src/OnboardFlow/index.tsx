@@ -24,6 +24,7 @@ import { Footer, FooterProps } from './Footer';
 import { SecondaryButton, SecondaryButtonProps } from './components/SecondaryButton';
 import { PaginationProps } from './types';
 import { DotPagination } from './Pagination/components/Dot';
+import { PhoneNumberEntryPage } from './pages/PhoneNumberEntryPage';
 
 export type PageType = string;
 
@@ -75,6 +76,8 @@ export interface OnboardComponents {
   PaginationComponent: FC<PaginationProps>;
 }
 
+const DEFAULT_PAGE_TYPES = {'phone-number-entry': PhoneNumberEntryPage };
+
 export const OnboardFlow: FC<OnboardFlowProps> = ({
                                                     backgroundImageUri,
                                                     dismissButtonStyle,
@@ -83,7 +86,7 @@ export const OnboardFlow: FC<OnboardFlowProps> = ({
                                                     onDone,
                                                     onNext,
                                                     pageStyle,
-                                                    pageTypes = {},
+                                                    pageTypes = DEFAULT_PAGE_TYPES,
                                                     pages,
                                                     paginationColor = COLOR_PAGINATION_DEFAULT,
                                                     paginationSelectedColor = COLOR_PAGINATION_SELECTED_DEFAULT,
@@ -99,6 +102,7 @@ export const OnboardFlow: FC<OnboardFlowProps> = ({
                                                     ...props
                                                   }) => {
 
+  const pagesMerged = {...DEFAULT_PAGE_TYPES, ...pageTypes};
   const [currentPage, setCurrentPage] = useState(0);
   const [modalVisible, setModalVisible] = useState(true);
   const swiperRef = useRef<SwiperFlatListRefProps>();
@@ -169,8 +173,8 @@ export const OnboardFlow: FC<OnboardFlowProps> = ({
       <View style={styles.content}>
         <SwiperFlatList onChangeIndex={handleIndexChange} ref={swiperRef} index={currentPage}>
           {pages?.map((pageData, index) => (
-            pageData.type && pageTypes[pageData.type] ?
-              <View key={index}>{pageTypes[pageData.type]({
+            pageData.type && pagesMerged[pageData.type] ?
+              <View key={index}>{pagesMerged[pageData.type]({
                 pageProps: {
                   style: pageStyle,
                   titleStyle,

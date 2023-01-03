@@ -13,6 +13,7 @@ export interface PageProps {
   style?: ViewStyle;
   titleStyle?: ViewStyle;
   subtitleStyle?: ViewStyle;
+  textStyle?: ViewStyle;
   currentPage: number;
   totalPages: number;
   pageData: PageData;
@@ -23,18 +24,18 @@ export interface PageProps {
 }
 
 export const Page: FC<PageProps> = ({
-                                             style,
-                                             titleStyle,
-                                             subtitleStyle,
-                                             pageData,
-                                             currentPage,
-                                             totalPages,
-                                             goToNextPage,
-                                             goToPreviousPage,
-                                             textAlign = TEXT_ALIGN_DEFAULT,
-                                             width,
-                                             ...props
-                                           }) => {
+                                      style,
+                                      titleStyle,
+                                      subtitleStyle,
+                                      textStyle,
+                                      pageData,
+                                      currentPage,
+                                      totalPages,
+                                      goToNextPage,
+                                      goToPreviousPage,
+                                      textAlign = TEXT_ALIGN_DEFAULT,
+                                      width,
+                                    }) => {
 
   const [imageHeight, setImageHeight] = useState(0);
 
@@ -57,13 +58,14 @@ export const Page: FC<PageProps> = ({
     <View style={[styles.container, style, { width: width }]}>
       {pageData.imageUri && <Image
         source={{ uri: pageData.imageUri }}
-        resizeMode='contain' style={[styles.image, { maxHeight: Platform.OS == 'web' ? 300 : 400, height: imageHeight }]}
+        resizeMode='contain'
+        style={[styles.image, { maxHeight: Platform.OS == 'web' ? 300 : 400, height: imageHeight }]}
       />}
       <ImageComponent />
       <View style={styles.bottomContainer}>
         <View style={styles.bottomContainerText}>
-          <Text style={[styles.title, {textAlign: textAlign}, titleStyle]}>{pageData?.title}</Text>
-          <Text style={[styles.subtitle, {textAlign: textAlign}, subtitleStyle]}>{pageData?.subtitle}</Text>
+          <Text style={[styles.title, textStyle, titleStyle]}>{pageData?.title}</Text>
+          <Text style={[styles.subtitle, textStyle, subtitleStyle]}>{pageData?.subtitle}</Text>
         </View>
       </View>
     </View>
