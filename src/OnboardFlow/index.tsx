@@ -25,6 +25,8 @@ import { SecondaryButton, SecondaryButtonProps } from './components/SecondaryBut
 import { PaginationProps } from './types';
 import { DotPagination } from './Pagination/components/Dot';
 import { PhoneNumberEntryPage } from './pages/PhoneNumberEntryPage';
+import { PhoneNumberVerificationPage } from './pages/PhoneNumberVerificationPage';
+import { HeaderProps } from './Header';
 
 export type PageType = string;
 
@@ -64,6 +66,7 @@ interface OnboardFlowProps {
   subtitleStyle?: ViewStyle;
   textAlign?: 'left' | 'center' | 'right';
   titleStyle?: ViewStyle;
+  HeaderComponent?: FC<HeaderProps>;
   FooterComponent?: FC<FooterProps>;
   PaginationComponent?: FC<PaginationProps>;
   PrimaryButtonComponent?: FC<PrimaryButtonProps>;
@@ -76,7 +79,10 @@ export interface OnboardComponents {
   PaginationComponent: FC<PaginationProps>;
 }
 
-const DEFAULT_PAGE_TYPES = {'phone-number-entry': PhoneNumberEntryPage };
+const DEFAULT_PAGE_TYPES = {
+  'phone-number-entry': PhoneNumberEntryPage,
+  'phone-number-verification': PhoneNumberVerificationPage,
+};
 
 export const OnboardFlow: FC<OnboardFlowProps> = ({
                                                     backgroundImageUri,
@@ -95,6 +101,7 @@ export const OnboardFlow: FC<OnboardFlowProps> = ({
                                                     subtitleStyle,
                                                     textAlign = 'center',
                                                     titleStyle,
+                                                    HeaderComponent = () => null,
                                                     FooterComponent = Footer,
                                                     PaginationComponent = DotPagination,
                                                     PrimaryButtonComponent = PrimaryButton,
@@ -170,6 +177,8 @@ export const OnboardFlow: FC<OnboardFlowProps> = ({
                                    style={styles.backgroundImage}>
     <SafeAreaView style={[styles.container, style]} onLayout={onLayout}>
       {showDismissButton && <DismissButton />}
+      {HeaderComponent && <HeaderComponent goToPreviousPage={goToPreviousPage} pages={pages} style={styles.header} Components={components}
+                       currentPage={currentPage} goToNextPage={goToNextPage} />}
       <View style={styles.content}>
         <SwiperFlatList onChangeIndex={handleIndexChange} ref={swiperRef} index={currentPage}>
           {pages?.map((pageData, index) => (
@@ -274,4 +283,11 @@ const styles = StyleSheet.create({
     right: HORIZONTAL_PADDING_DEFAULT,
     zIndex: 5,
   },
+  header: {
+    height: 64,
+    paddingHorizontal: HORIZONTAL_PADDING_DEFAULT,
+    width: '100%',
+    backgroundColor: 'pink',
+  },
+
 });

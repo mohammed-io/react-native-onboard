@@ -19,14 +19,14 @@ export function DashDot({ selected, paginationSelectedColor, paginationColor }: 
     if (selected) {
       Animated.timing(sizeAnim, {
         toValue: maxWidth,
-        duration: 400,
+        duration: 200,
         useNativeDriver: false,
         easing: Easing.ease,
       }).start();
     } else {
       Animated.timing(sizeAnim, {
         toValue: minWidth,
-        duration: 400,
+        duration: 200,
         useNativeDriver: false,
         easing: Easing.ease,
       }).start();

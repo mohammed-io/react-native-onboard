@@ -1,5 +1,5 @@
 import React, { FC, useState } from 'react';
-import { KeyboardAvoidingView, Platform, StyleSheet, Text, TextInput, View } from 'react-native';
+import { KeyboardAvoidingView, Platform, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import {
   COLOR_MUTED_TEXT_DEFAULT,
   COLOR_TEXT_DEFAULT,
@@ -8,50 +8,38 @@ import {
   VERTICAL_PADDING_DEFAULT,
 } from '../../../constants';
 import { OnboardPageConfigParams } from '../../index';
+import { OTPInput } from './OTPInput';
 
-export interface PhoneNumberEntryPageProps {
-  invalidNumberMessage?: string;
-  onSetPhoneNumber?: (text: string) => void;
+export interface PhoneNumberVerificationPageProps {
+  invalidCodeMessage?: string;
+  onSetVerificationCode?: (text: string) => void;
+  onResendVerificationCode?: () => void;
 }
 
-export const PhoneNumberEntryPage: FC<OnboardPageConfigParams<PhoneNumberEntryPageProps>> = ({
-                                                                                               pageProps,
-                                                                                               props,
-                                                                                             }) => {
-  const [phoneNumber, setPhoneNumber] = useState('');
+export const PhoneNumberVerificationPage: FC<OnboardPageConfigParams<PhoneNumberVerificationPageProps>> = ({
+                                                                                                             pageProps,
+                                                                                                             props,
+                                                                                                           }) => {
+  const [verificationCode, setVerificationCode] = useState('');
   const [isInvalid, setIsInvalid] = useState(false);
-  const [isFocused, setIsFocused] = useState(false);
 
-  function onChangePhoneNumber(text: string) {
-    var cleaned = ('' + text).replace(/\D/g, '');
-    var match = cleaned.match(/^(1|)?(\d{3})(\d{3})(\d{4})$/);
-    if (match) {
-      var intlCode = (match[1] ? '+1 ' : ''),
-        number = [intlCode, '(', match[2], ') ', match[3], '-', match[4]].join('');
+  function onChangeVerificationCode(text: string) {
+    setVerificationCode(text);
 
-      setPhoneNumber(number);
-
-      return;
-    }
-
-    setPhoneNumber(text);
-
-    // TODO: Add validation
-    if (props.onSetPhoneNumber) {
-      props.onSetPhoneNumber(text);
+    if (props.onSetVerificationCode) {
+      props.onSetVerificationCode(text);
     }
   }
 
   function getInput() {
     return <>
-      <TextInput onFocus={() => {setIsFocused(true)}} onBlur={() => setIsFocused(false)} value={phoneNumber} textContentType='telephoneNumber'
-                 dataDetectorTypes='phoneNumber'
-                 maxLength={14} placeholder={'Mobile number'} style={[styles.phoneNumberInput, pageProps.textStyle, isFocused ? styles.phoneNumberInputFocused : null]}
-                 keyboardType='phone-pad'
-                 onChangeText={onChangePhoneNumber} />
+      <TextInput value={verificationCode} textContentType='telephoneNumber'
+                 maxLength={14} placeholder={'Verification code'} style={[styles.phoneNumberInput, pageProps.textStyle]}
+                 keyboardType='number-pad'
+                 onChangeText={onChangeVerificationCode} />
       {isInvalid &&
         <Text
-          style={[styles.errorText, pageProps.textStyle]}>{props.invalidNumberMessage ?? 'Invalid phone number'}</Text>}
+          style={[styles.errorText, pageProps.textStyle]}>{props.invalidCodeMessage ?? 'Invalid phone number'}</Text>}
     </>;
   }
 
@@ -62,7 +50,13 @@ export const PhoneNumberEntryPage: FC<OnboardPageConfigParams<PhoneNumberEntryPa
           style={[styles.title, { textAlign: pageProps.textAlign }, pageProps.titleStyle]}>{pageProps.pageData?.title}</Text>
         <Text
           style={[styles.subtitle, { textAlign: pageProps.textAlign }, pageProps.subtitleStyle]}>{pageProps.pageData?.subtitle}</Text>
-        {getInput()}
+        <OTPInput style={styles.otp} code={verificationCode} maximumLength={6} setIsPinReady={() => {
+        }} setCode={(code) => {
+          setVerificationCode(code);
+        }} />
+        <TouchableOpacity onPress={props.onResendVerificationCode}>
+          <Text style={[styles.resendText]}>Resend code</Text>
+        </TouchableOpacity>
       </KeyboardAvoidingView>
     </View>
   );
@@ -122,8 +116,16 @@ const styles = StyleSheet.create({
   errorText: {
     fontSize: 18,
     color: 'red',
-  }, phoneNumberInputFocused: {
-    borderColor: '#000'
+  },
+  resendText: {
+    color: COLOR_MUTED_TEXT_DEFAULT,
+    fontSize: 15,
+    fontWeight: '600',
+    textAlign: 'left',
+    marginTop: VERTICAL_PADDING_DEFAULT,
+  },
+  otp: {
+    marginTop: VERTICAL_PADDING_DEFAULT * 2,
   },
 
 });
