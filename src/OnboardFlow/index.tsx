@@ -31,9 +31,8 @@ import { HeaderProps } from './Header';
 export type PageType = string;
 
 export type OnboardPageConfigParams<Props> = {
-  pageProps: PageProps;
   props: Props;
-};
+} & PageProps;
 
 export interface PageData {
   imageComponent?: ReactElement;
@@ -80,8 +79,8 @@ export interface OnboardComponents {
 }
 
 const DEFAULT_PAGE_TYPES = {
-  'phone-number-entry': PhoneNumberEntryPage,
-  'phone-number-verification': PhoneNumberVerificationPage,
+  phoneNumberEntry: PhoneNumberEntryPage,
+  phoneNumberVerification: PhoneNumberVerificationPage,
 };
 
 export const OnboardFlow: FC<OnboardFlowProps> = ({
@@ -109,7 +108,7 @@ export const OnboardFlow: FC<OnboardFlowProps> = ({
                                                     ...props
                                                   }) => {
 
-  const pagesMerged = {...DEFAULT_PAGE_TYPES, ...pageTypes};
+  const pagesMerged = { ...DEFAULT_PAGE_TYPES, ...pageTypes };
   const [currentPage, setCurrentPage] = useState(0);
   const [modalVisible, setModalVisible] = useState(true);
   const swiperRef = useRef<SwiperFlatListRefProps>();
@@ -177,25 +176,25 @@ export const OnboardFlow: FC<OnboardFlowProps> = ({
                                    style={styles.backgroundImage}>
     <SafeAreaView style={[styles.container, style]} onLayout={onLayout}>
       {showDismissButton && <DismissButton />}
-      {HeaderComponent && <HeaderComponent goToPreviousPage={goToPreviousPage} pages={pages} style={styles.header} Components={components}
-                       currentPage={currentPage} goToNextPage={goToNextPage} />}
+      {HeaderComponent &&
+        <HeaderComponent goToPreviousPage={goToPreviousPage} pages={pages} style={styles.header} Components={components}
+                         currentPage={currentPage} goToNextPage={goToNextPage} />}
       <View style={styles.content}>
         <SwiperFlatList onChangeIndex={handleIndexChange} ref={swiperRef} index={currentPage}>
           {pages?.map((pageData, index) => (
             pageData.type && pagesMerged[pageData.type] ?
               <View key={index}>{pagesMerged[pageData.type]({
-                pageProps: {
-                  style: pageStyle,
-                  titleStyle,
-                  subtitleStyle,
-                  pageData,
-                  currentPage,
-                  totalPages: pages?.length,
-                  goToNextPage,
-                  goToPreviousPage,
-                  textAlign,
-                  width,
-                }, props: pageData.props,
+                style: pageStyle,
+                titleStyle,
+                subtitleStyle,
+                pageData,
+                currentPage,
+                totalPages: pages?.length,
+                goToNextPage,
+                goToPreviousPage,
+                textAlign,
+                width,
+                props: pageData.props,
               })}</View> :
               <View key={index}>
                 <Page

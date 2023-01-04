@@ -15,7 +15,17 @@ export interface PhoneNumberEntryPageProps {
 }
 
 export const PhoneNumberEntryPage: FC<OnboardPageConfigParams<PhoneNumberEntryPageProps>> = ({
-                                                                                               pageProps,
+                                                                                               style,
+                                                                                               titleStyle,
+                                                                                               subtitleStyle,
+                                                                                               textStyle,
+                                                                                               pageData,
+                                                                                               currentPage,
+                                                                                               totalPages,
+                                                                                               goToNextPage,
+                                                                                               goToPreviousPage,
+                                                                                               textAlign,
+                                                                                               width,
                                                                                                props,
                                                                                              }) => {
   const [phoneNumber, setPhoneNumber] = useState('');
@@ -44,24 +54,27 @@ export const PhoneNumberEntryPage: FC<OnboardPageConfigParams<PhoneNumberEntryPa
 
   function getInput() {
     return <>
-      <TextInput onFocus={() => {setIsFocused(true)}} onBlur={() => setIsFocused(false)} value={phoneNumber} textContentType='telephoneNumber'
+      <TextInput onFocus={() => {
+        setIsFocused(true);
+      }} onBlur={() => setIsFocused(false)} value={phoneNumber} textContentType='telephoneNumber'
                  dataDetectorTypes='phoneNumber'
-                 maxLength={14} placeholder={'Mobile number'} style={[styles.phoneNumberInput, pageProps.textStyle, isFocused ? styles.phoneNumberInputFocused : null]}
+                 maxLength={14} placeholder={'Mobile number'}
+                 style={[styles.phoneNumberInput, textStyle, isFocused ? styles.phoneNumberInputFocused : null]}
                  keyboardType='phone-pad'
                  onChangeText={onChangePhoneNumber} />
       {isInvalid &&
         <Text
-          style={[styles.errorText, pageProps.textStyle]}>{props.invalidNumberMessage ?? 'Invalid phone number'}</Text>}
+          style={[styles.errorText, textStyle]}>{props.invalidNumberMessage ?? 'Invalid phone number'}</Text>}
     </>;
   }
 
   return (
-    <View style={[styles.container, pageProps.style, { width: pageProps.width }]}>
+    <View style={[styles.container, style, { width: width }]}>
       <KeyboardAvoidingView>
         <Text
-          style={[styles.title, { textAlign: pageProps.textAlign }, pageProps.titleStyle]}>{pageProps.pageData?.title}</Text>
+          style={[styles.title, { textAlign: textAlign }, titleStyle]}>{pageData?.title}</Text>
         <Text
-          style={[styles.subtitle, { textAlign: pageProps.textAlign }, pageProps.subtitleStyle]}>{pageProps.pageData?.subtitle}</Text>
+          style={[styles.subtitle, { textAlign: textAlign }, subtitleStyle]}>{pageData?.subtitle}</Text>
         {getInput()}
       </KeyboardAvoidingView>
     </View>
@@ -123,7 +136,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: 'red',
   }, phoneNumberInputFocused: {
-    borderColor: '#000'
+    borderColor: '#000',
   },
 
 });

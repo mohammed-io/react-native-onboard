@@ -1,5 +1,5 @@
 import React, { FC, useState } from 'react';
-import { KeyboardAvoidingView, Platform, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { KeyboardAvoidingView, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import {
   COLOR_MUTED_TEXT_DEFAULT,
   COLOR_TEXT_DEFAULT,
@@ -17,7 +17,17 @@ export interface PhoneNumberVerificationPageProps {
 }
 
 export const PhoneNumberVerificationPage: FC<OnboardPageConfigParams<PhoneNumberVerificationPageProps>> = ({
-                                                                                                             pageProps,
+                                                                                                             style,
+                                                                                                             titleStyle,
+                                                                                                             subtitleStyle,
+                                                                                                             textStyle,
+                                                                                                             pageData,
+                                                                                                             currentPage,
+                                                                                                             totalPages,
+                                                                                                             goToNextPage,
+                                                                                                             goToPreviousPage,
+                                                                                                             textAlign = TEXT_ALIGN_DEFAULT,
+                                                                                                             width,
                                                                                                              props,
                                                                                                            }) => {
   const [verificationCode, setVerificationCode] = useState('');
@@ -31,25 +41,13 @@ export const PhoneNumberVerificationPage: FC<OnboardPageConfigParams<PhoneNumber
     }
   }
 
-  function getInput() {
-    return <>
-      <TextInput value={verificationCode} textContentType='telephoneNumber'
-                 maxLength={14} placeholder={'Verification code'} style={[styles.phoneNumberInput, pageProps.textStyle]}
-                 keyboardType='number-pad'
-                 onChangeText={onChangeVerificationCode} />
-      {isInvalid &&
-        <Text
-          style={[styles.errorText, pageProps.textStyle]}>{props.invalidCodeMessage ?? 'Invalid phone number'}</Text>}
-    </>;
-  }
-
   return (
-    <View style={[styles.container, pageProps.style, { width: pageProps.width }]}>
+    <View style={[styles.container, style, { width: width }]}>
       <KeyboardAvoidingView>
         <Text
-          style={[styles.title, { textAlign: pageProps.textAlign }, pageProps.titleStyle]}>{pageProps.pageData?.title}</Text>
+          style={[styles.title, { textAlign: textAlign }, titleStyle]}>{pageData?.title}</Text>
         <Text
-          style={[styles.subtitle, { textAlign: pageProps.textAlign }, pageProps.subtitleStyle]}>{pageProps.pageData?.subtitle}</Text>
+          style={[styles.subtitle, { textAlign: textAlign }, subtitleStyle]}>{pageData?.subtitle}</Text>
         <OTPInput style={styles.otp} code={verificationCode} maximumLength={6} setIsPinReady={() => {
         }} setCode={(code) => {
           setVerificationCode(code);
