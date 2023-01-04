@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
     height: 270,
     width: '100%',
   },
-  phoneNumberInput: {
+  input: {
     width: '100%',
     height: 60,
     borderWidth: 1,

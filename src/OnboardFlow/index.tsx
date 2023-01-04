@@ -27,6 +27,7 @@ import { DotPagination } from './Pagination/components/Dot';
 import { PhoneNumberEntryPage } from './pages/PhoneNumberEntryPage';
 import { PhoneNumberVerificationPage } from './pages/PhoneNumberVerificationPage';
 import { HeaderProps } from './Header';
+import { FormEntryPage } from './pages/FormEntryPage';
 
 export type PageType = string;
 
@@ -81,6 +82,7 @@ export interface OnboardComponents {
 const DEFAULT_PAGE_TYPES = {
   phoneNumberEntry: PhoneNumberEntryPage,
   phoneNumberVerification: PhoneNumberVerificationPage,
+  formEntry: FormEntryPage,
 };
 
 export const OnboardFlow: FC<OnboardFlowProps> = ({

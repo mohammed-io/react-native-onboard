@@ -62,6 +62,7 @@ export const OTPInput: FC<OTPInputProps> = ({ code, setCode, maximumLength, setI
         onChangeText={setCode}
         keyboardType={'number-pad'}
         maxLength={maximumLength}
+        textContentType={'oneTimeCode'}
         ref={inputRef}
         onBlur={handleOnBlur}
       />

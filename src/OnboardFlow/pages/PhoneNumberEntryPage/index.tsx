@@ -59,12 +59,12 @@ export const PhoneNumberEntryPage: FC<OnboardPageConfigParams<PhoneNumberEntryPa
       }} onBlur={() => setIsFocused(false)} value={phoneNumber} textContentType='telephoneNumber'
                  dataDetectorTypes='phoneNumber'
                  maxLength={14} placeholder={'Mobile number'}
-                 style={[styles.phoneNumberInput, textStyle, isFocused ? styles.phoneNumberInputFocused : null]}
+                 style={[styles.input, textStyle, isFocused ? styles.inputFocused : null]}
                  keyboardType='phone-pad'
                  onChangeText={onChangePhoneNumber} />
       {isInvalid &&
         <Text
-          style={[styles.errorText, textStyle]}>{props.invalidNumberMessage ?? 'Invalid phone number'}</Text>}
+          style={[textStyle, styles.errorText]}>{props.invalidNumberMessage ?? 'Invalid phone number'}</Text>}
     </>;
   }
 
@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
     height: 270,
     width: '100%',
   },
-  phoneNumberInput: {
+  input: {
     width: '100%',
     height: 60,
     borderWidth: 1,
@@ -135,7 +135,7 @@ const styles = StyleSheet.create({
   errorText: {
     fontSize: 18,
     color: 'red',
-  }, phoneNumberInputFocused: {
+  }, inputFocused: {
     borderColor: '#000',
   },
 

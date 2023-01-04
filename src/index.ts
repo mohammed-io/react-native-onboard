@@ -11,4 +11,5 @@ export { DashDotPagination } from "./OnboardFlow/Pagination/components/DashDot";
 export { LinePagination } from "./OnboardFlow/Pagination/components/Line";
 export { PhoneNumberEntryPage } from "./OnboardFlow/pages/PhoneNumberEntryPage"
 export { PhoneNumberVerificationPage } from "./OnboardFlow/pages/PhoneNumberVerificationPage"
+export { FormEntryPage } from "./OnboardFlow/pages/FormEntryPage"
 
