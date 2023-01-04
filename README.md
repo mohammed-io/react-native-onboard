@@ -60,7 +60,7 @@ const App = () => {
 ```
 
 ## Docs
-The official docs are available at [docs.frigade.com](https://frigade.com/docs/react-native-onboard).
+The official docs are available at [docs.frigade.com](https://docs.frigade.com/).
 
 ## Customization
 `react-native-onboard` is designed to be headless and customizable. You can use the default UI or create your own by
