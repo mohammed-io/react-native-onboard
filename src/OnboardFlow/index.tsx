@@ -28,6 +28,7 @@ import { PhoneNumberEntryPage } from './pages/PhoneNumberEntryPage';
 import { PhoneNumberVerificationPage } from './pages/PhoneNumberVerificationPage';
 import { HeaderProps } from './Header';
 import { FormEntryPage } from './pages/FormEntryPage';
+import { MultipleChoicePage } from './pages/MultipleChoicePage';
 
 export type PageType = string;
 
@@ -83,6 +84,7 @@ const DEFAULT_PAGE_TYPES = {
   phoneNumberEntry: PhoneNumberEntryPage,
   phoneNumberVerification: PhoneNumberVerificationPage,
   formEntry: FormEntryPage,
+  multipleChoice: MultipleChoicePage,
 };
 
 export const OnboardFlow: FC<OnboardFlowProps> = ({

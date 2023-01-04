@@ -1,5 +1,5 @@
 import React, { FC, useState } from 'react';
-import { KeyboardAvoidingView, Platform, StyleSheet, Text, TextInput, View } from 'react-native';
+import { KeyboardAvoidingView, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import {
   COLOR_MUTED_TEXT_DEFAULT,
   COLOR_TEXT_DEFAULT,
@@ -9,19 +9,21 @@ import {
 } from '../../../constants';
 import { OnboardPageConfigParams } from '../../index';
 
-export interface FormEntryPageProps {
-  fields: FormEntryField[];
+export interface MultipleChoicePageProps {
+  fields: MultipleChoiceField[];
+  minChoices?: number;
+  maxChoices?: number;
+  onOptionsUpdated?: (options: MultipleChoiceField[]) => void;
 }
 
-export interface FormEntryField {
-  label?: string;
-  placeHolder?: string;
-  type: 'email' | 'text' | 'password';
-  onSetText?: (text: string) => void;
-  getErrorMessage?: (text: string) => string;
+export interface MultipleChoiceField {
+  id?: string;
+  title?: string;
+  subtitle?: string;
+  onUpdated?: (selected: boolean) => void;
 }
 
-export const FormEntryPage: FC<OnboardPageConfigParams<FormEntryPageProps>> = ({
+export const MultipleChoicePage: FC<OnboardPageConfigParams<MultipleChoicePageProps>> = ({
                                                                                  style,
                                                                                  titleStyle,
                                                                                  subtitleStyle,
@@ -36,62 +38,35 @@ export const FormEntryPage: FC<OnboardPageConfigParams<FormEntryPageProps>> = ({
                                                                                  props,
                                                                                }) => {
 
-  function getKeyboardType(inputType: string) {
-    if (inputType == 'email') {
-      return 'email-address';
-    }
+  const [selectedOptions, setSelectedOptions] = useState<MultipleChoiceField[]>([]);
+  const maxChoices = props.maxChoices ?? 1;
+  const minChoices = props.minChoices ?? 1;
 
-    return 'default';
-  }
-
-  function getTextContentType(inputType: string) {
-    if (inputType == 'email') {
-      return 'emailAddress';
-    }
-
-    if (inputType == 'password') {
-      return 'password';
-    }
-
-    return 'none';
-  }
-
-  function getDataDetectorType(inputType: string) {
-
-    return undefined;
-  }
-
-  function validateEmail(email: string) {
-    return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email);
-  }
-
-  const Field: FC<FormEntryField> = ({ label, placeHolder, type, onSetText, getErrorMessage }) => {
-    const [errorMessage, setErrorMessage] = useState('');
-    const [isFocused, setIsFocused] = useState(false);
-    const [text, setText] = useState('');
-    return <>
-      <TextInput onFocus={() => {
-        setIsFocused(true);
-      }} onBlur={() => setIsFocused(false)} value={text} textContentType={getTextContentType(type)}
-                 dataDetectorTypes={getDataDetectorType(type)}
-                 maxLength={255} placeholder={placeHolder}
-                 style={[styles.option, textStyle, isFocused ? styles.optionSelected : null]}
-                 keyboardType={getKeyboardType(type)}
-                 secureTextEntry={type == 'password'}
-                 onChangeText={(string) => {
-                   const error = getErrorMessage ? getErrorMessage(string) : null;
-                   if (error) {
-                     setErrorMessage(error);
-                   }
-                   setText(string);
-                   if (onSetText) {
-                     onSetText(string);
-                   }
-                 }} />
-      {errorMessage &&
-        <Text
-          style={[textStyle, styles.errorText]}>{errorMessage}</Text>}
-    </>;
+  const Field: FC<MultipleChoiceField> = ({ id, title, subtitle, onUpdated}) => {
+    const [isSelected, setIsSelected] = useState(false);
+    // Create touchable opacity for each field and use field style
+    return (
+      <TouchableOpacity onPress={() => {
+        if (!isSelected) {
+          if (maxChoices && selectedOptions.length >= maxChoices) {
+            return;
+          } else {
+            setIsSelected(true);
+            if (onUpdated) {
+              onUpdated(true);
+            }
+          }
+        } else {
+          setIsSelected(false);
+          if (onUpdated) {
+            onUpdated(false);
+          }
+        }
+      }}>
+        <View style={[styles.option, isSelected ? styles.optionSelected : null]}>
+          <Text style={[styles.optionTitle]}>{title}</Text>
+        </View>
+      </TouchableOpacity>);
   };
 
   return (
@@ -125,6 +100,12 @@ const styles = StyleSheet.create({
     color: COLOR_TEXT_DEFAULT,
     lineHeight: 42,
     marginBottom: VERTICAL_PADDING_DEFAULT / 2,
+    width: '100%',
+  },
+  optionTitle: {
+    fontSize: 18,
+    color: COLOR_TEXT_DEFAULT,
+    // marginBottom: VERTICAL_PADDING_DEFAULT / 2,
     width: '100%',
   },
   subtitle: {
