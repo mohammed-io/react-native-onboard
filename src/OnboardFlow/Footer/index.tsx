@@ -1,7 +1,8 @@
 import React, { FC } from 'react';
 import { StyleSheet, View, ViewStyle } from 'react-native';
-import { OnboardComponents, PageData } from '../index';
-import { PRIMARY_BUTTON_TEXT_DEFAULT, PRIMARY_BUTTON_TEXT_LAST_PAGE_DEFAULT } from '../../constants';
+import { OnboardComponents } from '../index';
+import { PRIMARY_BUTTON_TEXT_DEFAULT, PRIMARY_BUTTON_TEXT_LAST_PAGE_DEFAULT } from '../constants';
+import { PageData } from '../types';
 
 export interface FooterProps {
   style?: ViewStyle;

@@ -4,7 +4,7 @@ import {
   COLOR_PAGINATION_DEFAULT,
   COLOR_PAGINATION_SELECTED_DEFAULT,
   VERTICAL_PADDING_DEFAULT,
-} from '../../../../constants';
+} from '../../../constants';
 import { PaginationProps } from '../../../types';
 import { DashDot } from './DashDot';
 

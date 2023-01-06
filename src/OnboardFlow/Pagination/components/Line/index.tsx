@@ -1,7 +1,7 @@
 import React, { FC, useEffect, useState } from 'react';
 import { Animated, StyleSheet, View } from 'react-native';
 import { PaginationProps } from '../../../types';
-import { HORIZONTAL_PADDING_DEFAULT, VERTICAL_PADDING_DEFAULT } from '../../../../constants';
+import { HORIZONTAL_PADDING_DEFAULT, VERTICAL_PADDING_DEFAULT } from '../../../constants';
 
 export const LinePagination: FC<PaginationProps> = ({
                                                      currentPage,
@@ -48,6 +48,7 @@ const styles = StyleSheet.create({
     marginBottom: VERTICAL_PADDING_DEFAULT,
     marginHorizontal: HORIZONTAL_PADDING_DEFAULT,
     height: 8,
+    alignItems: 'center',
   },
   lineContainer: {
     flex: 1,

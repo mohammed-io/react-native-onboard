@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
 import { StyleSheet, Text, TouchableOpacity, ViewStyle } from 'react-native';
-import { PRIMARY_BUTTON_TEXT_DEFAULT, VERTICAL_PADDING_DEFAULT } from '../../../constants';
+import { PRIMARY_BUTTON_TEXT_DEFAULT, VERTICAL_PADDING_DEFAULT } from '../../constants';
+import { TextStyles } from '../../types';
 
 export interface PrimaryButtonProps {
   currentPage?: number;
@@ -10,19 +11,20 @@ export interface PrimaryButtonProps {
   text?: string;
 }
 
-export const PrimaryButton: FC<PrimaryButtonProps> = ({
-                                                          currentPage,
-                                                          goToNextPage,
-                                                          style,
-                                                          totalPages,
-                                                          text = PRIMARY_BUTTON_TEXT_DEFAULT,
-                                                          ...props
-                                                        }) => {
+export const PrimaryButton: FC<PrimaryButtonProps & TextStyles> = ({
+                                                                     currentPage,
+                                                                     goToNextPage,
+                                                                     style,
+                                                                     totalPages,
+                                                                     text = PRIMARY_BUTTON_TEXT_DEFAULT,
+                                                                     textStyle,
+                                                                     ...props
+                                                                   }) => {
   const isLastPage = currentPage == totalPages - 1;
 
   return (
     <TouchableOpacity activeOpacity={0.8} style={[styles.button, style]} onPress={goToNextPage}>
-      <Text style={styles.buttonText}>{text}</Text>
+      <Text style={[styles.buttonText, textStyle ? {fontFamily: StyleSheet.flatten(textStyle).fontFamily} : null]}>{text}</Text>
     </TouchableOpacity>
   );
 };

@@ -1,16 +1,11 @@
 import React, { FC, useState } from 'react';
-import { KeyboardAvoidingView, Platform, StyleSheet, Text, TextInput, View } from 'react-native';
-import {
-  COLOR_MUTED_TEXT_DEFAULT,
-  COLOR_TEXT_DEFAULT,
-  HORIZONTAL_PADDING_DEFAULT,
-  TEXT_ALIGN_DEFAULT,
-  VERTICAL_PADDING_DEFAULT,
-} from '../../../constants';
+import { KeyboardAvoidingView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { HORIZONTAL_PADDING_DEFAULT, VERTICAL_PADDING_DEFAULT } from '../../constants';
 import { OnboardPageConfigParams } from '../../index';
+import { pageStyles } from '../../Page/styles';
 
 export interface PhoneNumberEntryPageProps {
-  invalidNumberMessage?: string;
+  invalidNumberText?: string;
   onSetPhoneNumber?: (text: string) => void;
 }
 
@@ -58,23 +53,23 @@ export const PhoneNumberEntryPage: FC<OnboardPageConfigParams<PhoneNumberEntryPa
         setIsFocused(true);
       }} onBlur={() => setIsFocused(false)} value={phoneNumber} textContentType='telephoneNumber'
                  dataDetectorTypes='phoneNumber'
-                 maxLength={14} placeholder={'Mobile number'}
+                 maxLength={18} placeholder={'Mobile number'}
                  style={[styles.option, textStyle, isFocused ? styles.optionSelected : null]}
                  keyboardType='phone-pad'
                  onChangeText={onChangePhoneNumber} />
       {isInvalid &&
         <Text
-          style={[textStyle, styles.errorText]}>{props.invalidNumberMessage ?? 'Invalid phone number'}</Text>}
+          style={[textStyle, styles.errorText]}>{props.invalidNumberText ?? 'Invalid phone number'}</Text>}
     </>;
   }
 
   return (
-    <View style={[styles.container, style, { width: width }]}>
+    <View style={[pageStyles.container, style, { width: width }]}>
       <KeyboardAvoidingView>
         <Text
-          style={[styles.title, { textAlign: textAlign }, titleStyle]}>{pageData?.title}</Text>
+          style={[pageStyles.title, { textAlign: textAlign }, titleStyle]}>{pageData?.title}</Text>
         <Text
-          style={[styles.subtitle, { textAlign: textAlign }, subtitleStyle]}>{pageData?.subtitle}</Text>
+          style={[pageStyles.subtitle, { textAlign: textAlign }, subtitleStyle]}>{pageData?.subtitle}</Text>
         {getInput()}
       </KeyboardAvoidingView>
     </View>
@@ -83,44 +78,6 @@ export const PhoneNumberEntryPage: FC<OnboardPageConfigParams<PhoneNumberEntryPa
 
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'column',
-    alignItems: 'stretch',
-    justifyContent: 'space-between',
-    paddingHorizontal: HORIZONTAL_PADDING_DEFAULT,
-  },
-  title: {
-    fontSize: 30,
-    fontWeight: '800',
-    color: COLOR_TEXT_DEFAULT,
-    lineHeight: 42,
-    marginBottom: VERTICAL_PADDING_DEFAULT / 2,
-    width: '100%',
-  },
-  subtitle: {
-    fontSize: 18,
-    fontWeight: '600',
-    lineHeight: 26,
-    color: COLOR_MUTED_TEXT_DEFAULT,
-    textAlign: TEXT_ALIGN_DEFAULT,
-    width: '100%',
-  },
-  image: {
-    marginTop: VERTICAL_PADDING_DEFAULT,
-    width: '100%',
-  },
-  bottomContainer: {
-    flex: 1,
-    justifyContent: 'flex-end',
-    flexDirection: 'column',
-  },
-  bottomContainerText: {
-    position: Platform.OS == 'web' ? 'relative' : 'absolute',
-    bottom: 0,
-    height: 270,
-    width: '100%',
-  },
   option: {
     width: '100%',
     height: 60,
@@ -132,11 +89,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: HORIZONTAL_PADDING_DEFAULT,
     marginTop: VERTICAL_PADDING_DEFAULT * 2,
   },
+  optionSelected: {
+    borderColor: '#000',
+  },
   errorText: {
     fontSize: 18,
     color: 'red',
-  }, optionSelected: {
-    borderColor: '#000',
   },
-
 });

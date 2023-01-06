@@ -1,24 +1,13 @@
-import React, { FC, useState } from 'react';
-import { KeyboardAvoidingView, Platform, StyleSheet, Text, TextInput, View } from 'react-native';
-import {
-  COLOR_MUTED_TEXT_DEFAULT,
-  COLOR_TEXT_DEFAULT,
-  HORIZONTAL_PADDING_DEFAULT,
-  TEXT_ALIGN_DEFAULT,
-  VERTICAL_PADDING_DEFAULT,
-} from '../../../constants';
+import React, { FC } from 'react';
+import { KeyboardAvoidingView, StyleSheet, View } from 'react-native';
+import { HORIZONTAL_PADDING_DEFAULT, VERTICAL_PADDING_DEFAULT } from '../../constants';
 import { OnboardPageConfigParams } from '../../index';
+import { FormEntryField, InputField } from '../../components/InputField';
+import { pageStyles } from '../../Page/styles';
+import { TextStack } from '../../components/TextStack';
 
 export interface FormEntryPageProps {
   fields: FormEntryField[];
-}
-
-export interface FormEntryField {
-  label?: string;
-  placeHolder?: string;
-  type: 'email' | 'text' | 'password';
-  onSetText?: (text: string) => void;
-  getErrorMessage?: (text: string) => string;
 }
 
 export const FormEntryPage: FC<OnboardPageConfigParams<FormEntryPageProps>> = ({
@@ -36,74 +25,15 @@ export const FormEntryPage: FC<OnboardPageConfigParams<FormEntryPageProps>> = ({
                                                                                  props,
                                                                                }) => {
 
-  function getKeyboardType(inputType: string) {
-    if (inputType == 'email') {
-      return 'email-address';
-    }
-
-    return 'default';
-  }
-
-  function getTextContentType(inputType: string) {
-    if (inputType == 'email') {
-      return 'emailAddress';
-    }
-
-    if (inputType == 'password') {
-      return 'password';
-    }
-
-    return 'none';
-  }
-
-  function getDataDetectorType(inputType: string) {
-
-    return undefined;
-  }
-
-  function validateEmail(email: string) {
-    return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email);
-  }
-
-  const Field: FC<FormEntryField> = ({ label, placeHolder, type, onSetText, getErrorMessage }) => {
-    const [errorMessage, setErrorMessage] = useState('');
-    const [isFocused, setIsFocused] = useState(false);
-    const [text, setText] = useState('');
-    return <>
-      <TextInput onFocus={() => {
-        setIsFocused(true);
-      }} onBlur={() => setIsFocused(false)} value={text} textContentType={getTextContentType(type)}
-                 dataDetectorTypes={getDataDetectorType(type)}
-                 maxLength={255} placeholder={placeHolder}
-                 style={[styles.option, textStyle, isFocused ? styles.optionSelected : null]}
-                 keyboardType={getKeyboardType(type)}
-                 secureTextEntry={type == 'password'}
-                 onChangeText={(string) => {
-                   const error = getErrorMessage ? getErrorMessage(string) : null;
-                   if (error) {
-                     setErrorMessage(error);
-                   }
-                   setText(string);
-                   if (onSetText) {
-                     onSetText(string);
-                   }
-                 }} />
-      {errorMessage &&
-        <Text
-          style={[textStyle, styles.errorText]}>{errorMessage}</Text>}
-    </>;
-  };
 
   return (
-    <View style={[styles.container, style, { width: width }]}>
+    <View style={[pageStyles.container, style, { width: width }]}>
       <KeyboardAvoidingView>
-        <Text
-          style={[styles.title, { textAlign: textAlign }, titleStyle]}>{pageData?.title}</Text>
-        <Text
-          style={[styles.subtitle, { textAlign: textAlign }, subtitleStyle]}>{pageData?.subtitle}</Text>
+        <TextStack title={pageData?.title} subtitle={pageData?.subtitle} textStyle={textStyle} textAlign={textAlign}
+                   titleStyle={titleStyle} subtitleStyle={subtitleStyle}></TextStack>
         {/* Map props.fields to <Input/> */}
         {props.fields.map((input, index) => (
-          <View style={styles.fieldRow} key={index}><Field {...input} /></View>
+          <View style={styles.fieldRow} key={index}><InputField {...input} /></View>
         ))}
       </KeyboardAvoidingView>
     </View>
@@ -112,44 +42,6 @@ export const FormEntryPage: FC<OnboardPageConfigParams<FormEntryPageProps>> = ({
 
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'column',
-    alignItems: 'stretch',
-    justifyContent: 'space-between',
-    paddingHorizontal: HORIZONTAL_PADDING_DEFAULT,
-  },
-  title: {
-    fontSize: 30,
-    fontWeight: '800',
-    color: COLOR_TEXT_DEFAULT,
-    lineHeight: 42,
-    marginBottom: VERTICAL_PADDING_DEFAULT / 2,
-    width: '100%',
-  },
-  subtitle: {
-    fontSize: 18,
-    fontWeight: '600',
-    lineHeight: 26,
-    color: COLOR_MUTED_TEXT_DEFAULT,
-    textAlign: TEXT_ALIGN_DEFAULT,
-    width: '100%',
-  },
-  image: {
-    marginTop: VERTICAL_PADDING_DEFAULT,
-    width: '100%',
-  },
-  bottomContainer: {
-    flex: 1,
-    justifyContent: 'flex-end',
-    flexDirection: 'column',
-  },
-  bottomContainerText: {
-    position: Platform.OS == 'web' ? 'relative' : 'absolute',
-    bottom: 0,
-    height: 270,
-    width: '100%',
-  },
   option: {
     width: '100%',
     height: 60,

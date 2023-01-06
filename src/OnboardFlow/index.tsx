@@ -1,9 +1,10 @@
-import React, { FC, ReactElement, useRef, useState } from 'react';
+import React, { FC, useRef, useState } from 'react';
 import {
   Dimensions,
   ImageBackground,
   Modal,
   SafeAreaView,
+  StyleProp,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -16,35 +17,22 @@ import { SwiperFlatListRefProps } from './Swiper/SwiperProps';
 import {
   COLOR_PAGINATION_DEFAULT,
   COLOR_PAGINATION_SELECTED_DEFAULT,
+  DEFAULT_PAGE_TYPES,
   HORIZONTAL_PADDING_DEFAULT,
   VERTICAL_PADDING_DEFAULT,
-} from '../constants';
+} from './constants';
 import { PrimaryButton, PrimaryButtonProps } from './components/PrimaryButton';
 import { Footer, FooterProps } from './Footer';
 import { SecondaryButton, SecondaryButtonProps } from './components/SecondaryButton';
-import { PaginationProps } from './types';
+import { PageData, PaginationProps, TextStyles } from './types';
 import { DotPagination } from './Pagination/components/Dot';
-import { PhoneNumberEntryPage } from './pages/PhoneNumberEntryPage';
-import { PhoneNumberVerificationPage } from './pages/PhoneNumberVerificationPage';
 import { HeaderProps } from './Header';
-import { FormEntryPage } from './pages/FormEntryPage';
-import { MultipleChoicePage } from './pages/MultipleChoicePage';
 
 export type PageType = string;
 
 export type OnboardPageConfigParams<Props> = {
   props: Props;
-} & PageProps;
-
-export interface PageData {
-  imageComponent?: ReactElement;
-  imageUri?: string;
-  primaryButtonTitle?: string;
-  subtitle?: string;
-  title?: string;
-  type?: PageType;
-  props?: any;
-}
+} & PageProps & TextStyles;
 
 export type OnboardPageTypesConfig = {
   [key: string]: (params: OnboardPageConfigParams<any>) => React.ReactNode;
@@ -52,21 +40,18 @@ export type OnboardPageTypesConfig = {
 
 interface OnboardFlowProps {
   backgroundImageUri?: string;
-  dismissButtonStyle?: ViewStyle;
+  dismissButtonStyle?: StyleProp<ViewStyle> | undefined;
   fullscreenModal?: boolean;
   onBack?: () => void;
   onDone?: () => void;
   onNext?: () => void;
-  pageStyle?: ViewStyle;
+  pageStyle?: StyleProp<ViewStyle> | undefined;
   pageTypes?: OnboardPageTypesConfig;
   pages?: PageData[];
   paginationColor?: string;
   paginationSelectedColor?: string;
   showDismissButton?: boolean;
-  style?: ViewStyle;
-  subtitleStyle?: ViewStyle;
-  textAlign?: 'left' | 'center' | 'right';
-  titleStyle?: ViewStyle;
+  style?: StyleProp<ViewStyle> | undefined;
   HeaderComponent?: FC<HeaderProps>;
   FooterComponent?: FC<FooterProps>;
   PaginationComponent?: FC<PaginationProps>;
@@ -80,17 +65,12 @@ export interface OnboardComponents {
   PaginationComponent: FC<PaginationProps>;
 }
 
-const DEFAULT_PAGE_TYPES = {
-  phoneNumberEntry: PhoneNumberEntryPage,
-  phoneNumberVerification: PhoneNumberVerificationPage,
-  formEntry: FormEntryPage,
-  multipleChoice: MultipleChoicePage,
-};
 
-export const OnboardFlow: FC<OnboardFlowProps> = ({
+export const OnboardFlow: FC<OnboardFlowProps & TextStyles> = ({
                                                     backgroundImageUri,
                                                     dismissButtonStyle,
                                                     fullscreenModal = true,
+                                                    textStyle,
                                                     onBack,
                                                     onDone,
                                                     onNext,
@@ -102,7 +82,7 @@ export const OnboardFlow: FC<OnboardFlowProps> = ({
                                                     showDismissButton = false,
                                                     style,
                                                     subtitleStyle,
-                                                    textAlign = 'center',
+                                                    textAlign = 'left',
                                                     titleStyle,
                                                     HeaderComponent = () => null,
                                                     FooterComponent = Footer,
@@ -111,7 +91,6 @@ export const OnboardFlow: FC<OnboardFlowProps> = ({
                                                     SecondaryButtonComponent = SecondaryButton,
                                                     ...props
                                                   }) => {
-
   const pagesMerged = { ...DEFAULT_PAGE_TYPES, ...pageTypes };
   const [currentPage, setCurrentPage] = useState(0);
   const [modalVisible, setModalVisible] = useState(true);
@@ -189,6 +168,7 @@ export const OnboardFlow: FC<OnboardFlowProps> = ({
             pageData.type && pagesMerged[pageData.type] ?
               <View key={index}>{pagesMerged[pageData.type]({
                 style: pageStyle,
+                textStyle,
                 titleStyle,
                 subtitleStyle,
                 pageData,
@@ -205,6 +185,7 @@ export const OnboardFlow: FC<OnboardFlowProps> = ({
                   style={pageStyle}
                   titleStyle={titleStyle}
                   subtitleStyle={subtitleStyle}
+                  textStyle={textStyle}
                   pageData={pageData}
                   currentPage={currentPage}
                   totalPages={pages?.length}
@@ -290,7 +271,7 @@ const styles = StyleSheet.create({
     height: 64,
     paddingHorizontal: HORIZONTAL_PADDING_DEFAULT,
     width: '100%',
-    backgroundColor: 'pink',
+    backgroundColor: 'pink'
   },
 
 });

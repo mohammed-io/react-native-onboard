@@ -1,19 +1,12 @@
 import React, { FC, useEffect, useState } from 'react';
-import { Image, Platform, StyleSheet, Text, View, ViewStyle } from 'react-native';
-import {
-  COLOR_MUTED_TEXT_DEFAULT,
-  COLOR_TEXT_DEFAULT,
-  HORIZONTAL_PADDING_DEFAULT,
-  TEXT_ALIGN_DEFAULT,
-  VERTICAL_PADDING_DEFAULT,
-} from '../../constants';
-import { PageData } from '../index';
+import { Image, Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
+import { TEXT_ALIGN_DEFAULT, VERTICAL_PADDING_DEFAULT } from '../constants';
+import { PageData, TextStyles } from '../types';
+import { pageStyles } from './styles';
+import { TextStack } from '../components/TextStack';
 
 export interface PageProps {
-  style?: ViewStyle;
-  titleStyle?: ViewStyle;
-  subtitleStyle?: ViewStyle;
-  textStyle?: ViewStyle;
+  style?: StyleProp<ViewStyle> | undefined;
   currentPage: number;
   totalPages: number;
   pageData: PageData;
@@ -23,19 +16,19 @@ export interface PageProps {
   width: number;
 }
 
-export const Page: FC<PageProps> = ({
-                                      style,
-                                      titleStyle,
-                                      subtitleStyle,
-                                      textStyle,
-                                      pageData,
-                                      currentPage,
-                                      totalPages,
-                                      goToNextPage,
-                                      goToPreviousPage,
-                                      textAlign = TEXT_ALIGN_DEFAULT,
-                                      width,
-                                    }) => {
+export const Page: FC<PageProps & TextStyles> = ({
+                                                   style,
+                                                   titleStyle,
+                                                   subtitleStyle,
+                                                   textStyle,
+                                                   pageData,
+                                                   currentPage,
+                                                   totalPages,
+                                                   goToNextPage,
+                                                   goToPreviousPage,
+                                                   textAlign = TEXT_ALIGN_DEFAULT,
+                                                   width,
+                                                 }) => {
 
   const [imageHeight, setImageHeight] = useState(0);
 
@@ -55,7 +48,7 @@ export const Page: FC<PageProps> = ({
   }
 
   return (
-    <View style={[styles.container, style, { width: width }]}>
+    <View style={[pageStyles.container, style, { width: width }]}>
       {pageData.imageUri && <Image
         source={{ uri: pageData.imageUri }}
         resizeMode='contain'
@@ -64,39 +57,15 @@ export const Page: FC<PageProps> = ({
       <ImageComponent />
       <View style={styles.bottomContainer}>
         <View style={styles.bottomContainerText}>
-          <Text style={[styles.title, textStyle, titleStyle]}>{pageData?.title}</Text>
-          <Text style={[styles.subtitle, textStyle, subtitleStyle]}>{pageData?.subtitle}</Text>
+          <TextStack title={pageData?.title} subtitle={pageData?.subtitle} textStyle={textStyle} textAlign={textAlign}
+                     titleStyle={titleStyle} subtitleStyle={subtitleStyle}></TextStack>
         </View>
       </View>
     </View>
   );
 };
 
-
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'column',
-    alignItems: 'stretch',
-    justifyContent: 'space-between',
-    paddingHorizontal: HORIZONTAL_PADDING_DEFAULT,
-  },
-  title: {
-    fontSize: 30,
-    fontWeight: '800',
-    color: COLOR_TEXT_DEFAULT,
-    lineHeight: 42,
-    marginBottom: VERTICAL_PADDING_DEFAULT / 2,
-    width: '100%',
-  },
-  subtitle: {
-    fontSize: 18,
-    fontWeight: '600',
-    lineHeight: 26,
-    color: COLOR_MUTED_TEXT_DEFAULT,
-    textAlign: TEXT_ALIGN_DEFAULT,
-    width: '100%',
-  },
   image: {
     marginTop: VERTICAL_PADDING_DEFAULT,
     width: '100%',

@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
 import { StyleSheet, View, ViewStyle } from 'react-native';
-import { OnboardComponents, PageData } from '../index';
+import { OnboardComponents } from '../index';
+import { PageData } from '../types';
 
 export interface HeaderProps {
   style?: ViewStyle;

@@ -1,19 +1,22 @@
 import React, { FC, useState } from 'react';
-import { KeyboardAvoidingView, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { KeyboardAvoidingView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import {
   COLOR_MUTED_TEXT_DEFAULT,
-  COLOR_TEXT_DEFAULT,
   HORIZONTAL_PADDING_DEFAULT,
   TEXT_ALIGN_DEFAULT,
   VERTICAL_PADDING_DEFAULT,
-} from '../../../constants';
+} from '../../constants';
 import { OnboardPageConfigParams } from '../../index';
-import { OTPInput } from './OTPInput';
+import { OTPInput } from '../../components/OTPInput';
+import { pageStyles } from '../../Page/styles';
 
 export interface PhoneNumberVerificationPageProps {
   invalidCodeMessage?: string;
-  onSetVerificationCode?: (text: string) => void;
+  onSetVerificationCode?: (text: string) => boolean;
   onResendVerificationCode?: () => void;
+  resendCodeText?: string;
+  invalidCodeText?: string;
+  codeLength?: number;
 }
 
 export const PhoneNumberVerificationPage: FC<OnboardPageConfigParams<PhoneNumberVerificationPageProps>> = ({
@@ -32,29 +35,35 @@ export const PhoneNumberVerificationPage: FC<OnboardPageConfigParams<PhoneNumber
                                                                                                            }) => {
   const [verificationCode, setVerificationCode] = useState('');
   const [isInvalid, setIsInvalid] = useState(false);
+  const maximumLength = props.codeLength ?? 6;
 
-  function onChangeVerificationCode(text: string) {
+  async function onChangeVerificationCode(text: string) {
     setVerificationCode(text);
 
-    if (props.onSetVerificationCode) {
-      props.onSetVerificationCode(text);
+    if (props.onSetVerificationCode && props.codeLength && text.length === maximumLength) {
+      const result = props.onSetVerificationCode(text);
+      setIsInvalid(!result);
     }
   }
 
   return (
-    <View style={[styles.container, style, { width: width }]}>
+    <View style={[pageStyles.container, style, { width: width }]}>
       <KeyboardAvoidingView>
         <Text
-          style={[styles.title, { textAlign: textAlign }, titleStyle]}>{pageData?.title}</Text>
+          style={[pageStyles.title, { textAlign: textAlign }, titleStyle]}>{pageData?.title}</Text>
         <Text
-          style={[styles.subtitle, { textAlign: textAlign }, subtitleStyle]}>{pageData?.subtitle}</Text>
-        <OTPInput style={styles.otp} code={verificationCode} maximumLength={6} setIsPinReady={() => {
-        }} setCode={(code) => {
-          setVerificationCode(code);
+          style={[pageStyles.subtitle, { textAlign: textAlign }, subtitleStyle]}>{pageData?.subtitle}</Text>
+        <OTPInput textStyle={textStyle} style={styles.otp} code={verificationCode} maximumLength={maximumLength}
+                  setIsPinReady={() => {
+                  }} setCode={(code) => {
+          onChangeVerificationCode(code);
         }} />
         <TouchableOpacity onPress={props.onResendVerificationCode}>
-          <Text style={[styles.resendText]}>Resend code</Text>
+          <Text style={[styles.resendText]}>{props.resendCodeText ?? `Resend code`}</Text>
         </TouchableOpacity>
+        {isInvalid &&
+          <Text
+            style={[textStyle, styles.errorText]}>{props.invalidCodeText ?? 'Invalid code'}</Text>}
       </KeyboardAvoidingView>
     </View>
   );
@@ -62,44 +71,6 @@ export const PhoneNumberVerificationPage: FC<OnboardPageConfigParams<PhoneNumber
 
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'column',
-    alignItems: 'stretch',
-    justifyContent: 'space-between',
-    paddingHorizontal: HORIZONTAL_PADDING_DEFAULT,
-  },
-  title: {
-    fontSize: 30,
-    fontWeight: '800',
-    color: COLOR_TEXT_DEFAULT,
-    lineHeight: 42,
-    marginBottom: VERTICAL_PADDING_DEFAULT / 2,
-    width: '100%',
-  },
-  subtitle: {
-    fontSize: 18,
-    fontWeight: '600',
-    lineHeight: 26,
-    color: COLOR_MUTED_TEXT_DEFAULT,
-    textAlign: TEXT_ALIGN_DEFAULT,
-    width: '100%',
-  },
-  image: {
-    marginTop: VERTICAL_PADDING_DEFAULT,
-    width: '100%',
-  },
-  bottomContainer: {
-    flex: 1,
-    justifyContent: 'flex-end',
-    flexDirection: 'column',
-  },
-  bottomContainerText: {
-    position: Platform.OS == 'web' ? 'relative' : 'absolute',
-    bottom: 0,
-    height: 270,
-    width: '100%',
-  },
   option: {
     width: '100%',
     height: 60,

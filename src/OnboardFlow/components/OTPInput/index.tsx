@@ -1,5 +1,6 @@
 import React, { FC, useEffect, useRef, useState } from 'react';
 import { Pressable, StyleSheet, Text, TextInput, View, ViewStyle } from 'react-native';
+import { TextStyles } from '../../types';
 
 interface OTPInputProps {
   code: string;
@@ -9,7 +10,14 @@ interface OTPInputProps {
   style?: ViewStyle;
 }
 
-export const OTPInput: FC<OTPInputProps> = ({ code, setCode, maximumLength, setIsPinReady, style }) => {
+export const OTPInput: FC<OTPInputProps & TextStyles> = ({
+                                                           code,
+                                                           setCode,
+                                                           maximumLength,
+                                                           setIsPinReady,
+                                                           style,
+                                                           textStyle,
+                                                         }) => {
   const boxArray = new Array(maximumLength).fill(0);
   const inputRef = useRef<any>();
 
@@ -32,6 +40,7 @@ export const OTPInput: FC<OTPInputProps> = ({ code, setCode, maximumLength, setI
       setIsPinReady(false);
     };
   }, [code]);
+
   const boxDigit = (_, index) => {
     const emptyInput = '';
     const digit = code[index] || emptyInput;
@@ -46,7 +55,7 @@ export const OTPInput: FC<OTPInputProps> = ({ code, setCode, maximumLength, setI
       isInputBoxFocused && isValueFocused;
     return (
       <View style={[styles.splitBoxes, isFocused ? styles.splitBoxesFocused : null]} key={index}>
-        <Text style={styles.splitBoxText}>{digit}</Text>
+        <Text style={[styles.splitBoxText, textStyle]}>{digit}</Text>
       </View>
     );
   };
