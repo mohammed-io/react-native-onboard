@@ -13,11 +13,10 @@ See [Live Demo](https://snack.expo.dev/@christian-frigade/react-native-onboard-s
 
 ## Features
 
-- 🎨 Fully customizable components and config
+- 📱 Easily add welcome screens, product tours, and feature announcements to your app
 - 🎨 Fully customizable components and config
 - 🔧 Dynamically trigger the right onboarding for the right user
 - 🚀 Works with Expo
-- 📦 Very lightweight (~40 kB)
 - ✨ Beautiful default UI
 
 ## Installation
