@@ -7,7 +7,7 @@
 
 Delightful and fully customizable onboarding components for React Native.
 
-![onboard-simple gif](static/react-native-onboard-demo-simple.gif)
+<img src="static/react-native-onboard-demo-simple.gif" alt="drawing" width="150"/>
 
 See [Live Demo](https://snack.expo.dev/@christian-frigade/react-native-onboard-simple-demo) on Expo Snack.
 
