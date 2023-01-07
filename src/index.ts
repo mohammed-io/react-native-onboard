@@ -9,8 +9,3 @@ export { DotPagination } from "./OnboardFlow/Pagination/components/Dot";
 export { DashPagination } from "./OnboardFlow/Pagination/components/Dash";
 export { DashDotPagination } from "./OnboardFlow/Pagination/components/DashDot";
 export { LinePagination } from "./OnboardFlow/Pagination/components/Line";
-export { PhoneNumberEntryPage } from "./OnboardFlow/pages/PhoneNumberEntryPage"
-export { PhoneNumberVerificationPage } from "./OnboardFlow/pages/PhoneNumberVerificationPage"
-export { MultipleChoicePage } from "./OnboardFlow/pages/MultipleChoicePage"
-export { FormEntryPage } from "./OnboardFlow/pages/FormEntryPage"
-

@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { StyleSheet, Text, TouchableOpacity, ViewStyle } from 'react-native';
-import { PRIMARY_BUTTON_TEXT_DEFAULT, VERTICAL_PADDING_DEFAULT } from '../../constants';
+import { COLOR_BUTTON_DEFAULT, PRIMARY_BUTTON_TEXT_DEFAULT, VERTICAL_PADDING_DEFAULT } from '../../constants';
 import { TextStyles } from '../../types';
 
 export interface PrimaryButtonProps {
@@ -20,8 +20,6 @@ export const PrimaryButton: FC<PrimaryButtonProps & TextStyles> = ({
                                                                      textStyle,
                                                                      ...props
                                                                    }) => {
-  const isLastPage = currentPage == totalPages - 1;
-
   return (
     <TouchableOpacity activeOpacity={0.8} style={[styles.button, style]} onPress={goToNextPage}>
       <Text style={[styles.buttonText, textStyle ? {fontFamily: StyleSheet.flatten(textStyle).fontFamily} : null]}>{text}</Text>
@@ -31,7 +29,7 @@ export const PrimaryButton: FC<PrimaryButtonProps & TextStyles> = ({
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: '#000',
+    backgroundColor: COLOR_BUTTON_DEFAULT,
     width: '100%',
     borderRadius: 32,
     marginTop: VERTICAL_PADDING_DEFAULT,

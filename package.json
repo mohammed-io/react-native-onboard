@@ -8,7 +8,7 @@
     "./lib"
   ],
   "scripts": {
-    "build": "rm -rf ./lib && npx tsc",
+    "build": "rm -rf ./lib/ && npx tsc",
     "clean": "rm -rf ./lib",
     "test": "jest --no-watchman",
     "semantic-release": "semantic-release",

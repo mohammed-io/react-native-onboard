@@ -1,7 +1,12 @@
 import React, { FC } from 'react';
-import { Text } from 'react-native';
+import { StyleSheet, Text } from 'react-native';
 import { TextStyles } from '../../types';
-import { pageStyles } from '../../Page/styles';
+import {
+  COLOR_MUTED_TEXT_DEFAULT,
+  COLOR_TEXT_DEFAULT,
+  TEXT_ALIGN_DEFAULT,
+  VERTICAL_PADDING_SMALL_DEFAULT,
+} from '../../constants';
 
 export interface TextStackProps {
   subtitle?: string;
@@ -20,9 +25,28 @@ export const TextStack: FC<TextStackProps & TextStyles> = ({
   return (
     <>
       <Text
-        style={[pageStyles.title, { textAlign: textAlign }, titleStyle]}>{title}</Text>
+        style={[styles.title, { textAlign: textAlign }, titleStyle]}>{title}</Text>
       <Text
-        style={[pageStyles.subtitle, { textAlign: textAlign }, subtitleStyle]}>{subtitle}</Text>
+        style={[styles.subtitle, { textAlign: textAlign }, subtitleStyle]}>{subtitle}</Text>
     </>
   );
 };
+
+const styles = StyleSheet.create({
+  title: {
+    fontSize: 30,
+    fontWeight: '800',
+    color: COLOR_TEXT_DEFAULT,
+    lineHeight: 42,
+    marginBottom: VERTICAL_PADDING_SMALL_DEFAULT,
+    width: '100%',
+  },
+  subtitle: {
+    fontSize: 18,
+    fontWeight: '600',
+    lineHeight: 26,
+    color: COLOR_MUTED_TEXT_DEFAULT,
+    textAlign: TEXT_ALIGN_DEFAULT,
+    width: '100%',
+  }
+});

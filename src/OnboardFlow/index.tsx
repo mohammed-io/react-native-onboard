@@ -82,7 +82,7 @@ export const OnboardFlow: FC<OnboardFlowProps & TextStyles> = ({
                                                     showDismissButton = false,
                                                     style,
                                                     subtitleStyle,
-                                                    textAlign = 'left',
+                                                    textAlign = 'center',
                                                     titleStyle,
                                                     HeaderComponent = () => null,
                                                     FooterComponent = Footer,
