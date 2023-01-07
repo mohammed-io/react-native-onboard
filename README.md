@@ -14,7 +14,8 @@ See [Live Demo](https://snack.expo.dev/@christian-frigade/react-native-onboard-s
 ## Features
 
 - 🎨 Fully customizable components and config
-- 🔧 Load images and content from your backend
+- 🎨 Fully customizable components and config
+- 🔧 Dynamically trigger the right onboarding for the right user
 - 🚀 Works with Expo
 - 📦 Very lightweight (~40 kB)
 - ✨ Beautiful default UI
@@ -66,17 +67,7 @@ The official docs are available at [docs.frigade.com](https://docs.frigade.com/)
 `react-native-onboard` is designed to be headless and customizable. You can use the default UI or create your own by
 implementing a series of provided interfaces. See the [Official Docs](https://docs.frigade.com/docs/intro) to learn more.
 
-![onboard gif](static/react-native-onboard-demo.gif)
-
-## Updating your onboarding flow without app builds and releases
-While the above examples contain hard-coded strings and images for illustrative purposes, we highly recommend loading your strings and presentation
-layer logic from your API rather than as plain strings in your app.
-
-[Frigade API](https://frigade.com/) offers a hosted service that allows you to update your onboarding flow without having to push a new app build to the app store while also providing a series of very useful [integrations](https://frigade.com/).
-
-Get started on [Frigade API](https://frigade.com/)
-
-
+<img src="static/react-native-onboard-demo.gif" alt="drawing" width="150"/>
 
 ## Get in touch
-Questions? Comments? Suggestions? Feel free to [open an issue](https://github.com/FrigadeHQ/react-native-onboard/issues), [submit a PR](https://github.com/FrigadeHQ/react-native-onboard/pulls), or [contact us](https://frigade.com).
+Questions? Comments? Suggestions? Join the [Frigade Discord](https://discord.gg/3fujYupY).
