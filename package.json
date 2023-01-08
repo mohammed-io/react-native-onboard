@@ -1,7 +1,7 @@
 {
   "name": "react-native-onboard",
   "version": "0.0.0-development",
-  "description": "Delightful and fully customizable onboarding swiper for React Native.",
+  "description": "Delightful and fully customizable onboarding elements for React Native.",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
   "files": [
@@ -22,14 +22,14 @@
     "React",
     "Native",
     "React-Native",
-    "Component",
     "Onboarding",
     "Tutorial",
     "Intro",
     "Swiper",
     "Welcome",
     "Introduction",
-    "Instructions"
+    "Instructions",
+    "Walkthrough"
   ],
   "peerDependencies": {
     "react": "*",

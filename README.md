@@ -7,15 +7,16 @@
 
 Delightful and fully customizable onboarding components for React Native.
 
-<img src="static/react-native-onboard-demo-simple.gif" alt="drawing" width="150"/>
+| <img src="static/react-native-onboard-demo-simple.gif" alt="demo" width="150"/> | <img src="static/react-native-onboard-demo-bt.gif" alt="bottom sheet" width="150"/> |
+|---------------------------------------------------------------------------------|-------------------------------------------------------------------------------------|
 
 See [Live Demo](https://snack.expo.dev/@christian-frigade/react-native-onboard-simple-demo) on Expo Snack.
 
 ## Features
 
-- 📱 Easily add welcome screens, product tours, and feature announcements to your app
+- 📱 Easily add welcome screens, product tours, and feature highlights
 - 🎨 Fully customizable components and config
-- 🔧 Dynamically trigger the right onboarding for the right user
+- 🔧 Lightweight and zero dependencies
 - 🚀 Works with Expo
 - ✨ Beautiful default UI
 
@@ -26,20 +27,25 @@ Install the package with either npm or yarn:
 ```bash
 npm install react-native-onboard
 ```
+
 or
+
 ```bash
 yarn add react-native-onboard
 ```
 
 ## Quick start
-Place the `OnboardFlow` component anywhere in your app. It will automatically take up the entire screen. To change the 
+
+Place the `OnboardFlow` component anywhere in your app. It will automatically take up the entire screen. Three default
+behaviors are offered (`fullscreen`, `bottom-sheet`, and `inline`) and can be changed by changing the `type` property.
+To change the
 default behavior, see the [docs on supported props](https://docs.frigade.com/docs/components/highlevel).
 
 ```jsx
 import { OnboardFlow } from 'react-native-onboard';
 
 const App = () => {
-  
+
   return (
     <OnboardFlow
       pages={[
@@ -54,19 +60,48 @@ const App = () => {
           imageUri: 'https://frigade.com/img/example2.png',
         }
       ]}
+      type={'fullscreen'}
+    />
+  );
+};
+```
+
+If you wish to load your image assets from your local project rather than server side, you can use the `require`
+function.
+
+```jsx
+import { Image } from 'react-native';
+import { OnboardFlow } from 'react-native-onboard';
+
+const App = () => {
+
+  return (
+    <OnboardFlow
+      pages={[
+        {
+          title: 'Welcome to my app',
+          subtitle: 'This is page 1',
+          imageUri: Image.resolveAssetSource(require('image.png')).uri
+        }
+      ]}
     />
   );
 };
 ```
 
 ## Docs
+
 The official docs are available at [docs.frigade.com](https://docs.frigade.com/).
 
 ## Customization
+
 `react-native-onboard` is designed to be headless and customizable. You can use the default UI or create your own by
-implementing a series of provided interfaces. See the [Official Docs](https://docs.frigade.com/docs/intro) to learn more.
+implementing a series of provided interfaces. See the [Official Docs](https://docs.frigade.com/docs/intro) to learn
+more.
 
 <img src="static/react-native-onboard-demo.gif" alt="drawing" width="150"/>
 
 ## Get in touch
-Questions? Comments? Suggestions? Join the [Frigade Discord](https://discord.gg/3fujYupY).
+
+Questions? Comments? Suggestions? Join the [Frigade Discord](https://discord.gg/3fujYupY) or visit
+the [Frigade](https://frigade.com) website.

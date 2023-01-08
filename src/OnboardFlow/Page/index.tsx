@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useState } from 'react';
-import { Image, StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
-import { HORIZONTAL_PADDING_DEFAULT, TEXT_ALIGN_DEFAULT } from '../constants';
+import { Dimensions, Image, SafeAreaView, StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
+import { HORIZONTAL_PADDING_DEFAULT, TEXT_ALIGN_DEFAULT, VERTICAL_PADDING_DEFAULT } from '../constants';
 import { PageData, TextStyles } from '../types';
 import { TextStack } from '../components/TextStack';
 
@@ -13,6 +13,8 @@ export interface PageProps {
   goToPreviousPage: () => void;
   textAlign?: 'left' | 'center' | 'right';
   width: number;
+  maxTextHeight?: number;
+  setMaxTextHeight?: (height: number) => void;
 }
 
 export const Page: FC<PageProps & TextStyles> = ({
@@ -27,9 +29,19 @@ export const Page: FC<PageProps & TextStyles> = ({
                                                    goToPreviousPage,
                                                    textAlign = TEXT_ALIGN_DEFAULT,
                                                    width,
+                                                   maxTextHeight,
+                                                   setMaxTextHeight,
                                                  }) => {
-
   const [imageHeight, setImageHeight] = useState(0);
+  const [containerHeight, setContainerHeight] = useState<number>(Dimensions.get('window').height ?? 0);
+
+  const onContainerLayout = (event) => {
+    setContainerHeight(event.nativeEvent.layout.height);
+  };
+
+  const onTextStackLayout = (event) => {
+    setMaxTextHeight && setMaxTextHeight(event.nativeEvent.layout.height);
+  };
 
   useEffect(() => {
     if (pageData.imageUri) {
@@ -46,19 +58,29 @@ export const Page: FC<PageProps & TextStyles> = ({
     return null;
   }
 
+  function calculateImageHeight() {
+    const padding = containerHeight < 400 ? 3 : 6;
+    return Math.min(imageHeight, containerHeight - maxTextHeight - VERTICAL_PADDING_DEFAULT * padding);
+  }
+
   return (
-    <View style={[styles.container, style, { width: width }]}>
+    <SafeAreaView style={[styles.container, style, { width: width }]} onLayout={onContainerLayout}>
       {pageData.imageUri && <Image
         source={{ uri: pageData.imageUri }}
         resizeMode='contain'
-        style={[styles.image, {  height: 400 }]}
+        style={[styles.image, { height: calculateImageHeight() },
+          containerHeight < 500 ? { marginVertical: 0, marginBottom: VERTICAL_PADDING_DEFAULT } : null]}
       />}
-      <ImageComponent />
+      <View style={styles.imageComponentWrapper}>
+        <ImageComponent />
+      </View>
       <View style={styles.bottomContainer}>
+        <View onLayout={onTextStackLayout}>
           <TextStack title={pageData?.title} subtitle={pageData?.subtitle} textStyle={textStyle} textAlign={textAlign}
                      titleStyle={titleStyle} subtitleStyle={subtitleStyle} />
+        </View>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -70,10 +92,13 @@ const styles = StyleSheet.create({
   },
   image: {
     width: '100%',
+    marginVertical: VERTICAL_PADDING_DEFAULT * 3,
   },
   bottomContainer: {
     flex: 1,
     justifyContent: 'flex-start',
     flexDirection: 'column',
-  },
+  }, imageComponentWrapper: {
+    alignItems: 'center',
+  }
 });

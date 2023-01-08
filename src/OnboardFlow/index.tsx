@@ -27,6 +27,7 @@ import { SecondaryButton, SecondaryButtonProps } from './components/SecondaryBut
 import { PageData, PaginationProps, TextStyles } from './types';
 import { DotPagination } from './Pagination/components/Dot';
 import { HeaderProps } from './Header';
+import { BottomSheet, BottomSheetRef } from './BottomSheet';
 
 export type PageType = string;
 
@@ -41,6 +42,9 @@ export type OnboardPageTypesConfig = {
 interface OnboardFlowProps {
   backgroundImageUri?: string;
   dismissButtonStyle?: StyleProp<ViewStyle> | undefined;
+  /**
+   * @deprecated Use `type='fullscreen'` instead
+   */
   fullscreenModal?: boolean;
   onBack?: () => void;
   onDone?: () => void;
@@ -52,6 +56,7 @@ interface OnboardFlowProps {
   paginationSelectedColor?: string;
   showDismissButton?: boolean;
   style?: StyleProp<ViewStyle> | undefined;
+  type?: 'inline' | 'fullscreen' | 'bottom-sheet';
   HeaderComponent?: FC<HeaderProps>;
   FooterComponent?: FC<FooterProps>;
   PaginationComponent?: FC<PaginationProps>;
@@ -67,36 +72,39 @@ export interface OnboardComponents {
 
 
 export const OnboardFlow: FC<OnboardFlowProps & TextStyles> = ({
-                                                    backgroundImageUri,
-                                                    dismissButtonStyle,
-                                                    fullscreenModal = true,
-                                                    textStyle,
-                                                    onBack,
-                                                    onDone,
-                                                    onNext,
-                                                    pageStyle,
-                                                    pageTypes = DEFAULT_PAGE_TYPES,
-                                                    pages,
-                                                    paginationColor = COLOR_PAGINATION_DEFAULT,
-                                                    paginationSelectedColor = COLOR_PAGINATION_SELECTED_DEFAULT,
-                                                    showDismissButton = false,
-                                                    style,
-                                                    subtitleStyle,
-                                                    textAlign = 'center',
-                                                    titleStyle,
-                                                    HeaderComponent = () => null,
-                                                    FooterComponent = Footer,
-                                                    PaginationComponent = DotPagination,
-                                                    PrimaryButtonComponent = PrimaryButton,
-                                                    SecondaryButtonComponent = SecondaryButton,
-                                                    ...props
-                                                  }) => {
+                                                                 backgroundImageUri,
+                                                                 dismissButtonStyle,
+                                                                 fullscreenModal,
+                                                                 textStyle,
+                                                                 onBack,
+                                                                 onDone,
+                                                                 onNext,
+                                                                 pageStyle,
+                                                                 pageTypes = DEFAULT_PAGE_TYPES,
+                                                                 pages,
+                                                                 paginationColor = COLOR_PAGINATION_DEFAULT,
+                                                                 paginationSelectedColor = COLOR_PAGINATION_SELECTED_DEFAULT,
+                                                                 showDismissButton = false,
+                                                                 style,
+                                                                 subtitleStyle,
+                                                                 textAlign = 'center',
+                                                                 titleStyle,
+                                                                 type = 'fullscreen',
+                                                                 HeaderComponent = () => null,
+                                                                 FooterComponent = Footer,
+                                                                 PaginationComponent = DotPagination,
+                                                                 PrimaryButtonComponent = PrimaryButton,
+                                                                 SecondaryButtonComponent = SecondaryButton,
+                                                                 ...props
+                                                               }) => {
   const pagesMerged = { ...DEFAULT_PAGE_TYPES, ...pageTypes };
   const [currentPage, setCurrentPage] = useState(0);
   const [modalVisible, setModalVisible] = useState(true);
   const swiperRef = useRef<SwiperFlatListRefProps>();
-  const [width, setWidth] = useState<number>(Dimensions.get('window').width ?? 0);
-  const [height, setHeight] = useState<number>(Dimensions.get('window').height ?? 0);
+  const [containerWidth, setContainerWidth] = useState<number>(Dimensions.get('window').width ?? 0);
+  const windowHeight = Dimensions.get('window').height;
+  const [maxTextHeight, setMaxTextHeight] = useState<number>(0);
+  const bottomSheetRef = useRef<BottomSheetRef>(null);
 
   const components: OnboardComponents = {
     PrimaryButtonComponent,
@@ -105,8 +113,7 @@ export const OnboardFlow: FC<OnboardFlowProps & TextStyles> = ({
   };
 
   const onLayout = (event) => {
-    setWidth(event.nativeEvent.layout.width);
-    setHeight(event.nativeEvent.layout.height);
+    setContainerWidth(event.nativeEvent.layout.width);
   };
 
   function handleIndexChange(item: { index: number; prevIndex: number }) {
@@ -125,6 +132,7 @@ export const OnboardFlow: FC<OnboardFlowProps & TextStyles> = ({
 
   function handleDone() {
     setModalVisible(false);
+    bottomSheetRef.current?.close();
     onDone && onDone();
   }
 
@@ -155,6 +163,12 @@ export const OnboardFlow: FC<OnboardFlowProps & TextStyles> = ({
     </View>);
   }
 
+  function updateMaxTextHeight(height: number) {
+    if (height > maxTextHeight) {
+      setMaxTextHeight(height);
+    }
+  }
+
   const content = <ImageBackground source={{ uri: backgroundImageUri }} resizeMode='cover'
                                    style={styles.backgroundImage}>
     <SafeAreaView style={[styles.container, style]} onLayout={onLayout}>
@@ -177,7 +191,7 @@ export const OnboardFlow: FC<OnboardFlowProps & TextStyles> = ({
                 goToNextPage,
                 goToPreviousPage,
                 textAlign,
-                width,
+                width: containerWidth,
                 props: pageData.props,
               })}</View> :
               <View key={index}>
@@ -192,7 +206,9 @@ export const OnboardFlow: FC<OnboardFlowProps & TextStyles> = ({
                   goToNextPage={goToNextPage}
                   goToPreviousPage={goToPreviousPage}
                   textAlign={textAlign}
-                  width={width}
+                  width={containerWidth}
+                  maxTextHeight={maxTextHeight}
+                  setMaxTextHeight={updateMaxTextHeight}
                 />
               </View>
           ))}
@@ -203,14 +219,22 @@ export const OnboardFlow: FC<OnboardFlowProps & TextStyles> = ({
     </SafeAreaView>
   </ImageBackground>;
 
-  if (!fullscreenModal) {
-    return content;
+  if (fullscreenModal === true || type === 'fullscreen') {
+    return (
+      <Modal visible={modalVisible}>
+        {content}
+      </Modal>);
   }
 
-  return (
-    <Modal visible={modalVisible}>
-      {content}
-    </Modal>);
+  if (type === 'bottom-sheet') {
+    return (
+      <BottomSheet height={windowHeight * 0.8} ref={bottomSheetRef}>
+        {content}
+      </BottomSheet>
+    );
+  }
+
+  return (content);
 };
 
 const styles = StyleSheet.create({
@@ -271,7 +295,7 @@ const styles = StyleSheet.create({
     height: 64,
     paddingHorizontal: HORIZONTAL_PADDING_DEFAULT,
     width: '100%',
-    backgroundColor: 'pink'
+    backgroundColor: 'pink',
   },
 
 });
