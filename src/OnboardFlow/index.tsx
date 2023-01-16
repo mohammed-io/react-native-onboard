@@ -39,7 +39,7 @@ export type OnboardPageTypesConfig = {
   [key: string]: (params: OnboardPageConfigParams<any>) => React.ReactNode;
 };
 
-interface OnboardFlowProps {
+export interface OnboardFlowProps {
   backgroundImageUri?: string;
   dismissButtonStyle?: StyleProp<ViewStyle> | undefined;
   /**
