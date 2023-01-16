@@ -1,3 +1,8 @@
+import { PhoneNumberEntryPage } from './pages/PhoneNumberEntryPage';
+import { PhoneNumberVerificationPage } from './pages/PhoneNumberVerificationPage';
+import { FormEntryPage } from './pages/FormEntryPage';
+import { MultipleChoicePage } from './pages/MultipleChoicePage';
+
 export const PRIMARY_BUTTON_TEXT_DEFAULT = "Continue";
 export const PRIMARY_BUTTON_TEXT_LAST_PAGE_DEFAULT = "Get started";
 
@@ -17,4 +22,8 @@ export const COLOR_PAGINATION_SELECTED_DEFAULT = '#000000';
 export const TEXT_ALIGN_DEFAULT = 'center';
 
 export const DEFAULT_PAGE_TYPES = {
+  phoneNumberEntry: PhoneNumberEntryPage,
+  phoneNumberVerification: PhoneNumberVerificationPage,
+  formEntry: FormEntryPage,
+  multipleChoice: MultipleChoicePage,
 };
