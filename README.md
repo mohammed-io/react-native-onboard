@@ -21,12 +21,12 @@
 ## Introduction
 
 A library of high-quality components for creating beautiful onboarding and product education in your React Native apps.
-It helps developers build better onboarding experiences, faster, so they can focus on what matters most: building great products.
+React Native Onboard helps developers build better onboarding experiences faster so they can focus on what matters most: building great products.
 
 ## Why
 
 Product onboarding is one of the most important experiences in your app. It's usually the first thing your users see, and it's the first impression they have of your product.
-But it's difficult to get right and slow to build. We believe there needs to be a better way to build and iterate on high-quality experiences.
+But it's difficult to get right and slow to build. We believe there needs to be a better way to build and iterate on high-quality onboarding experiences.
 
 ## Features
 
@@ -55,7 +55,7 @@ npm install react-native-onboard
 ## Quick start
 
 Place the `OnboardFlow` component anywhere in your app. It will automatically take up the entire screen. Three default
-behaviors are offered (`fullscreen`, `bottom-sheet`, and `inline`) and can be changed by changing the `type` property.
+behaviors are offered (`fullscreen`, `bottom-sheet`, and `inline`) and can be changed by through the `type` property.
 To change the default behavior, see the [docs on supported props](https://docs.frigade.com/).
 
 ```jsx
@@ -103,7 +103,7 @@ While the above examples contain hard-coded strings and images for illustrative 
 layer logic from your API rather than as plain strings in your app.
 
 We built [Frigade](https://frigade.com/) to work seamlessly with `react-native-onboard` and make it easier for developers to build and scale onboarding. 
-With Frigade, you can update onboarding flow without releasing to the app store, integrate with 3rd party analytics to power user targeting, and get an API and webhooks to make user data input easy.
+With Frigade, you can update onboarding flow without releasing to the app store, integrate 3rd party analytics (Segment, Mixpanel, etc.) to power user targeting, and integrate our API/webhooks to make user data input easy.
 
 ## Get in touch
 Questions? Suggestions? Feel free to [open an issue](https://github.com/FrigadeHQ/react-native-onboard/issues), [submit a PR](https://github.com/FrigadeHQ/react-native-onboard/pulls), or [contact us](https://frigade.com).
