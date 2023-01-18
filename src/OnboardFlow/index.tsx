@@ -55,6 +55,7 @@ export interface OnboardFlowProps {
   paginationColor?: string;
   paginationSelectedColor?: string;
   showDismissButton?: boolean;
+  enableScroll?: boolean;
   style?: StyleProp<ViewStyle> | undefined;
   type?: 'inline' | 'fullscreen' | 'bottom-sheet';
   HeaderComponent?: FC<HeaderProps>;
@@ -85,6 +86,7 @@ export const OnboardFlow: FC<OnboardFlowProps & TextStyles> = ({
                                                                  paginationColor = COLOR_PAGINATION_DEFAULT,
                                                                  paginationSelectedColor = COLOR_PAGINATION_SELECTED_DEFAULT,
                                                                  showDismissButton = false,
+                                                                 enableScroll= true,
                                                                  style,
                                                                  subtitleStyle,
                                                                  textAlign = 'center',
@@ -177,10 +179,10 @@ export const OnboardFlow: FC<OnboardFlowProps & TextStyles> = ({
         <HeaderComponent goToPreviousPage={goToPreviousPage} pages={pages} style={styles.header} Components={components}
                          currentPage={currentPage} goToNextPage={goToNextPage} />}
       <View style={styles.content}>
-        <SwiperFlatList onChangeIndex={handleIndexChange} ref={swiperRef} index={currentPage}>
+        <SwiperFlatList scrollEnabled={enableScroll} onChangeIndex={handleIndexChange} ref={swiperRef} index={currentPage}>
           {pages?.map((pageData, index) => (
             pageData.type && pagesMerged[pageData.type] ?
-              <View key={index}>{pagesMerged[pageData.type]({
+              <View key={index}  style={{width: containerWidth}}>{pagesMerged[pageData.type]({
                 style: pageStyle,
                 textStyle,
                 titleStyle,
@@ -194,7 +196,7 @@ export const OnboardFlow: FC<OnboardFlowProps & TextStyles> = ({
                 width: containerWidth,
                 props: pageData.props,
               })}</View> :
-              <View key={index}>
+              <View key={index} style={{width: containerWidth}}>
                 <Page
                   style={pageStyle}
                   titleStyle={titleStyle}
@@ -289,7 +291,7 @@ const styles = StyleSheet.create({
     flex: 1,
     top: VERTICAL_PADDING_DEFAULT * 2,
     right: HORIZONTAL_PADDING_DEFAULT,
-    zIndex: 100,
+    zIndex: 1000,
   },
   header: {
     height: 64,
