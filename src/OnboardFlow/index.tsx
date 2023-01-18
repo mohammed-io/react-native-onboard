@@ -216,7 +216,9 @@ export const OnboardFlow: FC<OnboardFlowProps & TextStyles> = ({
           ))}
         </SwiperFlatList>
       </View>
-      <FooterComponent goToPreviousPage={goToPreviousPage} pages={pages} style={styles.footer} Components={components}
+      <FooterComponent paginationSelectedColor={paginationSelectedColor}
+                       paginationColor={paginationColor}
+                       goToPreviousPage={goToPreviousPage} pages={pages} style={styles.footer} Components={components}
                        currentPage={currentPage} goToNextPage={goToNextPage} />
     </SafeAreaView>
   </ImageBackground>;
