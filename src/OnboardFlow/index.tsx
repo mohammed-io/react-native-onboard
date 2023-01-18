@@ -156,9 +156,9 @@ export const OnboardFlow: FC<OnboardFlowProps & TextStyles> = ({
   }
 
   function DismissButton() {
-    return (<View style={[styles.dismissIconContainer, dismissButtonStyle]}>
+    return (<View style={[styles.dismissIconContainer]}>
       <TouchableOpacity onPress={handleDone}>
-        <Text style={styles.dismissIcon}>✕</Text>
+        <Text style={[styles.dismissIcon, dismissButtonStyle]}>✕</Text>
       </TouchableOpacity>
     </View>);
   }
@@ -289,13 +289,12 @@ const styles = StyleSheet.create({
     flex: 1,
     top: VERTICAL_PADDING_DEFAULT * 2,
     right: HORIZONTAL_PADDING_DEFAULT,
-    zIndex: 5,
+    zIndex: 100,
   },
   header: {
     height: 64,
     paddingHorizontal: HORIZONTAL_PADDING_DEFAULT,
     width: '100%',
-    backgroundColor: 'pink',
   },
 
 });

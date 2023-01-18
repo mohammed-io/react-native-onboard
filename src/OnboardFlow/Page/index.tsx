@@ -81,7 +81,7 @@ export const Page: FC<PageProps & TextStyles> = ({
       <View style={styles.bottomContainer}>
         <View onLayout={onTextStackLayout}>
           <TextStack title={pageData?.title} subtitle={pageData?.subtitle} textStyle={textStyle} textAlign={textAlign}
-                     titleStyle={titleStyle} subtitleStyle={subtitleStyle} />
+                     titleStyle={titleStyle} subtitleStyle={subtitleStyle} width={width} />
         </View>
       </View>
     </View>

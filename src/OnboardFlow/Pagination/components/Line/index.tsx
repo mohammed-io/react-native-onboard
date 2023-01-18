@@ -34,9 +34,10 @@ export const LinePagination: FC<PaginationProps> = ({
 
   return (
     <View style={styles.container}>
-      <View style={[styles.lineContainer]}>
+      <View style={[styles.lineContainer, {backgroundColor: paginationColor}]}>
         <Animated.View style={[styles.line, {
-          width: sizeAnim + '%'
+          width: sizeAnim + '%',
+          backgroundColor: paginationSelectedColor,
         }]} />
       </View>
     </View>

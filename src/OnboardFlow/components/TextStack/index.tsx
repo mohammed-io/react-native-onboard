@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { StyleSheet, Text } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { TextStyles } from '../../types';
 import {
   COLOR_MUTED_TEXT_DEFAULT,
@@ -23,12 +23,12 @@ export const TextStack: FC<TextStackProps & TextStyles> = ({
                                                              ...props
                                                            }) => {
   return (
-    <>
+    <View>
       <Text
         style={[styles.title, { textAlign: textAlign }, titleStyle]}>{title}</Text>
       <Text
         style={[styles.subtitle, { textAlign: textAlign }, subtitleStyle]}>{subtitle}</Text>
-    </>
+    </View>
   );
 };
 
