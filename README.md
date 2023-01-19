@@ -91,7 +91,7 @@ imageUri: Image.resolveAssetSource(require('image.png')).uri
 
 ## Customization
 `react-native-onboard` is designed to be headless and customizable. You can use the default UI or create your own by
-implementing a series of provided interfaces [see available props here](./src/types/index.ts])
+implementing a series of provided interfaces [see available props here](https://github.com/FrigadeHQ/react-native-onboard/blob/main/src/OnboardFlow/types/index.ts)
 
 ## Supercharge your onboarding flows
 While the above examples contain hard-coded strings and images for illustrative purposes, we highly recommend loading your strings and presentation
