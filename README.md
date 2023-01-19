@@ -56,7 +56,6 @@ npm install react-native-onboard
 
 Place the `OnboardFlow` component anywhere in your app. It will automatically take up the entire screen. Three default
 behaviors are offered (`fullscreen`, `bottom-sheet`, and `inline`) and can be changed by through the `type` property.
-To change the default behavior, see the [docs on supported props](https://docs.frigade.com/).
 
 ```jsx
 import { OnboardFlow } from 'react-native-onboard';
@@ -92,11 +91,7 @@ imageUri: Image.resolveAssetSource(require('image.png')).uri
 
 ## Customization
 `react-native-onboard` is designed to be headless and customizable. You can use the default UI or create your own by
-implementing a series of provided interfaces. See the [Official Docs](https://docs.frigade.com/) to learn more.
-
-## Docs
-The official docs are available at [docs.frigade.com](https://docs.frigade.com/)
-
+implementing a series of provided interfaces [see available props here](./src/types/index.ts])
 
 ## Supercharge your onboarding flows
 While the above examples contain hard-coded strings and images for illustrative purposes, we highly recommend loading your strings and presentation

@@ -4,12 +4,10 @@ import {
   ImageBackground,
   Modal,
   SafeAreaView,
-  StyleProp,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
-  ViewStyle,
 } from 'react-native';
 import { Page, PageProps } from './Page';
 import { SwiperFlatList } from './Swiper';
@@ -22,11 +20,10 @@ import {
   VERTICAL_PADDING_DEFAULT,
 } from './constants';
 import { PrimaryButton, PrimaryButtonProps } from './components/PrimaryButton';
-import { Footer, FooterProps } from './Footer';
+import { Footer } from './Footer';
 import { SecondaryButton, SecondaryButtonProps } from './components/SecondaryButton';
-import { PageData, PaginationProps, TextStyles } from './types';
+import { OnboardFlowProps, PaginationProps, TextStyles } from './types';
 import { DotPagination } from './Pagination/components/Dot';
-import { HeaderProps } from './Header';
 import { BottomSheet, BottomSheetRef } from './BottomSheet';
 
 export type PageType = string;
@@ -39,32 +36,6 @@ export type OnboardPageTypesConfig = {
   [key: string]: (params: OnboardPageConfigParams<any>) => React.ReactNode;
 };
 
-export interface OnboardFlowProps {
-  backgroundImageUri?: string;
-  dismissButtonStyle?: StyleProp<ViewStyle> | undefined;
-  /**
-   * @deprecated Use `type='fullscreen'` instead
-   */
-  fullscreenModal?: boolean;
-  onBack?: () => void;
-  onDone?: () => void;
-  onNext?: () => void;
-  pageStyle?: StyleProp<ViewStyle> | undefined;
-  pageTypes?: OnboardPageTypesConfig;
-  pages?: PageData[];
-  paginationColor?: string;
-  paginationSelectedColor?: string;
-  showDismissButton?: boolean;
-  enableScroll?: boolean;
-  style?: StyleProp<ViewStyle> | undefined;
-  type?: 'inline' | 'fullscreen' | 'bottom-sheet';
-  customVariables?: object;
-  HeaderComponent?: FC<HeaderProps>;
-  FooterComponent?: FC<FooterProps>;
-  PaginationComponent?: FC<PaginationProps>;
-  PrimaryButtonComponent?: FC<PrimaryButtonProps>;
-  SecondaryButtonComponent?: FC<SecondaryButtonProps>;
-}
 
 export interface OnboardComponents {
   PrimaryButtonComponent: FC<PrimaryButtonProps>;
