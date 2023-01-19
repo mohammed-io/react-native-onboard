@@ -58,6 +58,7 @@ export interface OnboardFlowProps {
   enableScroll?: boolean;
   style?: StyleProp<ViewStyle> | undefined;
   type?: 'inline' | 'fullscreen' | 'bottom-sheet';
+  customVariables?: object;
   HeaderComponent?: FC<HeaderProps>;
   FooterComponent?: FC<FooterProps>;
   PaginationComponent?: FC<PaginationProps>;
@@ -86,13 +87,14 @@ export const OnboardFlow: FC<OnboardFlowProps & TextStyles> = ({
                                                                  paginationColor = COLOR_PAGINATION_DEFAULT,
                                                                  paginationSelectedColor = COLOR_PAGINATION_SELECTED_DEFAULT,
                                                                  showDismissButton = false,
-                                                                 enableScroll= true,
+                                                                 enableScroll = true,
                                                                  style,
                                                                  subtitleStyle,
                                                                  textAlign = 'center',
                                                                  titleStyle,
                                                                  type = 'fullscreen',
                                                                  HeaderComponent = () => null,
+                                                                 customVariables= {},
                                                                  FooterComponent = Footer,
                                                                  PaginationComponent = DotPagination,
                                                                  PrimaryButtonComponent = PrimaryButton,
@@ -107,6 +109,9 @@ export const OnboardFlow: FC<OnboardFlowProps & TextStyles> = ({
   const windowHeight = Dimensions.get('window').height;
   const [maxTextHeight, setMaxTextHeight] = useState<number>(0);
   const bottomSheetRef = useRef<BottomSheetRef>(null);
+  const showHeader = pages[currentPage].showHeader == undefined || pages[currentPage].showHeader === true;
+  const showFooter = pages[currentPage].showFooter == undefined || pages[currentPage].showFooter === true;
+
 
   const components: OnboardComponents = {
     PrimaryButtonComponent,
@@ -175,19 +180,21 @@ export const OnboardFlow: FC<OnboardFlowProps & TextStyles> = ({
                                    style={styles.backgroundImage}>
     <SafeAreaView style={[styles.container, style]} onLayout={onLayout}>
       {showDismissButton && <DismissButton />}
-      {HeaderComponent &&
+      {showHeader && HeaderComponent &&
         <HeaderComponent goToPreviousPage={goToPreviousPage} pages={pages} style={styles.header} Components={components}
                          currentPage={currentPage} goToNextPage={goToNextPage} />}
       <View style={styles.content}>
-        <SwiperFlatList scrollEnabled={enableScroll} onChangeIndex={handleIndexChange} ref={swiperRef} index={currentPage}>
+        <SwiperFlatList scrollEnabled={enableScroll} onChangeIndex={handleIndexChange} ref={swiperRef}
+                        index={currentPage}>
           {pages?.map((pageData, index) => (
             pageData.type && pagesMerged[pageData.type] ?
-              <View key={index}  style={{width: containerWidth}}>{pagesMerged[pageData.type]({
+              <View key={index} style={{ width: containerWidth }}>{pagesMerged[pageData.type]({
                 style: pageStyle,
                 textStyle,
                 titleStyle,
                 subtitleStyle,
                 pageData,
+                pageIndex: index,
                 currentPage,
                 totalPages: pages?.length,
                 goToNextPage,
@@ -195,14 +202,16 @@ export const OnboardFlow: FC<OnboardFlowProps & TextStyles> = ({
                 textAlign,
                 width: containerWidth,
                 props: pageData.props,
+                customVariables
               })}</View> :
-              <View key={index} style={{width: containerWidth}}>
+              <View key={index} style={{ width: containerWidth }}>
                 <Page
                   style={pageStyle}
                   titleStyle={titleStyle}
                   subtitleStyle={subtitleStyle}
                   textStyle={textStyle}
                   pageData={pageData}
+                  pageIndex={index}
                   currentPage={currentPage}
                   totalPages={pages?.length}
                   goToNextPage={goToNextPage}
@@ -211,15 +220,17 @@ export const OnboardFlow: FC<OnboardFlowProps & TextStyles> = ({
                   width={containerWidth}
                   maxTextHeight={maxTextHeight}
                   setMaxTextHeight={updateMaxTextHeight}
+                  customVariables={customVariables}
                 />
               </View>
           ))}
         </SwiperFlatList>
       </View>
-      <FooterComponent paginationSelectedColor={paginationSelectedColor}
-                       paginationColor={paginationColor}
-                       goToPreviousPage={goToPreviousPage} pages={pages} style={styles.footer} Components={components}
-                       currentPage={currentPage} goToNextPage={goToNextPage} />
+      {showFooter && <FooterComponent paginationSelectedColor={paginationSelectedColor}
+                                      paginationColor={paginationColor}
+                                      goToPreviousPage={goToPreviousPage} pages={pages} style={styles.footer}
+                                      Components={components}
+                                      currentPage={currentPage} goToNextPage={goToNextPage} />}
     </SafeAreaView>
   </ImageBackground>;
 

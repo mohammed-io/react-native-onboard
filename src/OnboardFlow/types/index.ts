@@ -13,6 +13,8 @@ export interface PageData {
   imageComponent?: ReactElement;
   imageUri?: string;
   primaryButtonTitle?: string;
+  showFooter?: boolean;
+  showHeader?: boolean;
   subtitle?: string;
   title?: string;
   type?: PageType;

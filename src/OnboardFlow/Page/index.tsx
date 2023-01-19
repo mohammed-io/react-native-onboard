@@ -6,9 +6,11 @@ import { TextStack } from '../components/TextStack';
 
 export interface PageProps {
   style?: StyleProp<ViewStyle> | undefined;
+  pageIndex: number;
   currentPage: number;
   totalPages: number;
   pageData: PageData;
+  customVariables?: object;
   goToNextPage: () => void;
   goToPreviousPage: () => void;
   textAlign?: 'left' | 'center' | 'right';
@@ -23,6 +25,8 @@ export const Page: FC<PageProps & TextStyles> = ({
                                                    subtitleStyle,
                                                    textStyle,
                                                    pageData,
+                                                   pageIndex,
+                                                   customVariables,
                                                    currentPage,
                                                    totalPages,
                                                    goToNextPage,
