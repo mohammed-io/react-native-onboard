@@ -52,6 +52,7 @@ export const OnboardFlow: FC<OnboardFlowProps & TextStyles> = ({
                                                                  onBack,
                                                                  onDone,
                                                                  onNext,
+                                                                 onSaveData,
                                                                  pageStyle,
                                                                  pageTypes = DEFAULT_PAGE_TYPES,
                                                                  pages,
@@ -146,7 +147,7 @@ export const OnboardFlow: FC<OnboardFlowProps & TextStyles> = ({
       setMaxTextHeight(height);
     }
   }
-
+  
   const content = <ImageBackground source={{ uri: backgroundImageUri }} resizeMode='cover'
                                    style={styles.backgroundImage}>
     <SafeAreaView style={[styles.container, style]} onLayout={onLayout}>
@@ -173,7 +174,13 @@ export const OnboardFlow: FC<OnboardFlowProps & TextStyles> = ({
                 textAlign,
                 width: containerWidth,
                 props: pageData.props,
-                customVariables
+                customVariables,
+                onSaveData: (data) => {
+                  if (onSaveData) {
+                    onSaveData(data, pageData?.id ?? (index + ''));
+                  }
+                }
+
               })}</View> :
               <View key={index} style={{ width: containerWidth }}>
                 <Page
@@ -192,6 +199,11 @@ export const OnboardFlow: FC<OnboardFlowProps & TextStyles> = ({
                   maxTextHeight={maxTextHeight}
                   setMaxTextHeight={updateMaxTextHeight}
                   customVariables={customVariables}
+                  onSaveData={(data) => {
+                    if (onSaveData) {
+                      onSaveData(data, pageData?.id ?? (index + ''));
+                    }
+                  }}
                 />
               </View>
           ))}

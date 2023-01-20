@@ -1,7 +1,7 @@
 import React, { FC, useEffect, useState } from 'react';
 import { Dimensions, Image, Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
 import { HORIZONTAL_PADDING_DEFAULT, TEXT_ALIGN_DEFAULT, VERTICAL_PADDING_DEFAULT } from '../constants';
-import { PageData, TextStyles } from '../types';
+import { PageData, PageEntryData, TextStyles } from '../types';
 import { TextStack } from '../components/TextStack';
 
 export interface PageProps {
@@ -12,6 +12,7 @@ export interface PageProps {
   pageData: PageData;
   customVariables?: object;
   goToNextPage: () => void;
+  onSaveData?: (data: PageEntryData) => void;
   goToPreviousPage: () => void;
   textAlign?: 'left' | 'center' | 'right';
   width: number;

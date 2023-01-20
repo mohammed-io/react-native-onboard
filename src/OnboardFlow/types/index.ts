@@ -16,6 +16,7 @@ export interface PaginationProps {
 export interface PageData {
   imageComponent?: ReactElement;
   imageUri?: string;
+  id?: string;
   primaryButtonTitle?: string;
   showFooter?: boolean;
   showHeader?: boolean;
@@ -42,6 +43,7 @@ export interface OnboardFlowProps {
   onBack?: () => void;
   onDone?: () => void;
   onNext?: () => void;
+  onSaveData?: (data: PageEntryData, pageId: string) => void;
   pageStyle?: StyleProp<ViewStyle> | undefined;
   pageTypes?: OnboardPageTypesConfig;
   pages?: PageData[];
@@ -57,4 +59,12 @@ export interface OnboardFlowProps {
   PaginationComponent?: FC<PaginationProps>;
   PrimaryButtonComponent?: FC<PrimaryButtonProps>;
   SecondaryButtonComponent?: FC<SecondaryButtonProps>;
+}
+
+export interface PageEntryData {
+  data: any;
+  /**
+   * A unique identifier for the data came from
+   */
+  type: string;
 }

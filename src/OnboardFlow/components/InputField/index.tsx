@@ -15,6 +15,8 @@ export interface FormEntryField {
   type: 'email' | 'text' | 'password';
   onSetText?: (text: string) => void;
   getErrorMessage?: (text: string) => string;
+  isRequired?: boolean;
+  id: string;
 }
 
 export const InputField: FC<FormEntryField & TextStyles> = ({
@@ -24,6 +26,7 @@ export const InputField: FC<FormEntryField & TextStyles> = ({
                                                               onSetText,
                                                               getErrorMessage,
                                                               textStyle,
+                                                              id,
                                                             }) => {
   const [errorMessage, setErrorMessage] = useState('');
   const [isFocused, setIsFocused] = useState(false);

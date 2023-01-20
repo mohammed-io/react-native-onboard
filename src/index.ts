@@ -9,5 +9,4 @@ export { DashPagination } from "./OnboardFlow/Pagination/components/Dash";
 export { DashDotPagination } from "./OnboardFlow/Pagination/components/DashDot";
 export { LinePagination } from "./OnboardFlow/Pagination/components/Line";
 export type { OnboardFlowProps } from "./OnboardFlow/types";
-export type { TextStyles } from "./OnboardFlow/types";
-export type { PageData } from "./OnboardFlow/types";
+export type { TextStyles, PageData, PageEntryData } from "./OnboardFlow/types";

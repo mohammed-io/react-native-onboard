@@ -9,6 +9,7 @@ export interface FormEntryPageProps {
   fields: FormEntryField[];
 }
 
+const PAGE_DATA_ENTRY_TYPE = 'FormEntryPageData';
 export const FormEntryPage: FC<OnboardPageConfigParams<FormEntryPageProps>> = ({
                                                                                  style,
                                                                                  titleStyle,
@@ -19,6 +20,7 @@ export const FormEntryPage: FC<OnboardPageConfigParams<FormEntryPageProps>> = ({
                                                                                  totalPages,
                                                                                  goToNextPage,
                                                                                  goToPreviousPage,
+                                                                                 onSaveData,
                                                                                  textAlign,
                                                                                  width,
                                                                                  props,
@@ -30,9 +32,18 @@ export const FormEntryPage: FC<OnboardPageConfigParams<FormEntryPageProps>> = ({
       <KeyboardAvoidingView>
         <TextStack title={pageData?.title} subtitle={pageData?.subtitle} textStyle={textStyle} textAlign={textAlign}
                    titleStyle={titleStyle} subtitleStyle={subtitleStyle}></TextStack>
-        {/* Map props.fields to <Input/> */}
         {props.fields.map((input, index) => (
-          <View style={styles.fieldRow} key={index}><InputField {...input} /></View>
+          <View style={styles.fieldRow} key={index}><InputField onSetText={(text: string) => {
+            if (onSaveData) {
+              onSaveData({
+                type: PAGE_DATA_ENTRY_TYPE,
+                data: {
+                  id: input.id,
+                  value: text
+              }});
+            }
+            input.onSetText(text);
+          }} {...input} /></View>
         ))}
       </KeyboardAvoidingView>
     </View>
