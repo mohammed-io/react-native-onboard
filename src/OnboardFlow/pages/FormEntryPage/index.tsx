@@ -42,7 +42,9 @@ export const FormEntryPage: FC<OnboardPageConfigParams<FormEntryPageProps>> = ({
                   value: text
               }});
             }
-            input.onSetText(text);
+            if (input.onSetText) {
+              input.onSetText(text);
+            }
           }} {...input} /></View>
         ))}
       </KeyboardAvoidingView>

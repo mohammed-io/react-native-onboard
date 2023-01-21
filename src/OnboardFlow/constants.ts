@@ -27,3 +27,4 @@ export const DEFAULT_PAGE_TYPES = {
   formEntry: FormEntryPage,
   multipleChoice: MultipleChoicePage,
 };
+
