@@ -1,4 +1,4 @@
-import React, { FC, useRef, useState } from 'react';
+import React, { FC, useEffect, useRef, useState } from 'react'
 import {
   Dimensions,
   ImageBackground,
@@ -8,220 +8,263 @@ import {
   Text,
   TouchableOpacity,
   View,
-} from 'react-native';
-import { Page, PageProps } from './Page';
-import { SwiperFlatList } from './Swiper';
-import { SwiperFlatListRefProps } from './Swiper/SwiperProps';
+} from 'react-native'
+import { Page, PageProps } from './Page'
+import { SwiperFlatList } from './Swiper'
+import { SwiperFlatListRefProps } from './Swiper/SwiperProps'
 import {
   COLOR_PAGINATION_DEFAULT,
   COLOR_PAGINATION_SELECTED_DEFAULT,
   DEFAULT_PAGE_TYPES,
   HORIZONTAL_PADDING_DEFAULT,
   VERTICAL_PADDING_DEFAULT,
-} from './constants';
-import { PrimaryButton, PrimaryButtonProps } from './components/PrimaryButton';
-import { Footer } from './Footer';
-import { SecondaryButton, SecondaryButtonProps } from './components/SecondaryButton';
-import { OnboardFlowProps, PaginationProps, TextStyles } from './types';
-import { DotPagination } from './Pagination/components/Dot';
-import { BottomSheet, BottomSheetRef } from './BottomSheet';
+} from './constants'
+import { PrimaryButton, PrimaryButtonProps } from './components/PrimaryButton'
+import { Footer } from './Footer'
+import { SecondaryButton, SecondaryButtonProps } from './components/SecondaryButton'
+import { OnboardFlowProps, PageData, PaginationProps, TextStyles } from './types'
+import { DotPagination } from './Pagination/components/Dot'
+import { BottomSheet, BottomSheetRef } from './BottomSheet'
 
-export type PageType = string;
+export type PageType = string
 
 export type OnboardPageConfigParams<Props> = {
-  props: Props;
-} & PageProps & TextStyles;
+  props: Props
+} & PageProps &
+  TextStyles
 
 export type OnboardPageTypesConfig = {
-  [key: string]: (params: OnboardPageConfigParams<any>) => React.ReactNode;
-};
-
-
-export interface OnboardComponents {
-  PrimaryButtonComponent: FC<PrimaryButtonProps>;
-  SecondaryButtonComponent: FC<SecondaryButtonProps>;
-  PaginationComponent: FC<PaginationProps>;
+  [key: string]: (params: OnboardPageConfigParams<any>) => React.ReactNode
 }
 
+export interface OnboardComponents {
+  PrimaryButtonComponent: FC<PrimaryButtonProps>
+  SecondaryButtonComponent: FC<SecondaryButtonProps>
+  PaginationComponent: FC<PaginationProps>
+}
 
 export const OnboardFlow: FC<OnboardFlowProps & TextStyles> = ({
-                                                                 backgroundImageUri,
-                                                                 dismissButtonStyle,
-                                                                 fullscreenModal,
-                                                                 textStyle,
-                                                                 onBack,
-                                                                 onDone,
-                                                                 onNext,
-                                                                 onSaveData,
-                                                                 pageStyle,
-                                                                 pageTypes = DEFAULT_PAGE_TYPES,
-                                                                 pages,
-                                                                 paginationColor = COLOR_PAGINATION_DEFAULT,
-                                                                 paginationSelectedColor = COLOR_PAGINATION_SELECTED_DEFAULT,
-                                                                 showDismissButton = false,
-                                                                 enableScroll = true,
-                                                                 style,
-                                                                 subtitleStyle,
-                                                                 textAlign = 'center',
-                                                                 titleStyle,
-                                                                 type = 'fullscreen',
-                                                                 HeaderComponent = () => null,
-                                                                 customVariables= {},
-                                                                 FooterComponent = Footer,
-                                                                 PaginationComponent = DotPagination,
-                                                                 PrimaryButtonComponent = PrimaryButton,
-                                                                 SecondaryButtonComponent = SecondaryButton,
-                                                                 ...props
-                                                               }) => {
-  const pagesMerged = { ...DEFAULT_PAGE_TYPES, ...pageTypes };
-  const [currentPage, setCurrentPage] = useState(0);
-  const [modalVisible, setModalVisible] = useState(true);
-  const swiperRef = useRef<SwiperFlatListRefProps>();
-  const [containerWidth, setContainerWidth] = useState<number>(Dimensions.get('window').width ?? 0);
-  const windowHeight = Dimensions.get('window').height;
-  const [maxTextHeight, setMaxTextHeight] = useState<number>(0);
-  const bottomSheetRef = useRef<BottomSheetRef>(null);
-  const showHeader = pages[currentPage].showHeader == undefined || pages[currentPage].showHeader === true;
-  const showFooter = pages[currentPage].showFooter == undefined || pages[currentPage].showFooter === true;
-
+  backgroundImageUri,
+  dismissButtonStyle,
+  fullscreenModal,
+  textStyle,
+  onBack,
+  onDone,
+  onNext,
+  onSaveData,
+  pageStyle,
+  pageTypes = DEFAULT_PAGE_TYPES,
+  pages,
+  paginationColor = COLOR_PAGINATION_DEFAULT,
+  paginationSelectedColor = COLOR_PAGINATION_SELECTED_DEFAULT,
+  showDismissButton = false,
+  enableScroll = true,
+  style,
+  subtitleStyle,
+  textAlign = 'center',
+  titleStyle,
+  type = 'fullscreen',
+  HeaderComponent = () => null,
+  customVariables = {},
+  FooterComponent = Footer,
+  PaginationComponent = DotPagination,
+  PrimaryButtonComponent = PrimaryButton,
+  SecondaryButtonComponent = SecondaryButton,
+  ...props
+}) => {
+  const pagesMerged = { ...DEFAULT_PAGE_TYPES, ...pageTypes }
+  const [currentPage, setCurrentPage] = useState(0)
+  const [modalVisible, setModalVisible] = useState(true)
+  const swiperRef = useRef<SwiperFlatListRefProps>()
+  const [containerWidth, setContainerWidth] = useState<number>(Dimensions.get('window').width ?? 0)
+  const windowHeight = Dimensions.get('window').height
+  const [maxTextHeight, setMaxTextHeight] = useState<number>(0)
+  const bottomSheetRef = useRef<BottomSheetRef>(null)
+  const showHeader =
+    pages[currentPage].showHeader == undefined || pages[currentPage].showHeader === true
+  const showFooter =
+    pages[currentPage].showFooter == undefined || pages[currentPage].showFooter === true
 
   const components: OnboardComponents = {
     PrimaryButtonComponent,
     PaginationComponent,
     SecondaryButtonComponent,
-  };
+  }
 
   const onLayout = (event) => {
-    setContainerWidth(event.nativeEvent.layout.width);
-  };
+    setContainerWidth(event.nativeEvent.layout.width)
+  }
+
+  useEffect(() => {
+    if (onSaveData && pages[currentPage]) {
+      onSaveData(
+        {
+          data: {
+            type: 'IMPRESSION',
+          },
+          source: pages[currentPage],
+        },
+        getPageId(pages[currentPage], currentPage)
+      )
+    }
+  }, [currentPage])
+
+  function getPageId(pageData: PageData, index: number) {
+    return pageData?.id ?? index + ''
+  }
 
   function handleIndexChange(item: { index: number; prevIndex: number }) {
     if (item.index != currentPage) {
-      setCurrentPage(item.index);
+      setCurrentPage(item.index)
     }
     if (item.index > item.prevIndex) {
-      onNext && onNext();
-      return;
+      onNext && onNext()
+      return
     }
     if (item.index < item.prevIndex) {
-      onBack && onBack();
-      return;
+      onBack && onBack()
+      return
     }
   }
 
   function handleDone() {
-    setModalVisible(false);
-    bottomSheetRef.current?.close();
-    onDone && onDone();
+    setModalVisible(false)
+    bottomSheetRef.current?.close()
+    onDone && onDone()
   }
 
   function goToNextPage() {
     if (currentPage >= pages?.length - 1) {
-      handleDone();
-      return;
+      handleDone()
+      return
     }
-    const nextIndex = swiperRef.current?.getCurrentIndex() + 1;
-    setCurrentPage(nextIndex);
-    swiperRef.current?.scrollToIndex({ index: nextIndex });
+    const nextIndex = swiperRef.current?.getCurrentIndex() + 1
+    setCurrentPage(nextIndex)
+    swiperRef.current?.scrollToIndex({ index: nextIndex })
   }
 
   function goToPreviousPage() {
-    const nextIndex = swiperRef.current?.getCurrentIndex() - 1;
+    const nextIndex = swiperRef.current?.getCurrentIndex() - 1
     if (nextIndex < 0) {
-      return;
+      return
     }
-    setCurrentPage(nextIndex);
-    swiperRef.current?.scrollToIndex({ index: nextIndex });
+    setCurrentPage(nextIndex)
+    swiperRef.current?.scrollToIndex({ index: nextIndex })
   }
 
   function DismissButton() {
-    return (<View style={[styles.dismissIconContainer]}>
-      <TouchableOpacity onPress={handleDone}>
-        <Text style={[styles.dismissIcon, dismissButtonStyle]}>✕</Text>
-      </TouchableOpacity>
-    </View>);
+    return (
+      <View style={[styles.dismissIconContainer]}>
+        <TouchableOpacity onPress={handleDone}>
+          <Text style={[styles.dismissIcon, dismissButtonStyle]}>✕</Text>
+        </TouchableOpacity>
+      </View>
+    )
   }
 
   function updateMaxTextHeight(height: number) {
     if (height > maxTextHeight) {
-      setMaxTextHeight(height);
+      setMaxTextHeight(height)
     }
   }
-  
-  const content = <ImageBackground source={{ uri: backgroundImageUri }} resizeMode='cover'
-                                   style={styles.backgroundImage}>
-    <SafeAreaView style={[styles.container, style]} onLayout={onLayout}>
-      {showDismissButton && <DismissButton />}
-      {showHeader && HeaderComponent &&
-        <HeaderComponent goToPreviousPage={goToPreviousPage} pages={pages} style={styles.header} Components={components}
-                         currentPage={currentPage} goToNextPage={goToNextPage} />}
-      <View style={styles.content}>
-        <SwiperFlatList scrollEnabled={enableScroll} onChangeIndex={handleIndexChange} ref={swiperRef}
-                        index={currentPage}>
-          {pages?.map((pageData, index) => (
-            pageData.type && pagesMerged[pageData.type] ?
-              <View key={index} style={{ width: containerWidth }}>{pagesMerged[pageData.type]({
-                style: pageStyle,
-                textStyle,
-                titleStyle,
-                subtitleStyle,
-                pageData,
-                pageIndex: index,
-                currentPage,
-                totalPages: pages?.length,
-                goToNextPage,
-                goToPreviousPage,
-                textAlign,
-                width: containerWidth,
-                props: pageData.props,
-                customVariables,
-                onSaveData: (data) => {
-                  if (onSaveData) {
-                    onSaveData(data, pageData?.id ?? (index + ''));
-                  }
-                }
 
-              })}</View> :
-              <View key={index} style={{ width: containerWidth }}>
-                <Page
-                  style={pageStyle}
-                  titleStyle={titleStyle}
-                  subtitleStyle={subtitleStyle}
-                  textStyle={textStyle}
-                  pageData={pageData}
-                  pageIndex={index}
-                  currentPage={currentPage}
-                  totalPages={pages?.length}
-                  goToNextPage={goToNextPage}
-                  goToPreviousPage={goToPreviousPage}
-                  textAlign={textAlign}
-                  width={containerWidth}
-                  maxTextHeight={maxTextHeight}
-                  setMaxTextHeight={updateMaxTextHeight}
-                  customVariables={customVariables}
-                  onSaveData={(data) => {
-                    if (onSaveData) {
-                      onSaveData(data, pageData?.id ?? (index + ''));
-                    }
-                  }}
-                />
-              </View>
-          ))}
-        </SwiperFlatList>
-      </View>
-      {showFooter && <FooterComponent paginationSelectedColor={paginationSelectedColor}
-                                      paginationColor={paginationColor}
-                                      goToPreviousPage={goToPreviousPage} pages={pages} style={styles.footer}
-                                      Components={components}
-                                      currentPage={currentPage} goToNextPage={goToNextPage} />}
-    </SafeAreaView>
-  </ImageBackground>;
+  const content = (
+    <ImageBackground
+      source={{ uri: backgroundImageUri }}
+      resizeMode="cover"
+      style={styles.backgroundImage}
+    >
+      <SafeAreaView style={[styles.container, style]} onLayout={onLayout}>
+        {showDismissButton && <DismissButton />}
+        {showHeader && HeaderComponent && (
+          <HeaderComponent
+            goToPreviousPage={goToPreviousPage}
+            pages={pages}
+            style={styles.header}
+            Components={components}
+            currentPage={currentPage}
+            goToNextPage={goToNextPage}
+          />
+        )}
+        <View style={styles.content}>
+          <SwiperFlatList
+            scrollEnabled={enableScroll}
+            onChangeIndex={handleIndexChange}
+            ref={swiperRef}
+            index={currentPage}
+          >
+            {pages?.map((pageData, index) =>
+              pageData.type && pagesMerged[pageData.type] ? (
+                <View key={index} style={{ width: containerWidth }}>
+                  {pagesMerged[pageData.type]({
+                    style: pageStyle,
+                    textStyle,
+                    titleStyle,
+                    subtitleStyle,
+                    pageData,
+                    pageIndex: index,
+                    currentPage,
+                    totalPages: pages?.length,
+                    goToNextPage,
+                    goToPreviousPage,
+                    textAlign,
+                    width: containerWidth,
+                    props: pageData.props,
+                    customVariables,
+                    onSaveData: (data) => {
+                      if (onSaveData) {
+                        onSaveData(data, getPageId(pageData, index))
+                      }
+                    },
+                  })}
+                </View>
+              ) : (
+                <View key={index} style={{ width: containerWidth }}>
+                  <Page
+                    style={pageStyle}
+                    titleStyle={titleStyle}
+                    subtitleStyle={subtitleStyle}
+                    textStyle={textStyle}
+                    pageData={pageData}
+                    pageIndex={index}
+                    currentPage={currentPage}
+                    totalPages={pages?.length}
+                    goToNextPage={goToNextPage}
+                    goToPreviousPage={goToPreviousPage}
+                    textAlign={textAlign}
+                    width={containerWidth}
+                    maxTextHeight={maxTextHeight}
+                    setMaxTextHeight={updateMaxTextHeight}
+                    customVariables={customVariables}
+                    onSaveData={(data) => {
+                      if (onSaveData) {
+                        onSaveData(data, getPageId(pageData, index))
+                      }
+                    }}
+                  />
+                </View>
+              )
+            )}
+          </SwiperFlatList>
+        </View>
+        {showFooter && (
+          <FooterComponent
+            paginationSelectedColor={paginationSelectedColor}
+            paginationColor={paginationColor}
+            goToPreviousPage={goToPreviousPage}
+            pages={pages}
+            style={styles.footer}
+            Components={components}
+            currentPage={currentPage}
+            goToNextPage={goToNextPage}
+          />
+        )}
+      </SafeAreaView>
+    </ImageBackground>
+  )
 
   if (fullscreenModal === true || type === 'fullscreen') {
-    return (
-      <Modal visible={modalVisible}>
-        {content}
-      </Modal>);
+    return <Modal visible={modalVisible}>{content}</Modal>
   }
 
   if (type === 'bottom-sheet') {
@@ -229,11 +272,11 @@ export const OnboardFlow: FC<OnboardFlowProps & TextStyles> = ({
       <BottomSheet height={windowHeight * 0.8} ref={bottomSheetRef}>
         {content}
       </BottomSheet>
-    );
+    )
   }
 
-  return (content);
-};
+  return content
+}
 
 const styles = StyleSheet.create({
   footer: {
@@ -294,5 +337,4 @@ const styles = StyleSheet.create({
     paddingHorizontal: HORIZONTAL_PADDING_DEFAULT,
     width: '100%',
   },
-
-});
+})

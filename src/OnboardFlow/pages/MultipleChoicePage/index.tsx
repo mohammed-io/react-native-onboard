@@ -36,13 +36,14 @@ export const MultipleChoicePage: FC<OnboardPageConfigParams<MultipleChoicePagePr
   textAlign,
   width,
   props,
+  pageIndex,
 }) => {
   const [selectedOptions, setSelectedOptions] = useState<MultipleChoiceField[]>([])
   const maxChoices = props.maxChoices ?? 1
   const minChoices = props.minChoices ?? 1
 
   useEffect(() => {
-    if (onSaveData) {
+    if (onSaveData && currentPage == pageIndex) {
       onSaveData({ data: selectedOptions, source: pageData })
     }
   }, [selectedOptions])
