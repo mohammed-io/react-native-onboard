@@ -1,89 +1,128 @@
-import React, { FC, useState } from 'react';
-import { KeyboardAvoidingView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { COLOR_TEXT_DEFAULT, HORIZONTAL_PADDING_DEFAULT, VERTICAL_PADDING_DEFAULT } from '../../constants';
-import { OnboardPageConfigParams } from '../../index';
-import { TextStack } from '../../components/TextStack';
+import React, { FC, useEffect, useState } from 'react'
+import { KeyboardAvoidingView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import {
+  COLOR_TEXT_DEFAULT,
+  HORIZONTAL_PADDING_DEFAULT,
+  VERTICAL_PADDING_DEFAULT,
+} from '../../constants'
+import { OnboardPageConfigParams } from '../../index'
+import { TextStack } from '../../components/TextStack'
 
 export interface MultipleChoicePageProps {
-  fields: MultipleChoiceField[];
-  minChoices?: number;
-  maxChoices?: number;
-  onOptionsUpdated?: (options: MultipleChoiceField[]) => void;
+  fields: MultipleChoiceField[]
+  minChoices?: number
+  maxChoices?: number
+  onOptionsUpdated?: (options: MultipleChoiceField[]) => void
 }
 
 export interface MultipleChoiceField {
-  id?: string;
-  title?: string;
-  subtitle?: string;
-  onUpdated?: (selected: boolean) => void;
+  id?: string
+  title?: string
+  subtitle?: string
+  onUpdated?: (selected: boolean) => void
 }
-
+const PAGE_DATA_ENTRY_TYPE = 'MultipleChoicePageData'
 export const MultipleChoicePage: FC<OnboardPageConfigParams<MultipleChoicePageProps>> = ({
-                                                                                           style,
-                                                                                           titleStyle,
-                                                                                           subtitleStyle,
-                                                                                           textStyle,
-                                                                                           pageData,
-                                                                                           currentPage,
-                                                                                           totalPages,
-                                                                                           goToNextPage,
-                                                                                           goToPreviousPage,
-                                                                                           textAlign,
-                                                                                           width,
-                                                                                           props,
-                                                                                         }) => {
+  style,
+  titleStyle,
+  subtitleStyle,
+  textStyle,
+  pageData,
+  currentPage,
+  totalPages,
+  goToNextPage,
+  goToPreviousPage,
+  onSaveData,
+  textAlign,
+  width,
+  props,
+}) => {
+  const [selectedOptions, setSelectedOptions] = useState<MultipleChoiceField[]>([])
+  const maxChoices = props.maxChoices ?? 1
+  const minChoices = props.minChoices ?? 1
 
-  const [selectedOptions, setSelectedOptions] = useState<MultipleChoiceField[]>([]);
-  const maxChoices = props.maxChoices ?? 1;
-  const minChoices = props.minChoices ?? 1;
+  useEffect(() => {
+    if (onSaveData) {
+      onSaveData({ data: selectedOptions, source: PAGE_DATA_ENTRY_TYPE })
+    }
+  }, [selectedOptions])
 
-  const Field: FC<MultipleChoiceField> = ({ id, title, subtitle, onUpdated}) => {
-    const [isSelected, setIsSelected] = useState(false);
+  const Field: FC<MultipleChoiceField> = ({ id, title, subtitle, onUpdated }) => {
     // Create touchable opacity for each field and use field style
+    const selected = selectedOptions.find(
+      (option) => option.id === id && option.title === title && option.subtitle === subtitle
+    )
+
     return (
-      <TouchableOpacity onPress={() => {
-        if (!isSelected) {
-          if (maxChoices && selectedOptions.length >= maxChoices) {
-            return;
-          } else {
-            setIsSelected(true);
-            if (onUpdated) {
-              onUpdated(true);
+      <TouchableOpacity
+        onPress={() => {
+          if (!selected) {
+            if (maxChoices && selectedOptions.length >= maxChoices) {
+              return
+            } else {
+              setSelectedOptions([...selectedOptions, { id, title, subtitle, onUpdated }])
             }
+          } else {
+            setSelectedOptions(
+              selectedOptions.filter((option) => {
+                return !(option.id === id && option.title === title && option.subtitle === subtitle)
+              })
+            )
           }
-        } else {
-          setIsSelected(false);
-          if (onUpdated) {
-            onUpdated(false);
-          }
-        }
-      }}>
-        <View style={[styles.option, isSelected ? styles.optionSelected : null]}>
+        }}
+      >
+        <View
+          style={[
+            styles.option,
+            {
+              paddingVertical: VERTICAL_PADDING_DEFAULT,
+              paddingHorizontal: HORIZONTAL_PADDING_DEFAULT,
+              marginTop: VERTICAL_PADDING_DEFAULT,
+            },
+            selected ? styles.optionSelected : null,
+          ]}
+        >
           <Text style={[styles.optionTitle]}>{title}</Text>
         </View>
-      </TouchableOpacity>);
-  };
+      </TouchableOpacity>
+    )
+  }
 
   return (
-    <View style={[styles.container, style, { width: width }]}>
+    <View
+      style={[
+        styles.container,
+        { paddingHorizontal: HORIZONTAL_PADDING_DEFAULT },
+        style,
+        { width: width },
+      ]}
+    >
       <KeyboardAvoidingView>
-        <TextStack title={pageData?.title} subtitle={pageData?.subtitle} textStyle={textStyle} textAlign={textAlign}
-                   titleStyle={titleStyle} subtitleStyle={subtitleStyle}></TextStack>
+        <TextStack
+          title={pageData?.title}
+          subtitle={pageData?.subtitle}
+          textStyle={textStyle}
+          textAlign={textAlign}
+          titleStyle={titleStyle}
+          subtitleStyle={subtitleStyle}
+        ></TextStack>
         {/* Map props.fields to <Input/> */}
-        {props.fields.map((input, index) => (
-          <View style={styles.fieldRow} key={index}><Field {...input} /></View>
-        ))}
+        <View style={{ marginTop: VERTICAL_PADDING_DEFAULT }}>
+          {props.fields.map((input, index) => (
+            <View key={index}>
+              <Field {...input} />
+            </View>
+          ))}
+        </View>
       </KeyboardAvoidingView>
     </View>
-  );
-};
-
+  )
+}
 
 const styles = StyleSheet.create({
   optionTitle: {
     fontSize: 18,
     color: COLOR_TEXT_DEFAULT,
-    // marginBottom: VERTICAL_PADDING_DEFAULT / 2,
     width: '100%',
   },
   option: {
@@ -93,24 +132,12 @@ const styles = StyleSheet.create({
     borderColor: '#E6E6E6',
     borderRadius: 12,
     fontSize: 18,
-    paddingVertical: VERTICAL_PADDING_DEFAULT,
-    paddingHorizontal: HORIZONTAL_PADDING_DEFAULT,
-    marginTop: VERTICAL_PADDING_DEFAULT,
-  },
-  errorText: {
-    fontSize: 14,
-    color: '#a60202',
-    marginTop: VERTICAL_PADDING_DEFAULT/4
   },
   optionSelected: {
     borderColor: '#000',
   },
-  fieldRow: {
-    // marginBottom: VERTICAL_PADDING_DEFAULT/4,
-  },
   container: {
     flex: 1,
     flexDirection: 'column',
-    paddingHorizontal: HORIZONTAL_PADDING_DEFAULT,
   },
-});
+})
