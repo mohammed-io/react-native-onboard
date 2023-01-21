@@ -21,7 +21,7 @@ export interface MultipleChoiceField {
   subtitle?: string
   onUpdated?: (selected: boolean) => void
 }
-const PAGE_DATA_ENTRY_TYPE = 'MultipleChoicePageData'
+
 export const MultipleChoicePage: FC<OnboardPageConfigParams<MultipleChoicePageProps>> = ({
   style,
   titleStyle,
@@ -43,7 +43,7 @@ export const MultipleChoicePage: FC<OnboardPageConfigParams<MultipleChoicePagePr
 
   useEffect(() => {
     if (onSaveData) {
-      onSaveData({ data: selectedOptions, source: PAGE_DATA_ENTRY_TYPE })
+      onSaveData({ data: selectedOptions, source: pageData })
     }
   }, [selectedOptions])
 

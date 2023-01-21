@@ -63,8 +63,5 @@ export interface OnboardFlowProps {
 
 export interface StepResponseData {
   data: any
-  /**
-   * A unique identifier that shows where the data came from
-   */
-  source: string
+  source: PageData
 }
