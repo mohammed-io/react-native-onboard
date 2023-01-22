@@ -101,6 +101,7 @@ export const OnboardFlow: FC<OnboardFlowProps & TextStyles> = ({
         {
           data: {
             type: 'IMPRESSION',
+            page: pages[currentPage].type ?? 'default',
           },
           source: pages[currentPage],
         },
