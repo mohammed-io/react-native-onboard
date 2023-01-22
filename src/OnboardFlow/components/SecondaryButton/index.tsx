@@ -1,32 +1,31 @@
-import React, { FC } from 'react';
-import { StyleSheet, Text, TouchableOpacity, ViewStyle } from 'react-native';
-import { VERTICAL_PADDING_DEFAULT } from '../../constants';
-import { TextStyles } from '../../types';
+import React, { FC } from 'react'
+import { StyleSheet, Text, TouchableOpacity, ViewStyle } from 'react-native'
+import { VERTICAL_PADDING_DEFAULT } from '../../constants'
+import { TextStyles } from '../../types'
 
 export interface SecondaryButtonProps {
-  currentPage?: number;
-  onPress: () => void;
-  style?: ViewStyle;
-  totalPages?: number;
-  text: string;
+  currentPage?: number
+  onPress: () => void
+  style?: ViewStyle
+  totalPages?: number
+  text: string
 }
 
 export const SecondaryButton: FC<SecondaryButtonProps & TextStyles> = ({
-                                                                         currentPage,
-                                                                         onPress,
-                                                                         style,
-                                                                         totalPages,
-                                                                         text,
-                                                                         textStyle,
-                                                                         ...props
-                                                                       }) => {
+  currentPage,
+  onPress,
+  style,
+  totalPages,
+  text,
+  textStyle,
+  ...props
+}) => {
   return (
     <TouchableOpacity activeOpacity={0.6} style={[styles.button, style]} onPress={onPress}>
-      <Text
-        style={[styles.buttonText, textStyle ? { fontFamily: StyleSheet.flatten(textStyle).fontFamily } : null]}>{text}</Text>
+      <Text style={[styles.buttonText, textStyle]}>{text}</Text>
     </TouchableOpacity>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   button: {
@@ -42,4 +41,4 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     paddingVertical: 16,
   },
-});
+})
