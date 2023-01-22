@@ -34,6 +34,7 @@ export interface TextStyles {
 }
 
 export interface OnboardFlowProps {
+  autoPlay?: boolean
   backgroundImageUri?: string
   dismissButtonStyle?: StyleProp<ViewStyle> | undefined
   /**

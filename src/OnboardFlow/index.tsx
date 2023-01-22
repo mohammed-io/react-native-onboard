@@ -44,6 +44,7 @@ export interface OnboardComponents {
 }
 
 export const OnboardFlow: FC<OnboardFlowProps & TextStyles> = ({
+  autoPlay = false,
   backgroundImageUri,
   dismissButtonStyle,
   fullscreenModal,
@@ -193,6 +194,7 @@ export const OnboardFlow: FC<OnboardFlowProps & TextStyles> = ({
             onChangeIndex={handleIndexChange}
             ref={swiperRef}
             index={currentPage}
+            autoplay={autoPlay}
           >
             {pages?.map((pageData, index) =>
               pageData.type && pagesMerged[pageData.type] ? (
