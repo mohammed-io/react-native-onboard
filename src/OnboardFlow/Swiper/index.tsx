@@ -164,10 +164,6 @@ export const SwiperFlatList = React.forwardRef(
           // Disable end loop animation unless `autoplayLoopKeepAnimation` prop configured
           const animate = !isLastIndexEnd || autoplayLoopKeepAnimation
 
-          if (nextIndex == data.length - 1) {
-            setAutoPlayDisturbed(true)
-          }
-
           _scrollToIndex({ index: nextIndex, animated: animate }, { useOnChangeIndex: true })
         }, autoplayDelay * MILLISECONDS)
       }
@@ -178,12 +174,12 @@ export const SwiperFlatList = React.forwardRef(
 
     const _onMomentumScrollEnd: FlatListProps<unknown>['onMomentumScrollEnd'] = (event) => {
       // NOTE: Method not executed when call "flatListElement?.current?.scrollToIndex"
-      if (autoplay && !autoPlayDisturbed) {
-        setAutoPlayDisturbed(true)
-      }
       if (ignoreOnMomentumScrollEnd) {
         setIgnoreOnMomentumScrollEnd(false)
         return
+      }
+      if (autoplay && !autoPlayDisturbed) {
+        setAutoPlayDisturbed(true)
       }
       onMomentumScrollEnd?.({ index: currentIndex }, event)
     }
