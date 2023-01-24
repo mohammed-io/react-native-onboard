@@ -37,6 +37,8 @@ export const MultipleChoicePage: FC<OnboardPageConfigParams<MultipleChoicePagePr
   width,
   props,
   pageIndex,
+  primaryColor,
+  secondaryColor,
 }) => {
   const [selectedOptions, setSelectedOptions] = useState<MultipleChoiceField[]>([])
   const maxChoices = props.maxChoices ?? 1
@@ -80,10 +82,10 @@ export const MultipleChoicePage: FC<OnboardPageConfigParams<MultipleChoicePagePr
               paddingHorizontal: HORIZONTAL_PADDING_DEFAULT,
               marginTop: VERTICAL_PADDING_DEFAULT,
             },
-            selected ? styles.optionSelected : null,
+            selected ? { borderColor: primaryColor } : { borderColor: secondaryColor },
           ]}
         >
-          <Text style={[styles.optionTitle]}>{title}</Text>
+          <Text style={[styles.optionTitle, textStyle]}>{title}</Text>
         </View>
       </TouchableOpacity>
     )
@@ -133,9 +135,6 @@ const styles = StyleSheet.create({
     borderColor: '#E6E6E6',
     borderRadius: 12,
     fontSize: 18,
-  },
-  optionSelected: {
-    borderColor: '#000',
   },
   container: {
     flex: 1,

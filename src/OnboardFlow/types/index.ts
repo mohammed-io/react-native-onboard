@@ -60,6 +60,8 @@ export interface OnboardFlowProps {
   PaginationComponent?: FC<PaginationProps>
   PrimaryButtonComponent?: FC<PrimaryButtonProps>
   SecondaryButtonComponent?: FC<SecondaryButtonProps>
+  primaryColor?: string
+  secondaryColor?: string
 }
 
 export interface StepResponseData {

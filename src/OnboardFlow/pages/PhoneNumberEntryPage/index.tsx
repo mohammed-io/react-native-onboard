@@ -73,11 +73,11 @@ export const PhoneNumberEntryPage: FC<OnboardPageConfigParams<PhoneNumberEntryPa
           keyboardType="phone-pad"
           onChangeText={onChangePhoneNumber}
         />
-        {isInvalid && (
+        {isInvalid ? (
           <Text style={[textStyle, styles.errorText]}>
             {props.invalidNumberText ?? 'Invalid phone number'}
           </Text>
-        )}
+        ) : null}
       </>
     )
   }

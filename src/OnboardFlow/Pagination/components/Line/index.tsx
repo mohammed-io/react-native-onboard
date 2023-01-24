@@ -2,8 +2,8 @@ import React, { FC, useEffect, useState } from 'react'
 import { Animated, StyleSheet, View } from 'react-native'
 import { PaginationProps } from '../../../types'
 import {
-  COLOR_PAGINATION_DEFAULT,
-  COLOR_PAGINATION_SELECTED_DEFAULT,
+  COLOR_PRIMARY_DEFAULT,
+  COLOR_SECONDARY_DEFAULT,
   HORIZONTAL_PADDING_DEFAULT,
   VERTICAL_PADDING_DEFAULT,
 } from '../../../constants'
@@ -11,8 +11,8 @@ import {
 export const LinePagination: FC<PaginationProps> = ({
   currentPage,
   totalPages,
-  paginationSelectedColor = COLOR_PAGINATION_SELECTED_DEFAULT,
-  paginationColor = COLOR_PAGINATION_DEFAULT,
+  paginationSelectedColor = COLOR_PRIMARY_DEFAULT,
+  paginationColor = COLOR_SECONDARY_DEFAULT,
 }) => {
   const [selectedPage, setSelectedPage] = useState(-1)
   const [sizeAnim, setSizeAnim] = useState(getToValue()) // TODO: make this animated

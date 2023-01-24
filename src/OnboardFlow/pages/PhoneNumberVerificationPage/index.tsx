@@ -88,11 +88,11 @@ export const PhoneNumberVerificationPage: FC<
             {props.resendCodeText ?? `Resend code`}
           </Text>
         </TouchableOpacity>
-        {isInvalid && (
+        {isInvalid ? (
           <Text style={[textStyle, styles.errorText]}>
             {props.invalidCodeText ?? 'Invalid code'}
           </Text>
-        )}
+        ) : null}
       </KeyboardAvoidingView>
     </View>
   )

@@ -22,6 +22,8 @@ export interface PageProps {
   width: number
   maxTextHeight?: number
   setMaxTextHeight?: (height: number) => void
+  primaryColor?: string
+  secondaryColor?: string
 }
 
 export const Page: FC<PageProps & TextStyles> = ({
@@ -41,6 +43,8 @@ export const Page: FC<PageProps & TextStyles> = ({
   maxTextHeight,
   setMaxTextHeight,
   onSaveData,
+  primaryColor,
+  secondaryColor,
 }) => {
   const [imageHeight, setImageHeight] = useState(0)
   const [containerHeight, setContainerHeight] = useState<number>(

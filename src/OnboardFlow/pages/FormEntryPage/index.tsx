@@ -22,6 +22,8 @@ export const FormEntryPage: FC<OnboardPageConfigParams<FormEntryPageProps>> = ({
   onSaveData,
   textAlign,
   width,
+  primaryColor,
+  secondaryColor,
   props,
 }) => {
   return (
@@ -62,6 +64,8 @@ export const FormEntryPage: FC<OnboardPageConfigParams<FormEntryPageProps>> = ({
                   input.onSetText(text)
                 }
               }}
+              primaryColor={primaryColor}
+              secondaryColor={secondaryColor}
               {...input}
             />
           </View>

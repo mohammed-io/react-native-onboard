@@ -13,8 +13,8 @@ import { Page, PageProps } from './Page'
 import { SwiperFlatList } from './Swiper'
 import { SwiperFlatListRefProps } from './Swiper/SwiperProps'
 import {
-  COLOR_PAGINATION_DEFAULT,
-  COLOR_PAGINATION_SELECTED_DEFAULT,
+  COLOR_PRIMARY_DEFAULT,
+  COLOR_SECONDARY_DEFAULT,
   DEFAULT_PAGE_TYPES,
   HORIZONTAL_PADDING_DEFAULT,
   VERTICAL_PADDING_DEFAULT,
@@ -56,8 +56,8 @@ export const OnboardFlow: FC<OnboardFlowProps & TextStyles> = ({
   pageStyle,
   pageTypes = DEFAULT_PAGE_TYPES,
   pages,
-  paginationColor = COLOR_PAGINATION_DEFAULT,
-  paginationSelectedColor = COLOR_PAGINATION_SELECTED_DEFAULT,
+  paginationColor = COLOR_SECONDARY_DEFAULT,
+  paginationSelectedColor = COLOR_PRIMARY_DEFAULT,
   showDismissButton = false,
   enableScroll = true,
   style,
@@ -71,6 +71,8 @@ export const OnboardFlow: FC<OnboardFlowProps & TextStyles> = ({
   PaginationComponent = DotPagination,
   PrimaryButtonComponent = PrimaryButton,
   SecondaryButtonComponent = SecondaryButton,
+  primaryColor = COLOR_PRIMARY_DEFAULT,
+  secondaryColor = COLOR_SECONDARY_DEFAULT,
   ...props
 }) => {
   const pagesMerged = { ...DEFAULT_PAGE_TYPES, ...pageTypes }
@@ -214,6 +216,8 @@ export const OnboardFlow: FC<OnboardFlowProps & TextStyles> = ({
                     width: containerWidth,
                     props: pageData.props,
                     customVariables,
+                    primaryColor,
+                    secondaryColor,
                     onSaveData: (data) => {
                       if (onSaveData) {
                         onSaveData(data, getPageId(pageData, index))
@@ -239,6 +243,8 @@ export const OnboardFlow: FC<OnboardFlowProps & TextStyles> = ({
                     maxTextHeight={maxTextHeight}
                     setMaxTextHeight={updateMaxTextHeight}
                     customVariables={customVariables}
+                    primaryColor={primaryColor}
+                    secondaryColor={secondaryColor}
                     onSaveData={(data) => {
                       if (onSaveData) {
                         onSaveData(data, getPageId(pageData, index))
