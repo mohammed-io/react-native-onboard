@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useState } from 'react'
-import { KeyboardAvoidingView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import {
   COLOR_TEXT_DEFAULT,
   HORIZONTAL_PADDING_DEFAULT,
@@ -100,24 +100,22 @@ export const MultipleChoicePage: FC<OnboardPageConfigParams<MultipleChoicePagePr
         { width: width },
       ]}
     >
-      <KeyboardAvoidingView>
-        <TextStack
-          title={pageData?.title}
-          subtitle={pageData?.subtitle}
-          textStyle={textStyle}
-          textAlign={textAlign}
-          titleStyle={titleStyle}
-          subtitleStyle={subtitleStyle}
-        ></TextStack>
-        {/* Map props.fields to <Input/> */}
-        <View style={{ marginTop: VERTICAL_PADDING_DEFAULT }}>
-          {props.fields.map((input, index) => (
-            <View key={index}>
-              <Field {...input} />
-            </View>
-          ))}
-        </View>
-      </KeyboardAvoidingView>
+      <TextStack
+        title={pageData?.title}
+        subtitle={pageData?.subtitle}
+        textStyle={textStyle}
+        textAlign={textAlign}
+        titleStyle={titleStyle}
+        subtitleStyle={subtitleStyle}
+      />
+      {/* Map props.fields to <Input/> */}
+      <ScrollView style={{ marginTop: VERTICAL_PADDING_DEFAULT }}>
+        {props.fields.map((input, index) => (
+          <View key={index}>
+            <Field {...input} />
+          </View>
+        ))}
+      </ScrollView>
     </View>
   )
 }

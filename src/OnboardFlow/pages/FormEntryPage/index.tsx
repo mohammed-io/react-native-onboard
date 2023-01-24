@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import { KeyboardAvoidingView, StyleSheet, View } from 'react-native'
+import { KeyboardAvoidingView, ScrollView, StyleSheet, View } from 'react-native'
 import { HORIZONTAL_PADDING_DEFAULT, VERTICAL_PADDING_DEFAULT } from '../../constants'
 import { OnboardPageConfigParams } from '../../index'
 import { FormEntryField, InputField } from '../../components/InputField'
@@ -34,7 +34,6 @@ export const FormEntryPage: FC<OnboardPageConfigParams<FormEntryPageProps>> = ({
         {
           width: width,
           paddingHorizontal: HORIZONTAL_PADDING_DEFAULT,
-          paddingTop: VERTICAL_PADDING_DEFAULT,
         },
       ]}
     >
@@ -46,30 +45,33 @@ export const FormEntryPage: FC<OnboardPageConfigParams<FormEntryPageProps>> = ({
           textAlign={textAlign}
           titleStyle={titleStyle}
           subtitleStyle={subtitleStyle}
-        ></TextStack>
-        {props.fields.map((input, index) => (
-          <View style={[{ marginTop: VERTICAL_PADDING_DEFAULT }]} key={index}>
-            <InputField
-              onSetText={(text: string) => {
-                if (onSaveData) {
-                  onSaveData({
-                    source: pageData,
-                    data: {
-                      id: input.id,
-                      value: text,
-                    },
-                  })
-                }
-                if (input.onSetText) {
-                  input.onSetText(text)
-                }
-              }}
-              primaryColor={primaryColor}
-              secondaryColor={secondaryColor}
-              {...input}
-            />
-          </View>
-        ))}
+        />
+        <ScrollView>
+          {props.fields.map((input, index) => (
+            <View style={[{ marginTop: VERTICAL_PADDING_DEFAULT }]} key={index}>
+              <InputField
+                onSetText={(text: string) => {
+                  if (onSaveData) {
+                    onSaveData({
+                      source: pageData,
+                      data: {
+                        id: input.id,
+                        value: text,
+                      },
+                    })
+                  }
+                  if (input.onSetText) {
+                    input.onSetText(text)
+                  }
+                }}
+                primaryColor={primaryColor}
+                secondaryColor={secondaryColor}
+                textStyle={textStyle}
+                {...input}
+              />
+            </View>
+          ))}
+        </ScrollView>
       </KeyboardAvoidingView>
     </View>
   )
