@@ -2,6 +2,7 @@ import { PhoneNumberEntryPage } from './pages/PhoneNumberEntryPage'
 import { PhoneNumberVerificationPage } from './pages/PhoneNumberVerificationPage'
 import { FormEntryPage } from './pages/FormEntryPage'
 import { MultipleChoicePage } from './pages/MultipleChoicePage'
+import { InputField } from './components/InputField'
 
 export const PRIMARY_BUTTON_TEXT_DEFAULT = 'Continue'
 export const PRIMARY_BUTTON_TEXT_LAST_PAGE_DEFAULT = 'Get started'
@@ -25,4 +26,10 @@ export const DEFAULT_PAGE_TYPES = {
   phoneNumberVerification: PhoneNumberVerificationPage,
   formEntry: FormEntryPage,
   multipleChoice: MultipleChoicePage,
+}
+
+export const DEFAULT_FORM_ENTRY_TYPES = {
+  text: InputField,
+  email: InputField,
+  password: InputField,
 }

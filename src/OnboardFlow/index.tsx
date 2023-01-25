@@ -15,6 +15,7 @@ import { SwiperFlatListRefProps } from './Swiper/SwiperProps'
 import {
   COLOR_PRIMARY_DEFAULT,
   COLOR_SECONDARY_DEFAULT,
+  DEFAULT_FORM_ENTRY_TYPES,
   DEFAULT_PAGE_TYPES,
   HORIZONTAL_PADDING_DEFAULT,
   VERTICAL_PADDING_DEFAULT,
@@ -25,6 +26,7 @@ import { SecondaryButton, SecondaryButtonProps } from './components/SecondaryBut
 import { OnboardFlowProps, PageData, PaginationProps, TextStyles } from './types'
 import { DotPagination } from './Pagination/components/Dot'
 import { BottomSheet, BottomSheetRef } from './BottomSheet'
+import { FormEntryField } from './components/InputField'
 
 export type PageType = string
 
@@ -33,8 +35,17 @@ export type OnboardPageConfigParams<Props> = {
 } & PageProps &
   TextStyles
 
+export type FormElementTypeConfigParams<Props> = {
+  props: Props
+} & FormEntryField &
+  TextStyles
+
 export type OnboardPageTypesConfig = {
   [key: string]: (params: OnboardPageConfigParams<any>) => React.ReactNode
+}
+
+export type FormElementTypesConfig = {
+  [key: string]: (params: FormElementTypeConfigParams<any>) => React.ReactNode
 }
 
 export interface OnboardComponents {
@@ -55,6 +66,7 @@ export const OnboardFlow: FC<OnboardFlowProps & TextStyles> = ({
   onSaveData,
   pageStyle,
   pageTypes = DEFAULT_PAGE_TYPES,
+  formElementTypes = DEFAULT_FORM_ENTRY_TYPES,
   pages,
   paginationColor = COLOR_SECONDARY_DEFAULT,
   paginationSelectedColor = COLOR_PRIMARY_DEFAULT,
@@ -76,6 +88,7 @@ export const OnboardFlow: FC<OnboardFlowProps & TextStyles> = ({
   ...props
 }) => {
   const pagesMerged = { ...DEFAULT_PAGE_TYPES, ...pageTypes }
+  const formElementsMerged = { ...DEFAULT_FORM_ENTRY_TYPES, ...formElementTypes }
   const [currentPage, setCurrentPage] = useState(0)
   const [modalVisible, setModalVisible] = useState(true)
   const swiperRef = useRef<SwiperFlatListRefProps>()
@@ -202,6 +215,7 @@ export const OnboardFlow: FC<OnboardFlowProps & TextStyles> = ({
               pageData.type && pagesMerged[pageData.type] ? (
                 <View key={index} style={{ width: containerWidth }}>
                   {pagesMerged[pageData.type]({
+                    formElementTypes: formElementTypes,
                     style: pageStyle,
                     textStyle,
                     titleStyle,
@@ -228,6 +242,7 @@ export const OnboardFlow: FC<OnboardFlowProps & TextStyles> = ({
               ) : (
                 <View key={index} style={{ width: containerWidth }}>
                   <Page
+                    formElementTypes={formElementTypes}
                     style={pageStyle}
                     titleStyle={titleStyle}
                     subtitleStyle={subtitleStyle}

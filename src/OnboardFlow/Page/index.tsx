@@ -7,6 +7,7 @@ import {
 } from '../constants'
 import { PageData, StepResponseData, TextStyles } from '../types'
 import { TextStack } from '../components/TextStack'
+import { FormElementTypesConfig } from '../index'
 
 export interface PageProps {
   style?: StyleProp<ViewStyle> | undefined
@@ -14,6 +15,7 @@ export interface PageProps {
   currentPage: number
   totalPages: number
   pageData: PageData
+  formElementTypes?: FormElementTypesConfig
   customVariables?: object
   goToNextPage: () => void
   onSaveData?: (data: StepResponseData) => void

@@ -1,6 +1,6 @@
 import { StyleProp, TextStyle, ViewStyle } from 'react-native'
 import { FC, ReactElement } from 'react'
-import { OnboardPageTypesConfig, PageType } from '../index'
+import { FormElementTypesConfig, OnboardPageTypesConfig, PageType } from '../index'
 import { HeaderProps } from '../Header'
 import { FooterProps } from '../Footer'
 import { PrimaryButtonProps } from '../components/PrimaryButton'
@@ -47,6 +47,7 @@ export interface OnboardFlowProps {
   onSaveData?: (data: StepResponseData, pageId: string) => void
   pageStyle?: StyleProp<ViewStyle> | undefined
   pageTypes?: OnboardPageTypesConfig
+  formElementTypes?: FormElementTypesConfig
   pages?: PageData[]
   paginationColor?: string
   paginationSelectedColor?: string

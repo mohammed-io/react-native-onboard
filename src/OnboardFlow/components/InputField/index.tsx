@@ -1,18 +1,20 @@
 import React, { FC, useState } from 'react'
-import { StyleSheet, Text, TextInput } from 'react-native'
+import { StyleSheet, Text, TextInput, View } from 'react-native'
 import { HORIZONTAL_PADDING_DEFAULT, VERTICAL_PADDING_DEFAULT } from '../../constants'
 import { TextStyles } from '../../types'
 
 export interface FormEntryField {
   label?: string
   placeHolder?: string
-  type: 'email' | 'text' | 'password'
+  type: string
   onSetText?: (text: string) => void
   getErrorMessage?: (text: string) => string
   isRequired?: boolean
+  prefill?: string
   id: string
   primaryColor?: string
   secondaryColor?: string
+  props?: any
 }
 
 export const InputField: FC<FormEntryField & TextStyles> = ({
@@ -25,10 +27,11 @@ export const InputField: FC<FormEntryField & TextStyles> = ({
   id,
   primaryColor,
   secondaryColor,
+  prefill
 }) => {
   const [errorMessage, setErrorMessage] = useState('')
   const [isFocused, setIsFocused] = useState(false)
-  const [text, setText] = useState('')
+  const [text, setText] = useState(prefill ?? '')
 
   function getKeyboardType(inputType: string) {
     if (inputType == 'email') {
@@ -55,7 +58,7 @@ export const InputField: FC<FormEntryField & TextStyles> = ({
   }
 
   return (
-    <>
+    <View style={{marginTop: VERTICAL_PADDING_DEFAULT}}>
       <TextInput
         onFocus={() => {
           setIsFocused(true)
@@ -90,7 +93,7 @@ export const InputField: FC<FormEntryField & TextStyles> = ({
         }}
       />
       {errorMessage ? <Text style={[textStyle, styles.errorText]}>{errorMessage}</Text> : null}
-    </>
+    </View>
   )
 }
 
