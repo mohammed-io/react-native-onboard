@@ -34,6 +34,8 @@ export const PhoneNumberVerificationPage: FC<
   textAlign = TEXT_ALIGN_DEFAULT,
   width,
   props,
+  canContinue,
+  setCanContinue,
 }) => {
   const [verificationCode, setVerificationCode] = useState('')
   const [isInvalid, setIsInvalid] = useState(false)

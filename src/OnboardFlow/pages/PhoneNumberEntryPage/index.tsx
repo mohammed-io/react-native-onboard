@@ -22,6 +22,8 @@ export const PhoneNumberEntryPage: FC<OnboardPageConfigParams<PhoneNumberEntryPa
   textAlign,
   width,
   props,
+  canContinue,
+  setCanContinue,
 }) => {
   const [phoneNumber, setPhoneNumber] = useState('')
   const [isInvalid, setIsInvalid] = useState(false)

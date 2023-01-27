@@ -26,6 +26,8 @@ export const FormEntryPage: FC<OnboardPageConfigParams<FormEntryPageProps>> = ({
   primaryColor,
   secondaryColor,
   props,
+  canContinue,
+  setCanContinue,
 }) => {
   return (
     <View

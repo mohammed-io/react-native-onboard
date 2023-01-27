@@ -67,6 +67,8 @@ export const OnboardFlow: FC<OnboardFlowProps & TextStyles> = ({
   onDone,
   onNext,
   onSaveData,
+  canContinue,
+  setCanContinue,
   pageStyle,
   pageTypes = DEFAULT_PAGE_TYPES,
   formElementTypes = DEFAULT_FORM_ENTRY_TYPES,
@@ -99,10 +101,8 @@ export const OnboardFlow: FC<OnboardFlowProps & TextStyles> = ({
   const windowHeight = Dimensions.get('window').height
   const [maxTextHeight, setMaxTextHeight] = useState<number>(0)
   const bottomSheetRef = useRef<BottomSheetRef>(null)
-  const showHeader =
-    pages[currentPage].showHeader == undefined || pages[currentPage].showHeader === true
-  const showFooter =
-    pages[currentPage].showFooter == undefined || pages[currentPage].showFooter === true
+  const showHeader = pages[currentPage].showHeader !== false
+  const showFooter = pages[currentPage].showFooter !== false
 
   const components: OnboardComponents = {
     PrimaryButtonComponent,
@@ -195,8 +195,8 @@ export const OnboardFlow: FC<OnboardFlowProps & TextStyles> = ({
       style={styles.backgroundImage}
     >
       <SafeAreaView style={[styles.container, style]} onLayout={onLayout}>
-        {showDismissButton && <DismissButton />}
-        {showHeader && HeaderComponent && (
+        {showDismissButton ? <DismissButton /> : null}
+        {showHeader && HeaderComponent ? (
           <HeaderComponent
             goToPreviousPage={goToPreviousPage}
             pages={pages}
@@ -205,10 +205,10 @@ export const OnboardFlow: FC<OnboardFlowProps & TextStyles> = ({
             currentPage={currentPage}
             goToNextPage={goToNextPage}
           />
-        )}
+        ) : null}
         <View style={styles.content}>
           <SwiperFlatList
-            scrollEnabled={enableScroll}
+            scrollEnabled={enableScroll && canContinue}
             onChangeIndex={handleIndexChange}
             ref={swiperRef}
             index={currentPage}
@@ -219,10 +219,24 @@ export const OnboardFlow: FC<OnboardFlowProps & TextStyles> = ({
                 <View key={index} style={{ width: containerWidth }}>
                   {pagesMerged[pageData.type]({
                     formElementTypes: formElementTypes,
-                    style: [pageStyle, pageData.style ? pageData.style as StyleProp<ViewStyle> : null],
-                    textStyle: [textStyle, pageData.textStyle ? pageData.textStyle as StyleProp<TextStyle> : null],
-                    titleStyle: [titleStyle, pageData.titleStyle ? pageData.titleStyle as StyleProp<TextStyle> : null],
-                    subtitleStyle: [subtitleStyle, pageData.subtitleStyle ? pageData.subtitleStyle as StyleProp<TextStyle> : null],
+                    style: [
+                      pageStyle,
+                      pageData.style ? (pageData.style as StyleProp<ViewStyle>) : null,
+                    ],
+                    textStyle: [
+                      textStyle,
+                      pageData.textStyle ? (pageData.textStyle as StyleProp<TextStyle>) : null,
+                    ],
+                    titleStyle: [
+                      titleStyle,
+                      pageData.titleStyle ? (pageData.titleStyle as StyleProp<TextStyle>) : null,
+                    ],
+                    subtitleStyle: [
+                      subtitleStyle,
+                      pageData.subtitleStyle
+                        ? (pageData.subtitleStyle as StyleProp<TextStyle>)
+                        : null,
+                    ],
                     pageData,
                     pageIndex: index,
                     currentPage,
@@ -240,16 +254,32 @@ export const OnboardFlow: FC<OnboardFlowProps & TextStyles> = ({
                         onSaveData(data, getPageId(pageData, index))
                       }
                     },
+                    setCanContinue,
+                    canContinue,
                   })}
                 </View>
               ) : (
                 <View key={index} style={{ width: containerWidth }}>
                   <Page
                     formElementTypes={formElementTypes}
-                    style={[pageStyle, pageData.style ? pageData.style as StyleProp<ViewStyle> : null]}
-                    titleStyle={[titleStyle, pageData.titleStyle ? pageData.titleStyle as StyleProp<TextStyle> : null]}
-                    subtitleStyle={[subtitleStyle, pageData.subtitleStyle ? pageData.subtitleStyle as StyleProp<TextStyle> : null]}
-                    textStyle={[textStyle, pageData.textStyle ? pageData.textStyle as StyleProp<TextStyle> : null]}
+                    style={[
+                      pageStyle,
+                      pageData.style ? (pageData.style as StyleProp<ViewStyle>) : null,
+                    ]}
+                    titleStyle={[
+                      titleStyle,
+                      pageData.titleStyle ? (pageData.titleStyle as StyleProp<TextStyle>) : null,
+                    ]}
+                    subtitleStyle={[
+                      subtitleStyle,
+                      pageData.subtitleStyle
+                        ? (pageData.subtitleStyle as StyleProp<TextStyle>)
+                        : null,
+                    ]}
+                    textStyle={[
+                      textStyle,
+                      pageData.textStyle ? (pageData.textStyle as StyleProp<TextStyle>) : null,
+                    ]}
                     pageData={pageData}
                     pageIndex={index}
                     currentPage={currentPage}
@@ -268,37 +298,26 @@ export const OnboardFlow: FC<OnboardFlowProps & TextStyles> = ({
                         onSaveData(data, getPageId(pageData, index))
                       }
                     }}
+                    setCanContinue={setCanContinue}
+                    canContinue={canContinue}
                   />
                 </View>
               )
             )}
           </SwiperFlatList>
         </View>
-        {showFooter ? (
-          <FooterComponent
-            paginationSelectedColor={paginationSelectedColor}
-            paginationColor={paginationColor}
-            goToPreviousPage={goToPreviousPage}
-            pages={pages}
-            style={styles.footer}
-            Components={components}
-            currentPage={currentPage}
-            goToNextPage={goToNextPage}
-          />
-        ) : (
-          <View style={{ opacity: 0 }}>
-            <FooterComponent
-              paginationSelectedColor={paginationSelectedColor}
-              paginationColor={paginationColor}
-              goToPreviousPage={goToPreviousPage}
-              pages={pages}
-              style={styles.footer}
-              Components={components}
-              currentPage={currentPage}
-              goToNextPage={goToNextPage}
-            />
-          </View>
-        )}
+        <FooterComponent
+          paginationSelectedColor={paginationSelectedColor}
+          paginationColor={paginationColor}
+          goToPreviousPage={goToPreviousPage}
+          pages={pages}
+          style={[styles.footer, !showFooter ? { opacity: 0.0 } : null]}
+          Components={components}
+          currentPage={currentPage}
+          goToNextPage={goToNextPage}
+          canContinue={canContinue}
+          setCanContinue={setCanContinue}
+        />
       </SafeAreaView>
     </ImageBackground>
   )

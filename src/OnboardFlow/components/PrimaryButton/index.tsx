@@ -13,6 +13,7 @@ export interface PrimaryButtonProps {
   style?: ViewStyle
   totalPages?: number
   text?: string
+  disabled?: boolean
 }
 
 export const PrimaryButton: FC<PrimaryButtonProps & TextStyles> = ({
@@ -22,10 +23,16 @@ export const PrimaryButton: FC<PrimaryButtonProps & TextStyles> = ({
   totalPages,
   text = PRIMARY_BUTTON_TEXT_DEFAULT,
   textStyle,
+  disabled = false,
   ...props
 }) => {
   return (
-    <TouchableOpacity activeOpacity={0.8} style={[styles.button, style]} onPress={goToNextPage}>
+    <TouchableOpacity
+      activeOpacity={0.8}
+      style={[styles.button, style, disabled ? { opacity: 0.2 } : null]}
+      onPress={goToNextPage}
+      disabled={disabled}
+    >
       <Text style={[styles.buttonText, textStyle]}>{text}</Text>
     </TouchableOpacity>
   )

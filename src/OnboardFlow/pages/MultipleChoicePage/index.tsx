@@ -48,6 +48,8 @@ export const MultipleChoicePage: FC<OnboardPageConfigParams<MultipleChoicePagePr
   primaryColor,
   secondaryColor,
   formElementTypes,
+  canContinue,
+  setCanContinue,
 }) => {
   const [selectedOptions, setSelectedOptions] = useState<MultipleChoiceField[]>([])
   const maxChoices = props.maxChoices ?? 1
@@ -158,6 +160,8 @@ export const MultipleChoicePage: FC<OnboardPageConfigParams<MultipleChoicePagePr
                     formElementTypes,
                     minChoices,
                     maxChoices,
+                    canContinue,
+                    setCanContinue,
                   },
                 })
               ) : (

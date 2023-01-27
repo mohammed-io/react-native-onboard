@@ -22,9 +22,9 @@ export interface PageData {
   showHeader?: boolean
   subtitle?: string
   title?: string
-  type?: PageType,
+  type?: PageType
   style?: StyleProp<ViewStyle> | any
-  props?: any,
+  props?: any
   subtitleStyle?: StyleProp<TextStyle> | undefined
   textStyle?: StyleProp<TextStyle> | undefined
   titleStyle?: StyleProp<TextStyle> | undefined
@@ -49,6 +49,8 @@ export interface OnboardFlowProps {
   onDone?: () => void
   onNext?: () => void
   onSaveData?: (data: StepResponseData, pageId: string) => void
+  canContinue?: boolean
+  setCanContinue?: (value: boolean) => void
   pageStyle?: StyleProp<ViewStyle> | undefined
   pageTypes?: OnboardPageTypesConfig
   formElementTypes?: FormElementTypesConfig

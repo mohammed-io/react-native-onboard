@@ -26,6 +26,8 @@ export interface PageProps {
   setMaxTextHeight?: (height: number) => void
   primaryColor?: string
   secondaryColor?: string
+  canContinue?: boolean
+  setCanContinue?: (value: boolean) => void
 }
 
 export const Page: FC<PageProps & TextStyles> = ({
