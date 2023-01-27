@@ -1,5 +1,12 @@
 import React, { FC, useEffect, useState } from 'react'
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import {
+  KeyboardAvoidingView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native'
 import {
   COLOR_TEXT_DEFAULT,
   HORIZONTAL_PADDING_DEFAULT,
@@ -22,6 +29,7 @@ export interface MultipleChoiceField {
   onUpdated?: (selected: boolean) => void
 }
 
+const multipleChoiceElement = 'multipleChoiceElement';
 export const MultipleChoicePage: FC<OnboardPageConfigParams<MultipleChoicePageProps>> = ({
   style,
   titleStyle,
@@ -39,6 +47,7 @@ export const MultipleChoicePage: FC<OnboardPageConfigParams<MultipleChoicePagePr
   pageIndex,
   primaryColor,
   secondaryColor,
+  formElementTypes,
 }) => {
   const [selectedOptions, setSelectedOptions] = useState<MultipleChoiceField[]>([])
   const maxChoices = props.maxChoices ?? 1
@@ -95,27 +104,44 @@ export const MultipleChoicePage: FC<OnboardPageConfigParams<MultipleChoicePagePr
     <View
       style={[
         styles.container,
-        { paddingHorizontal: HORIZONTAL_PADDING_DEFAULT },
         style,
-        { width: width },
+        {
+          width: width,
+          paddingHorizontal: HORIZONTAL_PADDING_DEFAULT,
+        },
       ]}
     >
-      <TextStack
-        title={pageData?.title}
-        subtitle={pageData?.subtitle}
-        textStyle={textStyle}
-        textAlign={textAlign}
-        titleStyle={titleStyle}
-        subtitleStyle={subtitleStyle}
-      />
-      {/* Map props.fields to <Input/> */}
-      <ScrollView style={{ marginTop: VERTICAL_PADDING_DEFAULT }}>
-        {props.fields.map((input, index) => (
-          <View key={index}>
-            <Field {...input} />
-          </View>
-        ))}
-      </ScrollView>
+      <KeyboardAvoidingView>
+        <TextStack
+          title={pageData?.title}
+          subtitle={pageData?.subtitle}
+          textStyle={textStyle}
+          textAlign={textAlign}
+          titleStyle={titleStyle}
+          subtitleStyle={subtitleStyle}
+        />
+        {/* Map props.fields to <Input/> */}
+        <ScrollView style={{ marginTop: VERTICAL_PADDING_DEFAULT }}>
+          {props.fields.map((input, index) => (
+            <View key={index}>
+              {formElementTypes[multipleChoiceElement] ? (
+                formElementTypes[multipleChoiceElement]({
+                  onSaveData: onSaveData,
+                  label: input.title,
+                  placeHolder: '',
+                  type: '',
+                  id: input.id,
+                  primaryColor: primaryColor,
+                  secondaryColor: secondaryColor,
+                  props: input,
+                })
+              ) : (
+                <Field {...input} />
+              )}
+            </View>
+          ))}
+        </ScrollView>
+      </KeyboardAvoidingView>
     </View>
   )
 }

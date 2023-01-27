@@ -7,7 +7,11 @@ export interface FormEntryField {
   label?: string
   placeHolder?: string
   type: string
+  /**
+   * @deprecated Use onSaveData instead
+   */
   onSetText?: (text: string) => void
+  onSaveData?: (data: any) => void
   getErrorMessage?: (text: string) => string
   isRequired?: boolean
   prefill?: string
