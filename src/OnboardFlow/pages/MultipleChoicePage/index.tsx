@@ -104,11 +104,11 @@ export const MultipleChoicePage: FC<OnboardPageConfigParams<MultipleChoicePagePr
     <View
       style={[
         styles.container,
-        style,
         {
           width: width,
           paddingHorizontal: HORIZONTAL_PADDING_DEFAULT,
         },
+        style,
       ]}
     >
       <KeyboardAvoidingView>

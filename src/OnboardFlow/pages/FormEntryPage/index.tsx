@@ -31,11 +31,11 @@ export const FormEntryPage: FC<OnboardPageConfigParams<FormEntryPageProps>> = ({
     <View
       style={[
         styles.container,
-        style,
         {
           width: width,
           paddingHorizontal: HORIZONTAL_PADDING_DEFAULT,
         },
+        style,
       ]}
     >
       <KeyboardAvoidingView>
