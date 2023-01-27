@@ -55,11 +55,28 @@ export const MultipleChoicePage: FC<OnboardPageConfigParams<MultipleChoicePagePr
   const maxChoices = props.maxChoices ?? 1
   const minChoices = props.minChoices ?? 1
 
+  function updateCanContinue() {
+    if (currentPage == pageIndex) {
+      if (setCanContinue) {
+        if (selectedOptions.length < minChoices || selectedOptions.length > maxChoices) {
+          setCanContinue(false)
+        } else {
+          setCanContinue(true)
+        }
+      }
+    }
+  }
+
   useEffect(() => {
+    updateCanContinue()
     if (onSaveData && currentPage == pageIndex) {
       onSaveData({ data: selectedOptions, source: pageData })
     }
   }, [selectedOptions])
+
+  useEffect(() => {
+    updateCanContinue()
+  }, [currentPage])
 
   const Field: FC<MultipleChoiceField> = ({ id, title, subtitle, onUpdated }) => {
     // Create touchable opacity for each field and use field style
@@ -138,6 +155,8 @@ export const MultipleChoicePage: FC<OnboardPageConfigParams<MultipleChoicePagePr
                   id: input.id,
                   primaryColor: primaryColor,
                   secondaryColor: secondaryColor,
+                  canContinue: canContinue,
+                  setCanContinue: setCanContinue,
                   props: {
                     ...input,
                     selectedOptions,

@@ -68,6 +68,14 @@ export const FormEntryPage: FC<OnboardPageConfigParams<FormEntryPageProps>> = ({
                       input.onSetText(text)
                     }
                   },
+                  onSaveData: (data) => {
+                    if (onSaveData) {
+                      onSaveData({
+                        source: pageData,
+                        data: data,
+                      })
+                    }
+                  },
                   label: input.label,
                   placeHolder: input.placeHolder,
                   type: input.type,
@@ -77,6 +85,8 @@ export const FormEntryPage: FC<OnboardPageConfigParams<FormEntryPageProps>> = ({
                   id: input.id,
                   primaryColor: primaryColor,
                   secondaryColor: secondaryColor,
+                  canContinue: canContinue,
+                  setCanContinue: setCanContinue,
                   props: input.props,
                 })
               ) : (
@@ -95,9 +105,19 @@ export const FormEntryPage: FC<OnboardPageConfigParams<FormEntryPageProps>> = ({
                       input.onSetText(text)
                     }
                   }}
+                  onSaveData={(data) => {
+                    if (onSaveData) {
+                      onSaveData({
+                        source: pageData,
+                        data: data,
+                      })
+                    }
+                  }}
                   primaryColor={primaryColor}
                   secondaryColor={secondaryColor}
                   textStyle={textStyle}
+                  canContinue={canContinue}
+                  setCanContinue={setCanContinue}
                   {...input}
                 />
               )}

@@ -18,6 +18,8 @@ export interface FormEntryField {
   id: string
   primaryColor?: string
   secondaryColor?: string
+  canContinue?: boolean
+  setCanContinue?: (value: boolean) => void
   props?: any
 }
 
@@ -31,7 +33,7 @@ export const InputField: FC<FormEntryField & TextStyles> = ({
   id,
   primaryColor,
   secondaryColor,
-  prefill
+  prefill,
 }) => {
   const [errorMessage, setErrorMessage] = useState('')
   const [isFocused, setIsFocused] = useState(false)
@@ -62,7 +64,7 @@ export const InputField: FC<FormEntryField & TextStyles> = ({
   }
 
   return (
-    <View style={{marginTop: VERTICAL_PADDING_DEFAULT}}>
+    <View style={{ marginTop: VERTICAL_PADDING_DEFAULT }}>
       <TextInput
         onFocus={() => {
           setIsFocused(true)
