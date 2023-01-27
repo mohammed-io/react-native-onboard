@@ -121,7 +121,7 @@ export const MultipleChoicePage: FC<OnboardPageConfigParams<MultipleChoicePagePr
           subtitleStyle={subtitleStyle}
         />
         {/* Map props.fields to <Input/> */}
-        <ScrollView style={{ marginTop: VERTICAL_PADDING_DEFAULT }}>
+        <ScrollView style={{ marginTop: VERTICAL_PADDING_DEFAULT }} contentContainerStyle={{paddingBottom: 140}}>
           {props.fields.map((input, index) => (
             <View key={index}>
               {formElementTypes[multipleChoiceElement] ? (
@@ -133,7 +133,7 @@ export const MultipleChoicePage: FC<OnboardPageConfigParams<MultipleChoicePagePr
                   id: input.id,
                   primaryColor: primaryColor,
                   secondaryColor: secondaryColor,
-                  props: input,
+                  props: {...input, selectedOptions, setSelectedOptions},
                 })
               ) : (
                 <Field {...input} />

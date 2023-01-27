@@ -271,7 +271,7 @@ export const OnboardFlow: FC<OnboardFlowProps & TextStyles> = ({
             )}
           </SwiperFlatList>
         </View>
-        {showFooter && (
+        {showFooter ? (
           <FooterComponent
             paginationSelectedColor={paginationSelectedColor}
             paginationColor={paginationColor}
@@ -282,6 +282,19 @@ export const OnboardFlow: FC<OnboardFlowProps & TextStyles> = ({
             currentPage={currentPage}
             goToNextPage={goToNextPage}
           />
+        ) : (
+          <View style={{opacity: 0}}>
+            <FooterComponent
+              paginationSelectedColor={paginationSelectedColor}
+              paginationColor={paginationColor}
+              goToPreviousPage={goToPreviousPage}
+              pages={pages}
+              style={styles.footer}
+              Components={components}
+              currentPage={currentPage}
+              goToNextPage={goToNextPage}
+            />
+          </View>
         )}
       </SafeAreaView>
     </ImageBackground>
