@@ -156,6 +156,8 @@ export const MultipleChoicePage: FC<OnboardPageConfigParams<MultipleChoicePagePr
                     primaryColor,
                     secondaryColor,
                     formElementTypes,
+                    minChoices,
+                    maxChoices,
                   },
                 })
               ) : (
