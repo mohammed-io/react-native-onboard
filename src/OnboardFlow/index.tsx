@@ -4,10 +4,13 @@ import {
   ImageBackground,
   Modal,
   SafeAreaView,
+  StyleProp,
   StyleSheet,
   Text,
+  TextStyle,
   TouchableOpacity,
   View,
+  ViewStyle,
 } from 'react-native'
 import { Page, PageProps } from './Page'
 import { SwiperFlatList } from './Swiper'
@@ -216,10 +219,10 @@ export const OnboardFlow: FC<OnboardFlowProps & TextStyles> = ({
                 <View key={index} style={{ width: containerWidth }}>
                   {pagesMerged[pageData.type]({
                     formElementTypes: formElementTypes,
-                    style: pageStyle,
-                    textStyle,
-                    titleStyle,
-                    subtitleStyle,
+                    style: [pageStyle, pageData.style ? pageData.style as StyleProp<ViewStyle> : null],
+                    textStyle: [textStyle, pageData.textStyle ? pageData.textStyle as StyleProp<TextStyle> : null],
+                    titleStyle: [titleStyle, pageData.titleStyle ? pageData.titleStyle as StyleProp<TextStyle> : null],
+                    subtitleStyle: [subtitleStyle, pageData.subtitleStyle ? pageData.subtitleStyle as StyleProp<TextStyle> : null],
                     pageData,
                     pageIndex: index,
                     currentPage,
@@ -243,10 +246,10 @@ export const OnboardFlow: FC<OnboardFlowProps & TextStyles> = ({
                 <View key={index} style={{ width: containerWidth }}>
                   <Page
                     formElementTypes={formElementTypes}
-                    style={pageStyle}
-                    titleStyle={titleStyle}
-                    subtitleStyle={subtitleStyle}
-                    textStyle={textStyle}
+                    style={[pageStyle, pageData.style ? pageData.style as StyleProp<ViewStyle> : null]}
+                    titleStyle={[titleStyle, pageData.titleStyle ? pageData.titleStyle as StyleProp<TextStyle> : null]}
+                    subtitleStyle={[subtitleStyle, pageData.subtitleStyle ? pageData.subtitleStyle as StyleProp<TextStyle> : null]}
+                    textStyle={[textStyle, pageData.textStyle ? pageData.textStyle as StyleProp<TextStyle> : null]}
                     pageData={pageData}
                     pageIndex={index}
                     currentPage={currentPage}
@@ -283,7 +286,7 @@ export const OnboardFlow: FC<OnboardFlowProps & TextStyles> = ({
             goToNextPage={goToNextPage}
           />
         ) : (
-          <View style={{opacity: 0}}>
+          <View style={{ opacity: 0 }}>
             <FooterComponent
               paginationSelectedColor={paginationSelectedColor}
               paginationColor={paginationColor}

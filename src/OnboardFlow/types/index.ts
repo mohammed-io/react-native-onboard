@@ -22,8 +22,12 @@ export interface PageData {
   showHeader?: boolean
   subtitle?: string
   title?: string
-  type?: PageType
-  props?: any
+  type?: PageType,
+  style?: StyleProp<ViewStyle> | any
+  props?: any,
+  subtitleStyle?: StyleProp<TextStyle> | undefined
+  textStyle?: StyleProp<TextStyle> | undefined
+  titleStyle?: StyleProp<TextStyle> | undefined
 }
 
 export interface TextStyles {

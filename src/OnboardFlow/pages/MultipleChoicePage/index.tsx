@@ -29,7 +29,7 @@ export interface MultipleChoiceField {
   onUpdated?: (selected: boolean) => void
 }
 
-const multipleChoiceElement = 'multipleChoiceElement';
+const multipleChoiceElement = 'multipleChoiceElement'
 export const MultipleChoicePage: FC<OnboardPageConfigParams<MultipleChoicePageProps>> = ({
   style,
   titleStyle,
@@ -121,7 +121,10 @@ export const MultipleChoicePage: FC<OnboardPageConfigParams<MultipleChoicePagePr
           subtitleStyle={subtitleStyle}
         />
         {/* Map props.fields to <Input/> */}
-        <ScrollView style={{ marginTop: VERTICAL_PADDING_DEFAULT }} contentContainerStyle={{paddingBottom: 140}}>
+        <ScrollView
+          style={{ marginTop: VERTICAL_PADDING_DEFAULT }}
+          contentContainerStyle={{ paddingBottom: 140 }}
+        >
           {props.fields.map((input, index) => (
             <View key={index}>
               {formElementTypes[multipleChoiceElement] ? (
@@ -133,7 +136,27 @@ export const MultipleChoicePage: FC<OnboardPageConfigParams<MultipleChoicePagePr
                   id: input.id,
                   primaryColor: primaryColor,
                   secondaryColor: secondaryColor,
-                  props: {...input, selectedOptions, setSelectedOptions},
+                  props: {
+                    ...input,
+                    selectedOptions,
+                    setSelectedOptions,
+                    titleStyle,
+                    subtitleStyle,
+                    textStyle,
+                    pageData,
+                    currentPage,
+                    totalPages,
+                    goToNextPage,
+                    goToPreviousPage,
+                    onSaveData,
+                    textAlign,
+                    width,
+                    props,
+                    pageIndex,
+                    primaryColor,
+                    secondaryColor,
+                    formElementTypes,
+                  },
                 })
               ) : (
                 <Field {...input} />
