@@ -1,4 +1,5 @@
-import { render, screen, fireEvent } from '@testing-library/react-native';
+import React from 'react'
+import { render, fireEvent } from '@testing-library/react-native';
 import { CarouselCard } from '..';
 
 describe('CarouselCard', () => {
@@ -13,7 +14,7 @@ describe('CarouselCard', () => {
     const { getByText, getByRole } = render(<CarouselCard cardData={cardData}/>)
 
     expect(getByText(cardData.title)).toBeDefined();
-    expect(getByText(cardData.subTitle)).toBeDefined();
+    expect(getByText(cardData.subtitle)).toBeDefined();
     expect(getByRole('image').props.source).toEqual({ uri: cardData.imageUri });
   });
 

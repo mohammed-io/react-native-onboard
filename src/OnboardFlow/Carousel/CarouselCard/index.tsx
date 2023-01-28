@@ -41,6 +41,7 @@ export const CarouselCard: FC<CarouselCardProps> = ({ style, onPress, cardData, 
           <View style={styles.imageContainer}>
           <Image
             source={{ uri: cardData.imageUri }}
+            accessibilityRole="image"
             resizeMode="contain"
             style={[
               styles.image,
