@@ -96,6 +96,7 @@ export const OnboardFlow: FC<OnboardFlowProps & TextStyles> = ({
   const formElementsMerged = { ...DEFAULT_FORM_ENTRY_TYPES, ...formElementTypes }
   const [currentPage, setCurrentPage] = useState(0)
   const [modalVisible, setModalVisible] = useState(true)
+  const [canContinueInternal, setCanContinueInternal] = useState(true)
   const swiperRef = useRef<SwiperFlatListRefProps>()
   const [containerWidth, setContainerWidth] = useState<number>(Dimensions.get('window').width ?? 0)
   const windowHeight = Dimensions.get('window').height
@@ -109,6 +110,9 @@ export const OnboardFlow: FC<OnboardFlowProps & TextStyles> = ({
     PaginationComponent,
     SecondaryButtonComponent,
   }
+
+  const canContinueValue = canContinue ?? canContinueInternal
+  const setCanContinueValue = setCanContinue ?? setCanContinueInternal
 
   const onLayout = (event) => {
     setContainerWidth(event.nativeEvent.layout.width)
@@ -208,7 +212,7 @@ export const OnboardFlow: FC<OnboardFlowProps & TextStyles> = ({
         ) : null}
         <View style={styles.content}>
           <SwiperFlatList
-            scrollEnabled={enableScroll && canContinue}
+            scrollEnabled={enableScroll && canContinueValue}
             onChangeIndex={handleIndexChange}
             ref={swiperRef}
             index={currentPage}
@@ -254,8 +258,8 @@ export const OnboardFlow: FC<OnboardFlowProps & TextStyles> = ({
                         onSaveData(data, getPageId(pageData, index))
                       }
                     },
-                    setCanContinue,
-                    canContinue,
+                    setCanContinueValue,
+                    canContinueValue,
                   })}
                 </View>
               ) : (
@@ -298,8 +302,8 @@ export const OnboardFlow: FC<OnboardFlowProps & TextStyles> = ({
                         onSaveData(data, getPageId(pageData, index))
                       }
                     }}
-                    setCanContinue={setCanContinue}
-                    canContinue={canContinue}
+                    setCanContinue={setCanContinueValue}
+                    canContinue={canContinueValue}
                   />
                 </View>
               )
@@ -315,8 +319,8 @@ export const OnboardFlow: FC<OnboardFlowProps & TextStyles> = ({
           Components={components}
           currentPage={currentPage}
           goToNextPage={goToNextPage}
-          canContinue={canContinue}
-          setCanContinue={setCanContinue}
+          canContinue={canContinueValue}
+          setCanContinue={setCanContinueValue}
           showFooter={showFooter}
         />
       </SafeAreaView>
