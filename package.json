@@ -37,7 +37,6 @@
   },
   "devDependencies": {
     "@babel/core": "^7.15.8",
-    "@testing-library/react-native": "^11.2.0",
     "@types/jest": "^23.3.1",
     "@types/react-native": "^0.67.3",
     "eslint-config-backpacker-react-ts": "^0.3.0",
@@ -81,5 +80,8 @@
   "bugs": {
     "url": "https://github.com/FrigadeHQ/react-native-onboard/issues"
   },
-  "homepage": "https://github.com/FrigadeHQ/react-native-onboard#readme"
+  "homepage": "https://github.com/FrigadeHQ/react-native-onboard#readme",
+  "dependencies": {
+    "@testing-library/react-native": "^11.5.1"
+  }
 }
