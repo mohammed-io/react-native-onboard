@@ -317,6 +317,7 @@ export const OnboardFlow: FC<OnboardFlowProps & TextStyles> = ({
           goToNextPage={goToNextPage}
           canContinue={canContinue}
           setCanContinue={setCanContinue}
+          showFooter={showFooter}
         />
       </SafeAreaView>
     </ImageBackground>

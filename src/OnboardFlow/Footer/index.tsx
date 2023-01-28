@@ -15,6 +15,7 @@ export interface FooterProps {
   pages?: PageData[]
   canContinue?: boolean
   setCanContinue?: (value: boolean) => void
+  showFooter?: boolean
   props?: any
 }
 
@@ -28,6 +29,7 @@ export const Footer: FC<FooterProps> = ({
   pages,
   canContinue,
   setCanContinue,
+  showFooter = true,
   ...props
 }) => {
   function getPrimaryButtonTitle() {
