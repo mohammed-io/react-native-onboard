@@ -62,6 +62,7 @@ export const SwiperFlatList = React.forwardRef(
     const flatListElement = React.useRef<FlatList<unknown>>(null)
     const [scrollEnabled, setScrollEnabled] = React.useState(!disableGesture)
     const [autoPlayDisturbed, setAutoPlayDisturbed] = React.useState(false)
+    const [lastIndexChange, setLastIndexChange] = React.useState(-1)
 
     React.useEffect(() => {
       setScrollEnabled(!disableGesture)
@@ -69,7 +70,8 @@ export const SwiperFlatList = React.forwardRef(
 
     const _onChangeIndex = React.useCallback(
       ({ index: _index, prevIndex: _prevIndex }: { index: number; prevIndex: number }) => {
-        if (_index !== _prevIndex) {
+        if (_index !== _prevIndex && _index != lastIndexChange) {
+          setLastIndexChange(_index)
           onChangeIndex?.({ index: _index, prevIndex: _prevIndex })
         }
       },
