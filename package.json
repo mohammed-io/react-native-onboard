@@ -81,5 +81,8 @@
   "bugs": {
     "url": "https://github.com/FrigadeHQ/react-native-onboard/issues"
   },
-  "homepage": "https://github.com/FrigadeHQ/react-native-onboard#readme"
+  "homepage": "https://github.com/FrigadeHQ/react-native-onboard#readme",
+  "dependencies": {
+    "react-native-svg": "^13.7.0"
+  }
 }
