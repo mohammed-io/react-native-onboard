@@ -1,53 +1,58 @@
-import React, { FC } from 'react';
-import { Image, ImageStyle, Pressable, StyleSheet, Text, useWindowDimensions, View, ViewStyle } from 'react-native';
-import { CardData } from '..';
-import { Card } from '../../components/Card';
-import { CardButton } from './CardButton';
+import React, { FC } from 'react'
+import {
+  Image,
+  ImageStyle,
+  Pressable,
+  StyleSheet,
+  Text,
+  useWindowDimensions,
+  View,
+  ViewStyle,
+} from 'react-native'
+import { Card } from '../../components/Card'
+import { CardData } from '../../types'
+import { CardButton } from './CardButton'
+import CloseIcon from './CloseIcon'
 
 export interface CarouselCardProps {
   onPress?: () => void
   style?: ViewStyle
   imageStyle?: ImageStyle
   cardData: CardData
+  onDismiss?: (dismissed: CardData) => void
 }
 
-const BASE_MARGIN_HORIZONTAL = 20;
+const BASE_MARGIN_HORIZONTAL = 20
 
-export const CarouselCard: FC<CarouselCardProps> = ({ style, onPress, cardData, imageStyle }) => {
-
+export const CarouselCard: FC<CarouselCardProps> = ({ style, onPress, cardData, imageStyle, onDismiss }) => {
   const window = useWindowDimensions()
-  const cardWidth = window.width - BASE_MARGIN_HORIZONTAL * 2;
+  const cardWidth = window.width - BASE_MARGIN_HORIZONTAL * 2
 
-  const {
-    title,
-    subtitle,
-    ctaText,
-    onCtaPress
-  } = cardData;
+  const { title, subtitle, ctaText, onCtaPress } = cardData
 
   return (
-    <Pressable onPress={onPress}>
+    <Pressable onPress={onPress} style={styles.wrapper}>
       <Card style={[style, { width: cardWidth }]}>
+      {
+          cardData.dismissible && (
+            <Pressable style={styles.dismissWrapper}>
+              <CloseIcon />
+            </Pressable>
+          )
+        }
         <View style={styles.contentContainer}>
           <View style={styles.textContainer}>
-            <Text style={[styles.baseTitleStyle, cardData.titleStyle ]}>{title}</Text>
-            <Text style={[styles.baseSubTitleStyle, cardData.subtitleStyle ]}>{subtitle}</Text>
-            {
-              onCtaPress && (
-                <CardButton text={ctaText ?? 'Learn More'} onPress={onCtaPress} />
-              )
-            }
+            <Text style={[styles.baseTitleStyle, cardData.titleStyle]}>{title}</Text>
+            <Text style={[styles.baseSubTitleStyle, cardData.subtitleStyle]}>{subtitle}</Text>
+            {onCtaPress && <CardButton text={ctaText ?? 'Learn More'} onPress={onCtaPress} />}
           </View>
           <View style={styles.imageContainer}>
-          <Image
-            source={{ uri: cardData.imageUri }}
-            accessibilityRole="image"
-            resizeMode="contain"
-            style={[
-              styles.image,
-              imageStyle
-            ]}
-          />
+            <Image
+              source={{ uri: cardData.imageUri }}
+              accessibilityRole="image"
+              resizeMode="contain"
+              style={[styles.image, imageStyle]}
+            />
           </View>
         </View>
       </Card>
@@ -56,13 +61,17 @@ export const CarouselCard: FC<CarouselCardProps> = ({ style, onPress, cardData, 
 }
 
 const styles = StyleSheet.create({
+  wrapper: {
+    position: 'absolute',
+    overflow: 'visible',
+  },
   contentContainer: {
     flexDirection: 'row',
     alignContent: 'flex-start',
     justifyContent: 'space-around',
   },
   textContainer: {
-    flex: 2
+    flex: 2,
   },
   imageContainer: {
     flex: 1,
@@ -77,7 +86,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: '700',
     lineHeight: 18,
-    marginVertical: 4
+    marginVertical: 4,
   },
   baseSubTitleStyle: {
     fontSize: 13,
@@ -85,5 +94,17 @@ const styles = StyleSheet.create({
     lineHeight: 18,
     color: '#333333',
     marginVertical: 4,
+  },
+  dismissWrapper: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 27,
+    height: 27,
+    backgroundColor: '#000000',
+    borderRadius: 100,
+    top: -13,
+    right: -13,
+    elevation: 1,
+    zIndex: 1, 
   }
 })

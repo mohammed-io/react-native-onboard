@@ -6,6 +6,19 @@ import { FooterProps } from '../Footer'
 import { PrimaryButtonProps } from '../components/PrimaryButton'
 import { SecondaryButtonProps } from '../components/SecondaryButton'
 
+/* A FlowItem represents a single element in multiple types of Flows
+  Generally, there is a title, subtitle, and image that the component will
+  use to handle the desired use case
+ */
+export interface FlowItemData {
+  id?: string
+  imageUri?: string
+  subtitle?: string
+  title?: string
+  subtitleStyle?: StyleProp<TextStyle> | undefined
+  titleStyle?: StyleProp<TextStyle> | undefined
+}
+
 export interface PaginationProps {
   currentPage: number
   totalPages: number
@@ -13,21 +26,15 @@ export interface PaginationProps {
   paginationColor?: string
 }
 
-export interface PageData {
+export interface PageData extends FlowItemData {
   imageComponent?: ReactElement
-  imageUri?: string
-  id?: string
   primaryButtonTitle?: string
   showFooter?: boolean
   showHeader?: boolean
-  subtitle?: string
-  title?: string
   type?: PageType
   style?: StyleProp<ViewStyle> | any
   props?: any
-  subtitleStyle?: StyleProp<TextStyle> | undefined
   textStyle?: StyleProp<TextStyle> | undefined
-  titleStyle?: StyleProp<TextStyle> | undefined
 }
 
 export interface TextStyles {
@@ -74,4 +81,10 @@ export interface OnboardFlowProps {
 export interface StepResponseData {
   data: any
   source: PageData
+}
+
+export interface CardData extends FlowItemData {
+  onCtaPress?: () => void
+  ctaText?: string
+  dismissible?: boolean
 }

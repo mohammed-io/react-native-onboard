@@ -1,8 +1,6 @@
 import React, { FC } from 'react'
 import { StyleSheet, Text, TouchableOpacity, ViewStyle } from 'react-native'
-import {
-  COLOR_BUTTON_DEFAULT,
-} from '../../constants'
+import { COLOR_BUTTON_DEFAULT } from '../../constants'
 import { TextStyles } from '../../types'
 
 export interface CardButtonProps {
@@ -18,11 +16,7 @@ export const CardButton: FC<CardButtonProps & TextStyles> = ({
   onPress,
 }) => {
   return (
-    <TouchableOpacity
-      activeOpacity={0.8}
-      style={[styles.button, style]}
-      onPress={onPress}
-    >
+    <TouchableOpacity activeOpacity={0.8} style={[styles.button, style]} onPress={onPress}>
       <Text style={[styles.buttonText, textStyle]}>{text}</Text>
     </TouchableOpacity>
   )
@@ -36,13 +30,13 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     flexDirection: 'row',
     alignSelf: 'flex-start',
-    marginTop: 12
+    marginTop: 12,
   },
   buttonText: {
     fontSize: 12,
     lineHeight: 15,
     fontWeight: '600',
     color: '#FFF',
-    textAlign: 'center'
-  }
+    textAlign: 'center',
+  },
 })
