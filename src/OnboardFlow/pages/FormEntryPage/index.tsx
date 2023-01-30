@@ -65,11 +65,13 @@ export const FormEntryPage: FC<OnboardPageConfigParams<FormEntryPageProps>> = ({
 
             useEffect(() => {
               if (hasError) {
-                errorFieldIds.add(input.id ?? index)
-                setErrorFieldIds(errorFieldIds)
+                const set = errorFieldIds
+                set.add(input.id ?? index)
+                setErrorFieldIds(new Set(set))
               } else {
-                errorFieldIds.delete(input.id ?? index)
-                setErrorFieldIds(errorFieldIds)
+                const set = errorFieldIds
+                set.delete(input.id ?? index)
+                setErrorFieldIds(new Set(set))
               }
             }, [hasError])
 

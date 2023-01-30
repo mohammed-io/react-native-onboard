@@ -263,8 +263,8 @@ export const OnboardFlow: FC<OnboardFlowProps & TextStyles> = ({
                         onSaveData(data, getPageId(pageData, index))
                       }
                     },
-                    setCanContinueValue,
-                    canContinueValue,
+                    setCanContinue: setCanContinueValue,
+                    canContinue: canContinueValue,
                   })}
                 </View>
               ) : (

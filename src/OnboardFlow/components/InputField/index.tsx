@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import { ColorValue, StyleSheet, Text, TextInput, View } from 'react-native'
 import { HORIZONTAL_PADDING_DEFAULT, VERTICAL_PADDING_DEFAULT } from '../../constants'
 import { TextStyles } from '../../types'
@@ -76,22 +76,38 @@ export const InputField: FC<FormEntryField & TextStyles> = ({
       // Validate password meets minimum requirements otherwise setError
       const re = new RegExp('^(?=.*d)(?=.*[a-z])(?=.*[A-Z]).{8,32}$')
       const isOk = re.test(string)
+      handleErrorState(
+        includeError,
+        isOk,
+        'Your password must be at least 8 characters and include a number and a special character'
+      )
+    } else if (type == 'email') {
+      // Validate password meets minimum requirements otherwise setError
+      const re = new RegExp(/^[a-zA-Z0-9]+@(?:[a-zA-Z0-9]+\.)+[A-Za-z]+$/)
+      const isOk = re.test(string)
+      handleErrorState(includeError, isOk, 'Invalid e-mail address')
+    }
+  }
+
+  function handleErrorState(includeError: boolean, isOk: boolean, errorString: string) {
+    if (!isOk) {
+      setHasError(true)
+    } else {
+      setErrorMessage('')
+      setHasError(false)
+    }
+    if (includeError) {
       if (!isOk) {
-        setHasError(true)
+        setErrorMessage(errorString)
       } else {
-        setHasError(false)
-      }
-      if (includeError) {
-        if (!isOk) {
-          setErrorMessage(
-            'Your password must be at least 8 characters and include a number and a special character'
-          )
-        } else {
-          setErrorMessage('')
-        }
+        setErrorMessage('')
       }
     }
   }
+
+  useEffect(() => {
+    validateTextBasedOnInput(text, false)
+  }, [])
 
   return (
     <View style={{ marginTop: -6 }}>
@@ -175,6 +191,6 @@ const styles = StyleSheet.create({
   errorText: {
     fontSize: 14,
     color: '#a60202',
-    marginTop: VERTICAL_PADDING_DEFAULT / 4,
+    paddingTop: 8,
   },
 })
