@@ -1,5 +1,5 @@
 import React, { FC, useState } from 'react'
-import { StyleSheet, Text, TextInput, View } from 'react-native'
+import { ColorValue, StyleSheet, Text, TextInput, View } from 'react-native'
 import { HORIZONTAL_PADDING_DEFAULT, VERTICAL_PADDING_DEFAULT } from '../../constants'
 import { TextStyles } from '../../types'
 
@@ -21,6 +21,7 @@ export interface FormEntryField {
   canContinue?: boolean
   setCanContinue?: (value: boolean) => void
   props?: any
+  backgroundColor?: ColorValue
 }
 
 export const InputField: FC<FormEntryField & TextStyles> = ({
@@ -34,6 +35,7 @@ export const InputField: FC<FormEntryField & TextStyles> = ({
   primaryColor,
   secondaryColor,
   prefill,
+  backgroundColor,
 }) => {
   const [errorMessage, setErrorMessage] = useState('')
   const [isFocused, setIsFocused] = useState(false)
@@ -64,7 +66,26 @@ export const InputField: FC<FormEntryField & TextStyles> = ({
   }
 
   return (
-    <View style={{ marginTop: VERTICAL_PADDING_DEFAULT }}>
+    <View style={{ marginTop: -6 }}>
+      <Text
+        style={[
+          {
+            color: secondaryColor,
+            fontSize: 12,
+            backgroundColor: backgroundColor ?? '#FFFFFF',
+            alignSelf: 'flex-start',
+            position: 'relative',
+            paddingHorizontal: 4,
+            bottom: -22,
+            left: 12,
+            zIndex: 5,
+            opacity: isFocused ? 1 : 0.0,
+          },
+          textStyle,
+        ]}
+      >
+        {label}
+      </Text>
       <TextInput
         onFocus={() => {
           setIsFocused(true)

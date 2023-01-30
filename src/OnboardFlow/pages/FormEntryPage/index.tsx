@@ -87,6 +87,7 @@ export const FormEntryPage: FC<OnboardPageConfigParams<FormEntryPageProps>> = ({
                   secondaryColor: secondaryColor,
                   canContinue: canContinue,
                   setCanContinue: setCanContinue,
+                  backgroundColor: style ? StyleSheet.flatten(style)?.backgroundColor : '#FFFFFF',
                   props: input.props,
                 })
               ) : (
@@ -118,6 +119,7 @@ export const FormEntryPage: FC<OnboardPageConfigParams<FormEntryPageProps>> = ({
                   textStyle={textStyle}
                   canContinue={canContinue}
                   setCanContinue={setCanContinue}
+                  backgroundColor={style ? StyleSheet.flatten(style)?.backgroundColor : '#FFFFFF'}
                   {...input}
                 />
               )}

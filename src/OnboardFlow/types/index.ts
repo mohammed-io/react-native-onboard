@@ -1,7 +1,6 @@
 import { StyleProp, TextStyle, ViewStyle } from 'react-native'
 import { FC, ReactElement } from 'react'
 import { FormElementTypesConfig, OnboardPageTypesConfig, PageType } from '../index'
-import { HeaderProps } from '../Header'
 import { FooterProps } from '../Footer'
 import { PrimaryButtonProps } from '../components/PrimaryButton'
 import { SecondaryButtonProps } from '../components/SecondaryButton'
@@ -11,6 +10,7 @@ export interface PaginationProps {
   totalPages: number
   paginationSelectedColor?: string
   paginationColor?: string
+  style?: StyleProp<ViewStyle> | any
 }
 
 export interface PageData {
@@ -62,7 +62,7 @@ export interface OnboardFlowProps {
   style?: StyleProp<ViewStyle> | undefined
   type?: 'inline' | 'fullscreen' | 'bottom-sheet'
   customVariables?: object
-  HeaderComponent?: FC<HeaderProps>
+  HeaderComponent?: FC<FooterProps>
   FooterComponent?: FC<FooterProps>
   PaginationComponent?: FC<PaginationProps>
   PrimaryButtonComponent?: FC<PrimaryButtonProps>

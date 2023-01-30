@@ -1,18 +1,14 @@
 import React, { FC, useEffect, useState } from 'react'
 import { Animated, StyleSheet, View } from 'react-native'
 import { PaginationProps } from '../../../types'
-import {
-  COLOR_PRIMARY_DEFAULT,
-  COLOR_SECONDARY_DEFAULT,
-  HORIZONTAL_PADDING_DEFAULT,
-  VERTICAL_PADDING_DEFAULT,
-} from '../../../constants'
+import { COLOR_PRIMARY_DEFAULT, COLOR_SECONDARY_DEFAULT } from '../../../constants'
 
 export const LinePagination: FC<PaginationProps> = ({
   currentPage,
   totalPages,
   paginationSelectedColor = COLOR_PRIMARY_DEFAULT,
   paginationColor = COLOR_SECONDARY_DEFAULT,
+  style,
 }) => {
   const [selectedPage, setSelectedPage] = useState(-1)
   const [sizeAnim, setSizeAnim] = useState(getToValue()) // TODO: make this animated
@@ -30,15 +26,7 @@ export const LinePagination: FC<PaginationProps> = ({
   }, [currentPage])
 
   return (
-    <View
-      style={[
-        styles.container,
-        {
-          marginBottom: VERTICAL_PADDING_DEFAULT,
-          marginHorizontal: HORIZONTAL_PADDING_DEFAULT,
-        },
-      ]}
-    >
+    <View style={[styles.container, {}, style]}>
       <View style={[styles.lineContainer, { backgroundColor: paginationColor }]}>
         <Animated.View
           style={[
@@ -66,7 +54,7 @@ const styles = StyleSheet.create({
     height: 8,
     margin: 'auto',
     backgroundColor: '#E6E6E6',
-    width: '50%',
+    width: '100%',
   },
   line: {
     backgroundColor: '#000000',

@@ -202,12 +202,17 @@ export const OnboardFlow: FC<OnboardFlowProps & TextStyles> = ({
         {showDismissButton ? <DismissButton /> : null}
         {showHeader && HeaderComponent ? (
           <HeaderComponent
+            paginationSelectedColor={paginationSelectedColor}
+            paginationColor={paginationColor}
             goToPreviousPage={goToPreviousPage}
             pages={pages}
-            style={styles.header}
+            style={[styles.footer, !showFooter ? { opacity: 0.0 } : null]}
             Components={components}
             currentPage={currentPage}
             goToNextPage={goToNextPage}
+            canContinue={canContinueValue}
+            setCanContinue={setCanContinueValue}
+            showFooter={showFooter}
           />
         ) : null}
         <View style={styles.content}>

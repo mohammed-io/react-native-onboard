@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useState } from 'react'
-import { Dimensions, Image, Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { Dimensions, Image, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 import {
   HORIZONTAL_PADDING_DEFAULT,
   TEXT_ALIGN_DEFAULT,
@@ -78,31 +78,13 @@ export const Page: FC<PageProps & TextStyles> = ({
     return null
   }
 
-  function calculateImageHeight() {
-    if (Platform.OS === 'web') {
-      return Math.min(imageHeight, 300)
-    }
-
-    const padding = containerHeight < 400 ? 3 : 6
-    return Math.min(
-      imageHeight,
-      containerHeight - maxTextHeight - VERTICAL_PADDING_DEFAULT * padding
-    )
-  }
-
   return (
     <View style={[styles.container, style, { width: width }]} onLayout={onContainerLayout}>
       {pageData.imageUri && (
         <Image
           source={{ uri: pageData.imageUri }}
+          style={{ width: 'auto', height: '50%', marginVertical: VERTICAL_PADDING_DEFAULT * 3 }}
           resizeMode="contain"
-          style={[
-            styles.image,
-            { height: calculateImageHeight() },
-            containerHeight < 500
-              ? { marginVertical: 0, marginBottom: VERTICAL_PADDING_DEFAULT }
-              : null,
-          ]}
         />
       )}
       <View style={styles.imageComponentWrapper}>
