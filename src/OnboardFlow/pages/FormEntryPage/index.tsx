@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import { KeyboardAvoidingView, ScrollView, StyleSheet, View } from 'react-native'
 import { HORIZONTAL_PADDING_DEFAULT } from '../../constants'
 import { OnboardPageConfigParams } from '../../index'
@@ -29,6 +29,16 @@ export const FormEntryPage: FC<OnboardPageConfigParams<FormEntryPageProps>> = ({
   canContinue,
   setCanContinue,
 }) => {
+  const [errorFieldIds, setErrorFieldIds] = useState(new Set())
+
+  useEffect(() => {
+    if (errorFieldIds.size > 0) {
+      setCanContinue(false)
+    } else {
+      setCanContinue(true)
+    }
+  }, [errorFieldIds])
+
   return (
     <View
       style={[
@@ -50,81 +60,97 @@ export const FormEntryPage: FC<OnboardPageConfigParams<FormEntryPageProps>> = ({
           subtitleStyle={subtitleStyle}
         />
         <ScrollView>
-          {props.fields.map((input, index) => (
-            <View key={index}>
-              {input.type && formElementTypes[input.type] ? (
-                formElementTypes[input.type]({
-                  onSetText: (text: string) => {
-                    if (onSaveData) {
-                      onSaveData({
-                        source: pageData,
-                        data: {
-                          id: input.id,
-                          value: text,
-                        },
-                      })
-                    }
-                    if (input.onSetText) {
-                      input.onSetText(text)
-                    }
-                  },
-                  onSaveData: (data) => {
-                    if (onSaveData) {
-                      onSaveData({
-                        source: pageData,
-                        data: data,
-                      })
-                    }
-                  },
-                  label: input.label,
-                  placeHolder: input.placeHolder,
-                  type: input.type,
-                  getErrorMessage: input.getErrorMessage,
-                  isRequired: input.isRequired,
-                  prefill: input.prefill,
-                  id: input.id,
-                  primaryColor: primaryColor,
-                  secondaryColor: secondaryColor,
-                  canContinue: canContinue,
-                  setCanContinue: setCanContinue,
-                  backgroundColor: style ? StyleSheet.flatten(style)?.backgroundColor : '#FFFFFF',
-                  props: input.props,
-                })
-              ) : (
-                <InputField
-                  onSetText={(text: string) => {
-                    if (onSaveData) {
-                      onSaveData({
-                        source: pageData,
-                        data: {
-                          id: input.id,
-                          value: text,
-                        },
-                      })
-                    }
-                    if (input.onSetText) {
-                      input.onSetText(text)
-                    }
-                  }}
-                  onSaveData={(data) => {
-                    if (onSaveData) {
-                      onSaveData({
-                        source: pageData,
-                        data: data,
-                      })
-                    }
-                  }}
-                  primaryColor={primaryColor}
-                  secondaryColor={secondaryColor}
-                  textStyle={textStyle}
-                  canContinue={canContinue}
-                  setCanContinue={setCanContinue}
-                  backgroundColor={style ? StyleSheet.flatten(style)?.backgroundColor : '#FFFFFF'}
-                  {...input}
-                />
-              )}
-            </View>
-          ))}
+          {props.fields.map((input, index) => {
+            const [hasError, setHasError] = useState(false)
+
+            useEffect(() => {
+              if (hasError) {
+                errorFieldIds.add(input.id ?? index)
+                setErrorFieldIds(errorFieldIds)
+              } else {
+                errorFieldIds.delete(input.id ?? index)
+                setErrorFieldIds(errorFieldIds)
+              }
+            }, [hasError])
+
+            return (
+              <View key={index}>
+                {input.type && formElementTypes[input.type] ? (
+                  formElementTypes[input.type]({
+                    onSetText: (text: string) => {
+                      if (onSaveData) {
+                        onSaveData({
+                          source: pageData,
+                          data: {
+                            id: input.id,
+                            value: text,
+                          },
+                        })
+                      }
+                      if (input.onSetText) {
+                        input.onSetText(text)
+                      }
+                    },
+                    onSaveData: (data) => {
+                      if (onSaveData) {
+                        onSaveData({
+                          source: pageData,
+                          data: data,
+                        })
+                      }
+                    },
+                    label: input.label,
+                    placeHolder: input.placeHolder,
+                    type: input.type,
+                    getErrorMessage: input.getErrorMessage,
+                    isRequired: input.isRequired,
+                    prefill: input.prefill,
+                    id: input.id,
+                    primaryColor: primaryColor,
+                    secondaryColor: secondaryColor,
+                    canContinue: canContinue,
+                    setCanContinue: setCanContinue,
+                    backgroundColor: style ? StyleSheet.flatten(style)?.backgroundColor : '#FFFFFF',
+                    setHasError: setHasError,
+                    props: input.props,
+                  })
+                ) : (
+                  <InputField
+                    onSetText={(text: string) => {
+                      if (onSaveData) {
+                        onSaveData({
+                          source: pageData,
+                          data: {
+                            id: input.id,
+                            value: text,
+                          },
+                        })
+                      }
+                      if (input.onSetText) {
+                        input.onSetText(text)
+                      }
+                    }}
+                    onSaveData={(data) => {
+                      if (onSaveData) {
+                        onSaveData({
+                          source: pageData,
+                          data: data,
+                        })
+                      }
+                    }}
+                    primaryColor={primaryColor}
+                    secondaryColor={secondaryColor}
+                    textStyle={textStyle}
+                    canContinue={canContinue}
+                    setCanContinue={setCanContinue}
+                    setHasError={setHasError}
+                    backgroundColor={style ? StyleSheet.flatten(style)?.backgroundColor : '#FFFFFF'}
+                    {...input}
+                  />
+                )}
+              </View>
+            )
+          })}
         </ScrollView>
       </KeyboardAvoidingView>
     </View>

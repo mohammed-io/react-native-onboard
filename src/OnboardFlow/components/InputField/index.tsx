@@ -20,6 +20,7 @@ export interface FormEntryField {
   secondaryColor?: string
   canContinue?: boolean
   setCanContinue?: (value: boolean) => void
+  setHasError?: (value: boolean) => void
   props?: any
   backgroundColor?: ColorValue
 }
@@ -36,6 +37,11 @@ export const InputField: FC<FormEntryField & TextStyles> = ({
   secondaryColor,
   prefill,
   backgroundColor,
+  canContinue,
+  setHasError,
+  setCanContinue,
+  isRequired,
+  onSaveData,
 }) => {
   const [errorMessage, setErrorMessage] = useState('')
   const [isFocused, setIsFocused] = useState(false)
@@ -65,6 +71,28 @@ export const InputField: FC<FormEntryField & TextStyles> = ({
     return undefined
   }
 
+  function validateTextBasedOnInput(string: string, includeError: boolean) {
+    if (type == 'password') {
+      // Validate password meets minimum requirements otherwise setError
+      const re = new RegExp('^(?=.*d)(?=.*[a-z])(?=.*[A-Z]).{8,32}$')
+      const isOk = re.test(string)
+      if (!isOk) {
+        setHasError(true)
+      } else {
+        setHasError(false)
+      }
+      if (includeError) {
+        if (!isOk) {
+          setErrorMessage(
+            'Your password must be at least 8 characters and include a number and a special character'
+          )
+        } else {
+          setErrorMessage('')
+        }
+      }
+    }
+  }
+
   return (
     <View style={{ marginTop: -6 }}>
       <Text
@@ -90,7 +118,10 @@ export const InputField: FC<FormEntryField & TextStyles> = ({
         onFocus={() => {
           setIsFocused(true)
         }}
-        onBlur={() => setIsFocused(false)}
+        onBlur={() => {
+          validateTextBasedOnInput(text, true)
+          setIsFocused(false)
+        }}
         value={text}
         textContentType={getTextContentType(type)}
         dataDetectorTypes={getDataDetectorType(type)}
@@ -116,6 +147,14 @@ export const InputField: FC<FormEntryField & TextStyles> = ({
           setText(string)
           if (onSetText) {
             onSetText(string)
+          }
+          if (onSaveData) {
+            onSaveData({ text: string })
+          }
+          if (!getErrorMessage) {
+            if (isRequired) {
+              validateTextBasedOnInput(string, false)
+            }
           }
         }}
       />

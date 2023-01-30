@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { KeyboardAvoidingView, StyleProp, StyleSheet, ViewStyle } from 'react-native'
 import { OnboardComponents } from '../index'
 import { PRIMARY_BUTTON_TEXT_DEFAULT, PRIMARY_BUTTON_TEXT_LAST_PAGE_DEFAULT } from '../constants'
 import { PageData } from '../types'
@@ -44,7 +44,7 @@ export const Footer: FC<FooterProps> = ({
   const totalPages = pages?.length ?? 0
 
   return (
-    <View style={[style]} {...props}>
+    <KeyboardAvoidingView behavior="position" style={[style]} {...props}>
       <Components.PaginationComponent
         paginationColor={paginationColor}
         paginationSelectedColor={paginationSelectedColor}
@@ -58,7 +58,7 @@ export const Footer: FC<FooterProps> = ({
         goToNextPage={goToNextPage}
         disabled={!canContinue}
       />
-    </View>
+    </KeyboardAvoidingView>
   )
 }
 

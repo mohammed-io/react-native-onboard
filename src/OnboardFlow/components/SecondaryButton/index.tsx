@@ -9,6 +9,7 @@ export interface SecondaryButtonProps {
   style?: ViewStyle
   totalPages?: number
   text: string
+  disabled: boolean
 }
 
 export const SecondaryButton: FC<SecondaryButtonProps & TextStyles> = ({
@@ -17,11 +18,17 @@ export const SecondaryButton: FC<SecondaryButtonProps & TextStyles> = ({
   style,
   totalPages,
   text,
+  disabled,
   textStyle,
   ...props
 }) => {
   return (
-    <TouchableOpacity activeOpacity={0.6} style={[styles.button, style]} onPress={onPress}>
+    <TouchableOpacity
+      activeOpacity={0.6}
+      style={[styles.button, disabled ? { opacity: 0.2 } : null, style]}
+      onPress={onPress}
+      disabled={disabled}
+    >
       <Text style={[styles.buttonText, textStyle]}>{text}</Text>
     </TouchableOpacity>
   )
