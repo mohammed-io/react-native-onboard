@@ -28,6 +28,7 @@ export const FormEntryPage: FC<OnboardPageConfigParams<FormEntryPageProps>> = ({
   props,
   canContinue,
   setCanContinue,
+  pageIndex,
 }) => {
   const [errorFieldIds, setErrorFieldIds] = useState(new Set())
 
@@ -75,6 +76,7 @@ export const FormEntryPage: FC<OnboardPageConfigParams<FormEntryPageProps>> = ({
               }
             }, [hasError])
 
+            const autoFocus = index == 0 && currentPage == pageIndex
             return (
               <View key={index}>
                 {input.type && formElementTypes[input.type] ? (
@@ -114,6 +116,7 @@ export const FormEntryPage: FC<OnboardPageConfigParams<FormEntryPageProps>> = ({
                     setCanContinue: setCanContinue,
                     backgroundColor: style ? StyleSheet.flatten(style)?.backgroundColor : '#FFFFFF',
                     setHasError: setHasError,
+                    autoFocus: autoFocus,
                     props: input.props,
                   })
                 ) : (
@@ -147,6 +150,7 @@ export const FormEntryPage: FC<OnboardPageConfigParams<FormEntryPageProps>> = ({
                     setCanContinue={setCanContinue}
                     setHasError={setHasError}
                     backgroundColor={style ? StyleSheet.flatten(style)?.backgroundColor : '#FFFFFF'}
+                    autoFocus={autoFocus}
                     {...input}
                   />
                 )}

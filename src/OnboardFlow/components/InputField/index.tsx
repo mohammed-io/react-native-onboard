@@ -21,8 +21,9 @@ export interface FormEntryField {
   canContinue?: boolean
   setCanContinue?: (value: boolean) => void
   setHasError?: (value: boolean) => void
-  props?: any
+  autoFocus?: boolean
   backgroundColor?: ColorValue
+  props?: any
 }
 
 export const InputField: FC<FormEntryField & TextStyles> = ({
@@ -42,6 +43,7 @@ export const InputField: FC<FormEntryField & TextStyles> = ({
   setCanContinue,
   isRequired,
   onSaveData,
+  autoFocus,
 }) => {
   const [errorMessage, setErrorMessage] = useState('')
   const [isFocused, setIsFocused] = useState(false)
@@ -82,10 +84,12 @@ export const InputField: FC<FormEntryField & TextStyles> = ({
         'Your password must be at least 8 characters and include a number and a special character'
       )
     } else if (type == 'email') {
-      // Validate password meets minimum requirements otherwise setError
       const re = new RegExp(/^[a-zA-Z0-9]+@(?:[a-zA-Z0-9]+\.)+[A-Za-z]+$/)
       const isOk = re.test(string)
       handleErrorState(includeError, isOk, 'Invalid e-mail address')
+    } else if (type == 'text') {
+      const isOk = string.length > 0
+      handleErrorState(includeError, isOk, '')
     }
   }
 
@@ -106,7 +110,9 @@ export const InputField: FC<FormEntryField & TextStyles> = ({
   }
 
   useEffect(() => {
-    validateTextBasedOnInput(text, false)
+    if (isRequired) {
+      validateTextBasedOnInput(text, false)
+    }
   }, [])
 
   return (
@@ -131,6 +137,7 @@ export const InputField: FC<FormEntryField & TextStyles> = ({
         {label}
       </Text>
       <TextInput
+        autoFocus={autoFocus}
         onFocus={() => {
           setIsFocused(true)
         }}
