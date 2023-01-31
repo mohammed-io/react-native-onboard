@@ -217,7 +217,7 @@ export const OnboardFlow: FC<OnboardFlowProps & TextStyles> = ({
         ) : null}
         <View style={styles.content}>
           <SwiperFlatList
-            scrollEnabled={enableScroll && canContinueValue}
+            disableGesture={!enableScroll ? true : !canContinueValue}
             onChangeIndex={handleIndexChange}
             ref={swiperRef}
             index={currentPage}

@@ -110,7 +110,9 @@ export const SwiperFlatList = React.forwardRef(
 
     // change the index when the user swipe the items
     React.useEffect(() => {
-      _onChangeIndex({ index: currentIndex, prevIndex: previousIndex })
+      if (scrollEnabled) {
+        _onChangeIndex({ index: currentIndex, prevIndex: previousIndex })
+      }
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [currentIndex, previousIndex])
 
