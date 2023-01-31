@@ -91,6 +91,11 @@ export const InputField: FC<FormEntryField & TextStyles> = ({
     } else if (type == 'text') {
       const isOk = string.trim().length > 0
       handleErrorState(includeError, isOk, FAIL_SILENTLY)
+    } else if (type == 'handle') {
+      // Validate that only allowed characters are used similar to instagram handles
+      const re = new RegExp(/^[a-zA-Z0-9_.]+$/)
+      const isOk = re.test(string) && string.length >= 2
+      handleErrorState(includeError, isOk, 'Invalid handle')
     }
   }
 

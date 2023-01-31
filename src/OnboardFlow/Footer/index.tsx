@@ -16,6 +16,7 @@ export interface FooterProps {
   canContinue?: boolean
   setCanContinue?: (value: boolean) => void
   showFooter?: boolean
+  showHeader?: boolean
   props?: any
 }
 

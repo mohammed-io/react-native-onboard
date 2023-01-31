@@ -9,7 +9,7 @@ export interface SecondaryButtonProps {
   style?: ViewStyle
   totalPages?: number
   text: string
-  disabled: boolean
+  disabled?: boolean
 }
 
 export const SecondaryButton: FC<SecondaryButtonProps & TextStyles> = ({

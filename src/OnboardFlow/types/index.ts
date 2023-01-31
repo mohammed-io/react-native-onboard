@@ -18,6 +18,7 @@ export interface PageData {
   imageUri?: string
   id?: string
   primaryButtonTitle?: string
+  secondaryButtonTitle?: string
   showFooter?: boolean
   showHeader?: boolean
   subtitle?: string
