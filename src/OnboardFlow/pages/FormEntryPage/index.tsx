@@ -31,14 +31,17 @@ export const FormEntryPage: FC<OnboardPageConfigParams<FormEntryPageProps>> = ({
   pageIndex,
 }) => {
   const [errorFieldIds, setErrorFieldIds] = useState(new Set())
+  const [formData, setFormData] = useState({})
 
   useEffect(() => {
-    if (errorFieldIds.size > 0) {
-      setCanContinue(false)
-    } else {
-      setCanContinue(true)
+    if (currentPage == pageIndex) {
+      if (errorFieldIds.size > 0) {
+        setCanContinue(false)
+      } else {
+        setCanContinue(true)
+      }
     }
-  }, [errorFieldIds])
+  }, [errorFieldIds, currentPage])
 
   return (
     <View
@@ -76,6 +79,17 @@ export const FormEntryPage: FC<OnboardPageConfigParams<FormEntryPageProps>> = ({
               }
             }, [hasError])
 
+            const handleSaveData = (data) => {
+              formData[input.id ?? index + ''] = data
+              setFormData(formData)
+              if (onSaveData) {
+                onSaveData({
+                  source: pageData,
+                  data: formData,
+                })
+              }
+            }
+
             const autoFocus = index == 0 && currentPage == pageIndex
             return (
               <View key={index}>
@@ -95,14 +109,7 @@ export const FormEntryPage: FC<OnboardPageConfigParams<FormEntryPageProps>> = ({
                         input.onSetText(text)
                       }
                     },
-                    onSaveData: (data) => {
-                      if (onSaveData) {
-                        onSaveData({
-                          source: pageData,
-                          data: data,
-                        })
-                      }
-                    },
+                    onSaveData: handleSaveData,
                     label: input.label,
                     placeHolder: input.placeHolder,
                     type: input.type,
@@ -135,14 +142,7 @@ export const FormEntryPage: FC<OnboardPageConfigParams<FormEntryPageProps>> = ({
                         input.onSetText(text)
                       }
                     }}
-                    onSaveData={(data) => {
-                      if (onSaveData) {
-                        onSaveData({
-                          source: pageData,
-                          data: data,
-                        })
-                      }
-                    }}
+                    onSaveData={handleSaveData}
                     primaryColor={primaryColor}
                     secondaryColor={secondaryColor}
                     textStyle={textStyle}

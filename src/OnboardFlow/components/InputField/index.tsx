@@ -26,6 +26,7 @@ export interface FormEntryField {
   props?: any
 }
 
+const FAIL_SILENTLY = 'failedSilently'
 export const InputField: FC<FormEntryField & TextStyles> = ({
   label,
   placeHolder,
@@ -88,8 +89,8 @@ export const InputField: FC<FormEntryField & TextStyles> = ({
       const isOk = re.test(string)
       handleErrorState(includeError, isOk, 'Invalid e-mail address')
     } else if (type == 'text') {
-      const isOk = string.length > 0
-      handleErrorState(includeError, isOk, '')
+      const isOk = string.trim().length > 0
+      handleErrorState(includeError, isOk, FAIL_SILENTLY)
     }
   }
 
@@ -181,7 +182,9 @@ export const InputField: FC<FormEntryField & TextStyles> = ({
           }
         }}
       />
-      {errorMessage ? <Text style={[textStyle, styles.errorText]}>{errorMessage}</Text> : null}
+      {errorMessage && errorMessage != FAIL_SILENTLY ? (
+        <Text style={[textStyle, styles.errorText]}>{errorMessage}</Text>
+      ) : null}
     </View>
   )
 }
