@@ -23,6 +23,9 @@ export interface FormEntryField {
   setHasError?: (value: boolean) => void
   autoFocus?: boolean
   backgroundColor?: ColorValue
+  currentPage?: number
+  pageIndex?: number
+  totalPages?: number
   props?: any
 }
 

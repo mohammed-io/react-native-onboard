@@ -157,6 +157,9 @@ export const MultipleChoicePage: FC<OnboardPageConfigParams<MultipleChoicePagePr
                   secondaryColor: secondaryColor,
                   canContinue: canContinue,
                   setCanContinue: setCanContinue,
+                  currentPage: currentPage,
+                  pageIndex: pageIndex,
+                  totalPages: totalPages,
                   props: {
                     ...input,
                     selectedOptions,

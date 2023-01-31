@@ -124,6 +124,9 @@ export const FormEntryPage: FC<OnboardPageConfigParams<FormEntryPageProps>> = ({
                     backgroundColor: style ? StyleSheet.flatten(style)?.backgroundColor : '#FFFFFF',
                     setHasError: setHasError,
                     autoFocus: autoFocus,
+                    currentPage: currentPage,
+                    totalPages: totalPages,
+                    pageIndex: pageIndex,
                     props: input.props,
                   })
                 ) : (
@@ -151,6 +154,9 @@ export const FormEntryPage: FC<OnboardPageConfigParams<FormEntryPageProps>> = ({
                     setHasError={setHasError}
                     backgroundColor={style ? StyleSheet.flatten(style)?.backgroundColor : '#FFFFFF'}
                     autoFocus={autoFocus}
+                    currentPage={currentPage}
+                    pageIndex={pageIndex}
+                    totalPages={totalPages}
                     {...input}
                   />
                 )}
