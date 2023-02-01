@@ -20,13 +20,16 @@ export interface CarouselCardProps {
   imageStyle?: ImageStyle
   cardData: CardData
   onDismiss?: (dismissed: CardData) => void
+  isFirst?: boolean
 }
 
 const BASE_MARGIN_HORIZONTAL = 20
 
-export const CarouselCard: FC<CarouselCardProps> = ({ style, onPress, cardData, imageStyle, onDismiss }) => {
+export const CarouselCard: FC<CarouselCardProps> = ({ style, onPress, cardData, imageStyle, onDismiss, isFirst }) => {
   const window = useWindowDimensions()
-  const cardWidth = window.width - BASE_MARGIN_HORIZONTAL * 2
+
+  const marginCount = isFirst ? 4 : 2;
+  const cardWidth = window.width - BASE_MARGIN_HORIZONTAL * marginCount;
 
   const { title, subtitle, ctaText, onCtaPress } = cardData
 
@@ -35,8 +38,8 @@ export const CarouselCard: FC<CarouselCardProps> = ({ style, onPress, cardData, 
       <Card style={[style, { width: cardWidth }]}>
       {
           cardData.dismissible && (
-            <Pressable style={styles.dismissWrapper} onPress={() => onDismiss(cardData)} >
-              <Image source={closeIcon} />
+            <Pressable style={styles.dismissWrapper} onPress={() => onDismiss ? onDismiss(cardData) : null} >
+              <Image source={closeIcon} resizeMode="contain" resizeMethod="resize" style={{ width: 12, height: 12 }}/>
             </Pressable>
           )
         }
@@ -62,8 +65,8 @@ export const CarouselCard: FC<CarouselCardProps> = ({ style, onPress, cardData, 
 
 const styles = StyleSheet.create({
   wrapper: {
-    position: 'absolute',
     overflow: 'visible',
+    alignSelf: 'center'
   },
   contentContainer: {
     flexDirection: 'row',
@@ -96,6 +99,7 @@ const styles = StyleSheet.create({
     marginVertical: 4,
   },
   dismissWrapper: {
+    position: 'absolute',
     alignItems: 'center',
     justifyContent: 'center',
     width: 27,

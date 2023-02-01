@@ -1,31 +1,29 @@
 import React, { FC } from 'react'
-import { FlatList, StyleSheet } from 'react-native'
+import { FlatList, View } from 'react-native'
 import { CardData } from '../types'
 import { CarouselCard } from './CarouselCard'
 
 export interface CarouselProps {
   cards: CardData[]
-  onDismiss: (dismissed: CardData) => void
+  onDismiss?: (dismissed: CardData) => void
 }
 
 export const Carousel: FC<CarouselProps> = ({ cards, onDismiss }) => {
-  const renderItem = ({ item }) => {
-   return <CarouselCard cardData={item} onDismiss={onDismiss} />
+
+  const renderItem = ({ item, index = -1 }) => {
+   return <CarouselCard cardData={item} onDismiss={onDismiss} isFirst={index === 0}/>
   }
+
+  if (cards.length === 1) return renderItem({ item: cards[0]})
   return (
-    <FlatList
-      data={cards}
-      renderItem={renderItem}
-      keyExtractor={(item, index) => item.id ?? `carousel-card-${index}`}
-      horizontal={true}
-      showsHorizontalScrollIndicator={false}
-      contentContainerStyle={styles.wrapper}
-    />
+      <FlatList
+        data={cards}
+        renderItem={renderItem}
+        keyExtractor={(item, index) => item.id ?? `carousel-card-${index}`}
+        horizontal={true}
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={{ padding: 20, overflow: 'visible' }}
+        ItemSeparatorComponent={() => <View style={{width: 20}} />}
+      />
   )
 }
-
-const styles = StyleSheet.create({
-  wrapper: {
-    height: 200
-  }
-})
