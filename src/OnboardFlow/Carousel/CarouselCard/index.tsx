@@ -12,7 +12,7 @@ import {
 import { Card } from '../../components/Card'
 import { CardData } from '../../types'
 import { CardButton } from './CardButton'
-import CloseIcon from './CloseIcon'
+import closeIcon from './img/closeIcon.png'
 
 export interface CarouselCardProps {
   onPress?: () => void
@@ -36,7 +36,7 @@ export const CarouselCard: FC<CarouselCardProps> = ({ style, onPress, cardData, 
       {
           cardData.dismissible && (
             <Pressable style={styles.dismissWrapper} onPress={() => onDismiss(cardData)} >
-              <CloseIcon />
+              <Image source={closeIcon} />
             </Pressable>
           )
         }
