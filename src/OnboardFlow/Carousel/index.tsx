@@ -9,8 +9,7 @@ export interface CarouselProps {
 }
 
 export const Carousel: FC<CarouselProps> = ({ cards, onDismiss }) => {
-  const renderItem = (item) => {
-    console.log('rendering: ', item)
+  const renderItem = ({ item }) => {
    return <CarouselCard cardData={item} onDismiss={onDismiss} />
   }
   return (
@@ -18,7 +17,8 @@ export const Carousel: FC<CarouselProps> = ({ cards, onDismiss }) => {
       data={cards}
       renderItem={renderItem}
       keyExtractor={(item, index) => item.id ?? `carousel-card-${index}`}
-      horizontal
+      horizontal={true}
+      showsHorizontalScrollIndicator={false}
       contentContainerStyle={styles.wrapper}
     />
   )

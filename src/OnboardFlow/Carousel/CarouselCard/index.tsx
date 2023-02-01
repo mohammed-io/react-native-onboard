@@ -35,7 +35,7 @@ export const CarouselCard: FC<CarouselCardProps> = ({ style, onPress, cardData, 
       <Card style={[style, { width: cardWidth }]}>
       {
           cardData.dismissible && (
-            <Pressable style={styles.dismissWrapper}>
+            <Pressable style={styles.dismissWrapper} onPress={() => onDismiss(cardData)} >
               <CloseIcon />
             </Pressable>
           )
