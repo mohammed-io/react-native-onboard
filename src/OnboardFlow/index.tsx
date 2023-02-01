@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useRef, useState } from 'react'
+import React, { FC, useRef, useState } from 'react'
 import {
   Dimensions,
   ImageBackground,
@@ -117,21 +117,6 @@ export const OnboardFlow: FC<OnboardFlowProps & TextStyles> = ({
   const onLayout = (event) => {
     setContainerWidth(event.nativeEvent.layout.width)
   }
-
-  useEffect(() => {
-    if (onSaveData && pages[currentPage]) {
-      onSaveData(
-        {
-          data: {
-            type: 'IMPRESSION',
-            page: pages[currentPage].type ?? 'default',
-          },
-          source: pages[currentPage],
-        },
-        getPageId(pages[currentPage], currentPage)
-      )
-    }
-  }, [currentPage])
 
   function getPageId(pageData: PageData, index: number) {
     return pageData?.id ?? index + ''
