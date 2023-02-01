@@ -5,6 +5,7 @@ import {
   Pressable,
   StyleSheet,
   Text,
+  TouchableOpacity,
   useWindowDimensions,
   View,
   ViewStyle,
@@ -38,9 +39,9 @@ export const CarouselCard: FC<CarouselCardProps> = ({ style, onPress, cardData, 
       <Card style={[style, { width: cardWidth }]}>
       {
           cardData.dismissible && (
-            <Pressable style={styles.dismissWrapper} onPress={() => onDismiss ? onDismiss(cardData) : null} >
+            <TouchableOpacity style={styles.dismissWrapper} onPress={() => { onDismiss ? onDismiss(cardData) : null }} >
               <Image source={closeIcon} resizeMode="contain" resizeMethod="resize" style={{ width: 12, height: 12 }}/>
-            </Pressable>
+            </TouchableOpacity>
           )
         }
         <View style={styles.contentContainer}>
