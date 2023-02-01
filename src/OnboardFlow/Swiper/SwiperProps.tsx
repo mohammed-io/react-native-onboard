@@ -1,13 +1,13 @@
-import { FlatListProps, ViewabilityConfig } from 'react-native';
+import { FlatListProps, ViewabilityConfig } from 'react-native'
 
-type ScrollToIndex = { index: number; animated?: boolean }; // DUPLICATED
+type ScrollToIndex = { index: number; animated?: boolean } // DUPLICATED
 export type SwiperFlatListRefProps = {
-  getCurrentIndex: () => number;
-  getPrevIndex: () => number;
-  scrollToIndex: (item: ScrollToIndex) => void;
-  goToLastIndex: () => void;
-  goToFirstIndex: () => void;
-};
+  getCurrentIndex: () => number
+  getPrevIndex: () => number
+  scrollToIndex: (item: ScrollToIndex) => void
+  goToLastIndex: () => void
+  goToFirstIndex: () => void
+}
 
 export type SwiperFlatListProps<T> = Partial<FlatListProps<T>> & {
   /**
@@ -15,54 +15,54 @@ export type SwiperFlatListProps<T> = Partial<FlatListProps<T>> & {
    * not required if children is used
    *
    */
-  data?: T[];
+  data?: T[]
 
   /**
    * Show vertical swiper
    * Defaults to 'false'
    *
    */
-  vertical?: boolean;
+  vertical?: boolean
 
   /**
    * Index to start
    * Defaults to '0'
    *
    */
-  index?: number;
+  index?: number
 
   /**
    * Render all the items before display it
    * Defaults to 'false'
    *
    */
-  renderAll?: boolean;
+  renderAll?: boolean
 
   /**
    * Takes an item from data and renders it into the list
    * not required if children is used
    *
    */
-  renderItem?: FlatListProps<T>['renderItem'];
+  renderItem?: FlatListProps<T>['renderItem']
 
   /**
    * Executed every time the index change, the index change when the user reaches 60% of the next screen
    *
    */
-  onChangeIndex?: (item: { index: number; prevIndex: number }) => void;
+  onChangeIndex?: (item: { index: number; prevIndex: number }) => void
 
   /**
    * Disable swipe gesture
    * Defaults to 'false'
    *
    */
-  disableGesture?: boolean;
+  disableGesture?: boolean
 
   /**
    * TestID for automation testing
    *
    */
-  e2eID?: string;
+  e2eID?: string
 
   //#region Autoplay
 
@@ -71,35 +71,35 @@ export type SwiperFlatListProps<T> = Partial<FlatListProps<T>> & {
    * Defaults to '3'
    *
    */
-  autoplayDelay?: number;
+  autoplayDelay?: number
 
   /**
    * Change index automatically
    * Defaults to 'false'
    *
    */
-  autoplay?: boolean;
+  autoplay?: boolean
 
   /**
    * Invert auto play direction
    * Defaults to 'false'
    *
    */
-  autoplayInvertDirection?: boolean;
+  autoplayInvertDirection?: boolean
 
   /**
    * Continue playing after reach end
    * Defaults to 'false'
    *
    */
-  autoplayLoop?: boolean;
+  autoplayLoop?: boolean
 
   /**
    * Show animation when reach the end of the list
    * Defaults to 'false'
    *
    */
-  autoplayLoopKeepAnimation?: boolean;
+  autoplayLoopKeepAnimation?: boolean
 
   //#endregion
 
@@ -108,24 +108,22 @@ export type SwiperFlatListProps<T> = Partial<FlatListProps<T>> & {
    * Called after scroll end and the first parameter is the current index
    *
    */
-  onMomentumScrollEnd?: (item: { index: number }, event: any) => void;
+  onMomentumScrollEnd?: (item: { index: number }, event: any) => void
   // onMomentumScrollEnd: ScrollViewProps['onMomentumScrollEnd'];
 
   /**
    * See https://github.com/facebook/react-native/blob/master/Libraries/Lists/VirtualizedList.js#L240 for further documentation.
    *
    */
-  onViewableItemsChanged?: FlatListProps<T>['onViewableItemsChanged'];
+  onViewableItemsChanged?: FlatListProps<T>['onViewableItemsChanged']
 
   /**
    * See https://github.com/facebook/react-native/blob/master/Libraries/Lists/VirtualizedList.js#L280 for further documentation.
    */
-  viewabilityConfig?: ViewabilityConfig;
+  viewabilityConfig?: ViewabilityConfig
 
   //#endregion
 
   //#region Pagination
-
-
-};
+}
 //#endregion Pagination
