@@ -250,8 +250,10 @@ export const OnboardFlow: FC<OnboardFlowProps & TextStyles> = ({
                     secondaryColor,
                     onSaveData: (data) => {
                       if (onSaveData) {
-                        // TODO: deprecate source
-                        onSaveData({ data: data, source: pageData }, getPageId(pageData, index))
+                        onSaveData(
+                          data.data && data.source ? data : { data: data, source: pageData },
+                          getPageId(pageData, index)
+                        )
                       }
                     },
                     setCanContinue: setCanContinueValue,
@@ -295,8 +297,10 @@ export const OnboardFlow: FC<OnboardFlowProps & TextStyles> = ({
                     secondaryColor={secondaryColor}
                     onSaveData={(data) => {
                       if (onSaveData) {
-                        // TOOD: Deprecate source
-                        onSaveData({ data: data, source: pageData }, getPageId(pageData, index))
+                        onSaveData(
+                          data.data && data.source ? data : { data: data, source: pageData },
+                          getPageId(pageData, index)
+                        )
                       }
                     }}
                     setCanContinue={setCanContinueValue}
