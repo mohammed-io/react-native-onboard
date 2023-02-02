@@ -77,6 +77,8 @@ export interface OnboardFlowProps {
   SecondaryButtonComponent?: FC<SecondaryButtonProps>
   primaryColor?: string
   secondaryColor?: string
+  currentPage?: number
+  setCurrentPage?: (value: number) => void
 }
 
 export interface StepResponseData {
