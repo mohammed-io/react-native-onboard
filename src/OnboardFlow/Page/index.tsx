@@ -5,7 +5,7 @@ import {
   TEXT_ALIGN_DEFAULT,
   VERTICAL_PADDING_DEFAULT,
 } from '../constants'
-import { PageData, StepResponseData, TextStyles } from '../types'
+import { PageData, TextStyles } from '../types'
 import { TextStack } from '../components/TextStack'
 import { FormElementTypesConfig } from '../index'
 
@@ -18,7 +18,7 @@ export interface PageProps {
   formElementTypes?: FormElementTypesConfig
   customVariables?: object
   goToNextPage: () => void
-  onSaveData?: (data: StepResponseData) => void
+  onSaveData?: (data: any) => void
   goToPreviousPage: () => void
   textAlign?: 'left' | 'center' | 'right'
   width: number
