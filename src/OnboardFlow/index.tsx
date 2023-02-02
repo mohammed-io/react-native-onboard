@@ -90,11 +90,13 @@ export const OnboardFlow: FC<OnboardFlowProps & TextStyles> = ({
   SecondaryButtonComponent = SecondaryButton,
   primaryColor = COLOR_PRIMARY_DEFAULT,
   secondaryColor = COLOR_SECONDARY_DEFAULT,
+  currentPage,
+  setCurrentPage,
   ...props
 }) => {
   const pagesMerged = { ...DEFAULT_PAGE_TYPES, ...pageTypes }
   const formElementsMerged = { ...DEFAULT_FORM_ENTRY_TYPES, ...formElementTypes }
-  const [currentPage, setCurrentPage] = useState(0)
+  const [currentPageInternal, setCurrentPageInternal] = useState(0)
   const [modalVisible, setModalVisible] = useState(true)
   const [canContinueInternal, setCanContinueInternal] = useState(true)
   const swiperRef = useRef<SwiperFlatListRefProps>()
@@ -102,8 +104,11 @@ export const OnboardFlow: FC<OnboardFlowProps & TextStyles> = ({
   const windowHeight = Dimensions.get('window').height
   const [maxTextHeight, setMaxTextHeight] = useState<number>(0)
   const bottomSheetRef = useRef<BottomSheetRef>(null)
-  const showHeader = pages[currentPage].showHeader !== false
-  const showFooter = pages[currentPage].showFooter !== false
+  const currentPageValue = currentPage ?? currentPageInternal
+  const setCurrentPageValue = setCurrentPage ?? setCurrentPageInternal
+
+  const showHeader = pages[currentPageValue].showHeader !== false
+  const showFooter = pages[currentPageValue].showFooter !== false
 
   const components: OnboardComponents = {
     PrimaryButtonComponent,
@@ -123,8 +128,8 @@ export const OnboardFlow: FC<OnboardFlowProps & TextStyles> = ({
   }
 
   function handleIndexChange(item: { index: number; prevIndex: number }) {
-    if (item.index != currentPage) {
-      setCurrentPage(item.index)
+    if (item.index != currentPageValue) {
+      setCurrentPageValue(item.index)
     }
     if (item.index > item.prevIndex) {
       onNext && onNext()
@@ -143,12 +148,12 @@ export const OnboardFlow: FC<OnboardFlowProps & TextStyles> = ({
   }
 
   function goToNextPage() {
-    if (currentPage >= pages?.length - 1) {
+    if (currentPageValue >= pages?.length - 1) {
       handleDone()
       return
     }
     const nextIndex = swiperRef.current?.getCurrentIndex() + 1
-    setCurrentPage(nextIndex)
+    setCurrentPageValue(nextIndex)
     swiperRef.current?.scrollToIndex({ index: nextIndex })
   }
 
@@ -157,7 +162,7 @@ export const OnboardFlow: FC<OnboardFlowProps & TextStyles> = ({
     if (nextIndex < 0) {
       return
     }
-    setCurrentPage(nextIndex)
+    setCurrentPageValue(nextIndex)
     swiperRef.current?.scrollToIndex({ index: nextIndex })
   }
 
@@ -193,7 +198,7 @@ export const OnboardFlow: FC<OnboardFlowProps & TextStyles> = ({
             pages={pages}
             style={[styles.footer, !showFooter ? { opacity: 0.0 } : null]}
             Components={components}
-            currentPage={currentPage}
+            currentPage={currentPageValue}
             goToNextPage={goToNextPage}
             canContinue={canContinueValue}
             setCanContinue={setCanContinueValue}
@@ -205,7 +210,7 @@ export const OnboardFlow: FC<OnboardFlowProps & TextStyles> = ({
             disableGesture={!enableScroll ? true : !canContinueValue}
             onChangeIndex={handleIndexChange}
             ref={swiperRef}
-            index={currentPage}
+            index={currentPageValue}
             autoplay={autoPlay}
           >
             {pages?.map((pageData, index) =>
@@ -233,7 +238,7 @@ export const OnboardFlow: FC<OnboardFlowProps & TextStyles> = ({
                     ],
                     pageData,
                     pageIndex: index,
-                    currentPage,
+                    currentPage: currentPageValue,
                     totalPages: pages?.length,
                     goToNextPage,
                     goToPreviousPage,
@@ -243,11 +248,7 @@ export const OnboardFlow: FC<OnboardFlowProps & TextStyles> = ({
                     customVariables,
                     primaryColor,
                     secondaryColor,
-                    onSaveData: (data) => {
-                      if (onSaveData) {
-                        onSaveData(data, getPageId(pageData, index))
-                      }
-                    },
+                    onSaveData: onSaveData,
                     setCanContinue: setCanContinueValue,
                     canContinue: canContinueValue,
                   })}
@@ -276,7 +277,7 @@ export const OnboardFlow: FC<OnboardFlowProps & TextStyles> = ({
                     ]}
                     pageData={pageData}
                     pageIndex={index}
-                    currentPage={currentPage}
+                    currentPage={currentPageValue}
                     totalPages={pages?.length}
                     goToNextPage={goToNextPage}
                     goToPreviousPage={goToPreviousPage}
@@ -289,7 +290,7 @@ export const OnboardFlow: FC<OnboardFlowProps & TextStyles> = ({
                     secondaryColor={secondaryColor}
                     onSaveData={(data) => {
                       if (onSaveData) {
-                        onSaveData(data, getPageId(pageData, index))
+                        onSaveData(data)
                       }
                     }}
                     setCanContinue={setCanContinueValue}
@@ -307,7 +308,7 @@ export const OnboardFlow: FC<OnboardFlowProps & TextStyles> = ({
           pages={pages}
           style={[styles.footer, !showFooter ? { opacity: 0.0 } : null]}
           Components={components}
-          currentPage={currentPage}
+          currentPage={currentPageValue}
           goToNextPage={goToNextPage}
           canContinue={canContinueValue}
           setCanContinue={setCanContinueValue}
