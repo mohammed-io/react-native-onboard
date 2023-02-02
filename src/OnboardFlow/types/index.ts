@@ -56,7 +56,7 @@ export interface OnboardFlowProps {
   onBack?: () => void
   onDone?: () => void
   onNext?: () => void
-  onSaveData?: (data: any) => void
+  onSaveData?: (data: StepResponseData, pageId: string) => void
   canContinue?: boolean
   setCanContinue?: (value: boolean) => void
   pageStyle?: StyleProp<ViewStyle> | undefined
@@ -77,8 +77,11 @@ export interface OnboardFlowProps {
   SecondaryButtonComponent?: FC<SecondaryButtonProps>
   primaryColor?: string
   secondaryColor?: string
-  currentPage?: number
-  setCurrentPage?: (value: number) => void
+}
+
+export interface StepResponseData {
+  data: any
+  source: PageData
 }
 
 export interface CardData extends FlowItemData {
