@@ -13,9 +13,11 @@
 <span> · </span>
 <a href="https://github.com/FrigadeHQ/react-native-onboard">GitHub</a> 
 <span> · </span>
-<a href="https://discord.gg/3fujYupY">Discord</a>
+<a href="https://discord.gg/yaRVEZMww5">Discord</a>
 <span> · </span>
-<a href="https://snack.expo.dev/@christian-frigade/react-native-onboard-simple-demo">Demo</a>
+<a href="https://snack.expo.dev/@christian-frigade/react-native-onboard-simple-demo">Swiper Demo</a>
+<span> · </span>
+<a href="https://snack.expo.dev/@christian-frigade/react-native-onboard-form-demo">Form Demo</a>
 </div>
 
 ## Introduction
