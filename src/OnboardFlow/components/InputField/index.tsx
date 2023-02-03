@@ -88,7 +88,7 @@ export const InputField: FC<FormEntryField & TextStyles> = ({
         'Your password must be at least 8 characters and include a number and a special character'
       )
     } else if (type == 'email') {
-      const re = new RegExp(/^[a-zA-Z0-9]+@(?:[a-zA-Z0-9]+\.)+[A-Za-z]+$/)
+      const re = new RegExp(/(.+)@(.+){2,}\.(.+){2,}/)
       const isOk = re.test(string)
       handleErrorState(includeError, isOk, 'Invalid e-mail address')
     } else if (type == 'text') {
