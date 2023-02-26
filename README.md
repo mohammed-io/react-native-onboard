@@ -109,7 +109,7 @@ While the above examples contain hard-coded strings and images for illustrative 
 layer logic from your API rather than as plain strings in your app.
 
 We built [Frigade](https://frigade.com/) to work seamlessly with `react-native-onboard` and make it easier for developers to build and scale onboarding. 
-With Frigade, you can update your flows without releasing to the app store, integrate 3rd party analytics (Segment, Mixpanel, etc.) to power user targeting, and integrate our API/webhooks to make data input easy.
+With Frigade, you can update your flows without releasing to the App Store, integrate 3rd party analytics (Segment, Mixpanel, etc.) to power user targeting, and integrate our API/webhooks to make data input easy.
 
 ## Get in touch
 Questions? Suggestions? Feel free to [open an issue](https://github.com/FrigadeHQ/react-native-onboard/issues), [submit a PR](https://github.com/FrigadeHQ/react-native-onboard/pulls), or [contact us](https://frigade.com).
