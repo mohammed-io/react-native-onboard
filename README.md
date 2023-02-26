@@ -13,11 +13,12 @@
 <span> · </span>
 <a href="https://github.com/FrigadeHQ/react-native-onboard">GitHub</a> 
 <span> · </span>
-<a href="https://discord.gg/yaRVEZMww5">Discord</a>
-<span> · </span>
 <a href="https://snack.expo.dev/@christian-frigade/react-native-onboard-simple-demo">Swiper Demo</a>
 <span> · </span>
 <a href="https://snack.expo.dev/@christian-frigade/react-native-onboard-form-demo">Form Demo</a>
+<span> · </span>
+<a href="https://snack.expo.dev/@christian-frigade/react-native-onboard-simple-demo">Demo</a>
+
 </div>
 
 ## Introduction
@@ -91,16 +92,24 @@ function.
 imageUri: Image.resolveAssetSource(require('image.png')).uri
 ```
 
+
 ## Customization
 `react-native-onboard` is designed to be headless and customizable. You can use the default UI or create your own by
+<<<<<<< HEAD
 implementing a series of provided interfaces [see available props here](https://github.com/FrigadeHQ/react-native-onboard/blob/main/src/OnboardFlow/types/index.ts)
+=======
+implementing a series of provided interfaces.
+
+## Docs
+The official docs are available at [docs.frigade.com](https://docs.frigade.com/)
+>>>>>>> dfda70a (Update docs)
 
 ## Supercharge your onboarding flows
 While the above examples contain hard-coded strings and images for illustrative purposes, we highly recommend loading your strings and presentation
 layer logic from your API rather than as plain strings in your app.
 
 We built [Frigade](https://frigade.com/) to work seamlessly with `react-native-onboard` and make it easier for developers to build and scale onboarding. 
-With Frigade, you can update onboarding flow without releasing to the app store, integrate 3rd party analytics (Segment, Mixpanel, etc.) to power user targeting, and integrate our API/webhooks to make user data input easy.
+With Frigade, you can update your flows without releasing to the app store, integrate 3rd party analytics (Segment, Mixpanel, etc.) to power user targeting, and integrate our API/webhooks to make data input easy.
 
 ## Get in touch
 Questions? Suggestions? Feel free to [open an issue](https://github.com/FrigadeHQ/react-native-onboard/issues), [submit a PR](https://github.com/FrigadeHQ/react-native-onboard/pulls), or [contact us](https://frigade.com).
