@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useState } from 'react'
-import { Dimensions, Image, StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { Dimensions, Image, StyleProp, StyleSheet, View, ViewStyle, ScrollView } from 'react-native'
 import {
   HORIZONTAL_PADDING_DEFAULT,
   TEXT_ALIGN_DEFAULT,
@@ -91,7 +91,7 @@ export const Page: FC<PageProps & TextStyles> = ({
         <ImageComponent />
       </View>
       <View style={styles.bottomContainer}>
-        <View onLayout={onTextStackLayout}>
+        <ScrollView onLayout={onTextStackLayout}>
           <TextStack
             title={pageData?.title}
             subtitle={pageData?.subtitle}
@@ -100,7 +100,7 @@ export const Page: FC<PageProps & TextStyles> = ({
             titleStyle={titleStyle}
             subtitleStyle={subtitleStyle}
           />
-        </View>
+        </ScrollView>
       </View>
     </View>
   )
